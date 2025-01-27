@@ -1,16 +1,14 @@
 import multer from "multer";
 import path from "path";
 
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); 
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-
 
 const fileFilter = (req, file, cb) => {
   const fileTypes = /jpeg|jpg|png/;
@@ -24,10 +22,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-
 const upload = multer({
   storage,
-  limits: { fileSize: 20 * 1024 * 1024 }, 
+  limits: { fileSize: 20 * 1024 * 1024 },
   fileFilter,
 });
 
