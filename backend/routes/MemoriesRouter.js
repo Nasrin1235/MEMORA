@@ -10,7 +10,7 @@ import path from 'path';
 // Create a new memories story
 memoriesRouter.post('/add-memories', isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavourite, imageUrl, visitedDate } = req.body;
+    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
 
     // Validate required fields
     if (!title || !story || !visitedLocation || !imageUrl || !visitedDate) {
@@ -21,7 +21,7 @@ memoriesRouter.post('/add-memories', isAuthenticated, async (req, res) => {
       title,
       story,
       visitedLocation,
-      isFavourite,
+      isFavorite,
       userId: req.user.id, // Using authenticated user's ID
       imageUrl,
       visitedDate,
@@ -107,7 +107,7 @@ memoriesRouter.get('/:id', isAuthenticated, async (req, res) => {
 // Update a specific memories story by ID
 memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavourite, imageUrl, visitedDate } = req.body;
+    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
 
     // Convert visitedDate from milliseconds to Date object
     const formattedVisitedDate = visitedDate ? new Date(visitedDate) : null;
@@ -131,7 +131,7 @@ memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
     memories.title = title || memories.title;
     memories.story = story || memories.story;
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
-    memories.isFavourite = isFavourite !== undefined ? isFavourite : memories.isFavourite;
+    memories.isFavorite = isFavorite !== undefined ? isFavorite : memories.isFavorite;
     memories.imageUrl = finalImageUrl;
     memories.visitedDate = formattedVisitedDate || memories.visitedDate;
 
