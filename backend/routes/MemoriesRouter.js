@@ -9,38 +9,39 @@ const memoriesRouter = express.Router();
 
 // Create a new memories story
 memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
-  try {
-    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } =
-      req.body;
-
-    // Validate required fields
-    if (!title || !story || !visitedLocation || !imageUrl || !visitedDate) {
-      return res.status(400).json({ error: "All fields are required" });
+    try {
+      const { title, memorie, visitedLocation, isFavorite, imageUrl, visitedDate } =
+        req.body;
+  
+      // Validate required fields
+      if (!title || !memorie || !visitedLocation || !imageUrl || !visitedDate) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+  
+      const memories = new Memories({
+        title,
+        memorie,  
+        visitedLocation,
+        isFavorite,
+        userId: req.user.id, 
+        imageUrl,
+        visitedDate,
+      });
+  
+      await memories.save();
+  
+      res.status(201).json({
+        message: "memories story created successfully",
+        memories,
+      });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: error.message });
     }
+  });
+  
 
-    const memories = new Memories({
-      title,
-      story,
-      visitedLocation,
-      isFavorite,
-      userId: req.user.id, // Using authenticated user's ID
-      imageUrl,
-      visitedDate,
-    });
 
-    await memories.save();
-
-    res.status(201).json({
-      message: "memories story created successfully",
-      memories,
-    });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Get all memories stories of the authenticated user
 memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
   try {
     const memories = await Memories.find({ userId: req.user.id });
@@ -53,7 +54,7 @@ memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
 // Upload image
 memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: "No image file uploaded" }); // File check
+    return res.status(400).json({ error: "No image file uploaded" });
   }
 
   try {
@@ -68,7 +69,7 @@ memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
 
 // Delete image
 memoriesRouter.delete("/delete-image", (req, res) => {
-  const { imageUrl } = req.body; // Assuming imageUrl is sent in the request body
+  const { imageUrl } = req.body;
 
   if (!imageUrl) {
     return res.status(400).json({ error: "Image URL is required" });
@@ -108,7 +109,7 @@ memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
 // Update a specific memories story by ID
 memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } =
+    const { title, memorie, visitedLocation, isFavorite, imageUrl, visitedDate } =
       req.body;
 
     // Convert visitedDate from milliseconds to Date object
@@ -133,7 +134,7 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
 
     // Update the memories story
     memories.title = title || memories.title;
-    memories.story = story || memories.story;
+    memories.memorie = memorie || memories.memorie;
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
     memories.isFavorite =
       isFavorite !== undefined ? isFavorite : memories.isFavorite;
@@ -154,7 +155,7 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
 
 // Search memories stories based on title or story content
 memoriesRouter.get("/search", isAuthenticated, async (req, res) => {
-  const { title, story } = req.query;
+  const { title, memorie } = req.query;
 
   try {
     const query = {};
@@ -164,13 +165,13 @@ memoriesRouter.get("/search", isAuthenticated, async (req, res) => {
       query.title = { $regex: title, $options: "i" }; // case-insensitive search
     }
 
-    if (story) {
-      query.story = { $regex: story, $options: "i" }; // case-insensitive search
+    if (memorie) {
+      query.memorie = { $regex: memorie, $options: "i" }; // case-insensitive search
     }
 
     // Search in the database
     const memories = await Memories.find(query)
-      .populate("userId", "username") // Optional: Populate userId field to get username
+      .populate("userId", "username")
       .exec();
 
     if (!memories.length) {

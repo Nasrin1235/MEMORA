@@ -7,7 +7,7 @@ const memoriesSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    memory: {
+    memorie: {
       type: String,
       required: true,
     },
