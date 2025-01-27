@@ -43,7 +43,7 @@ const memorySchema = new mongoose.Schema(
 );
 
 
-export const memory = mongoose.model("memory", memorySchema);
+export const Memory = mongoose.model("Memory", memorySchema);
 
 
 
