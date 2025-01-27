@@ -1,16 +1,17 @@
-import express from 'express';
-import { Memories} from '../models/memories.j';
-import { isAuthenticated } from '../middleware/auth.js'; 
-import upload from '../middleware/multer.js';
-import fs from 'fs';
-import path from 'path';
+import express from "express";
+import { Memories } from "../models/memories.j";
+import { isAuthenticated } from "../middleware/auth.js";
+import upload from "../middleware/multer.js";
+import fs from "fs";
+import path from "path";
 
- const memoriesRouter = express.Router();
+const memoriesRouter = express.Router();
 
 // Create a new memories story
-memoriesRouter.post('/add-memories', isAuthenticated, async (req, res) => {
+memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
+    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } =
+      req.body;
 
     // Validate required fields
     if (!title || !story || !visitedLocation || !imageUrl || !visitedDate) {
@@ -40,14 +41,14 @@ memoriesRouter.post('/add-memories', isAuthenticated, async (req, res) => {
 });
 
 // Get all memories stories of the authenticated user
-memoriesRouter.get('/get', isAuthenticated, async (req, res) => {
-    try {
-      const memories = await Memories.find({ userId: req.user.id });
-      res.status(200).json(memories);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch memories stories" });
-    }
-  });
+memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
+  try {
+    const memories = await Memories.find({ userId: req.user.id });
+    res.status(200).json(memories);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch memories stories" });
+  }
+});
 
 // Upload image
 memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
@@ -77,7 +78,7 @@ memoriesRouter.delete("/delete-image", (req, res) => {
   const fileName = path.basename(imageUrl);
 
   // Create file path
-  const filePath = path.join(process.cwd(), 'uploads', fileName);
+  const filePath = path.join(process.cwd(), "uploads", fileName);
 
   // Check if the file exists
   fs.unlink(filePath, (err) => {
@@ -89,12 +90,12 @@ memoriesRouter.delete("/delete-image", (req, res) => {
 });
 
 // Get a specific memories story by ID
-memoriesRouter.get('/:id', isAuthenticated, async (req, res) => {
-    console.log('GET request received'); 
-    console.log('User ID:', req.user.id); 
+memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
+  console.log("GET request received");
+  console.log("User ID:", req.user.id);
   try {
     const memories = await Memories.findById(req.params.id);
-    console.log('Fetched memories Stories:', memories); 
+    console.log("Fetched memories Stories:", memories);
     if (!memories) {
       return res.status(404).json({ error: "memories story not found" });
     }
@@ -105,9 +106,10 @@ memoriesRouter.get('/:id', isAuthenticated, async (req, res) => {
 });
 
 // Update a specific memories story by ID
-memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
+memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
+    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } =
+      req.body;
 
     // Convert visitedDate from milliseconds to Date object
     const formattedVisitedDate = visitedDate ? new Date(visitedDate) : null;
@@ -121,7 +123,9 @@ memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
 
     // Ensure that the memories story belongs to the authenticated user
     if (memories.userId.toString() !== req.user.id) {
-      return res.status(403).json({ error: "You are not authorized to edit this story" });
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to edit this story" });
     }
 
     // Use a placeholder image if no new image is provided
@@ -131,7 +135,8 @@ memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
     memories.title = title || memories.title;
     memories.story = story || memories.story;
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
-    memories.isFavorite = isFavorite !== undefined ? isFavorite : memories.isFavorite;
+    memories.isFavorite =
+      isFavorite !== undefined ? isFavorite : memories.isFavorite;
     memories.imageUrl = finalImageUrl;
     memories.visitedDate = formattedVisitedDate || memories.visitedDate;
 
@@ -147,9 +152,8 @@ memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-
 // Search memories stories based on title or story content
-memoriesRouter.get('/search', isAuthenticated, async (req, res) => {
+memoriesRouter.get("/search", isAuthenticated, async (req, res) => {
   const { title, story } = req.query;
 
   try {
@@ -157,16 +161,16 @@ memoriesRouter.get('/search', isAuthenticated, async (req, res) => {
 
     // Validation for title and story
     if (title) {
-      query.title = { $regex: title, $options: 'i' }; // case-insensitive search
+      query.title = { $regex: title, $options: "i" }; // case-insensitive search
     }
 
     if (story) {
-      query.story = { $regex: story, $options: 'i' }; // case-insensitive search
+      query.story = { $regex: story, $options: "i" }; // case-insensitive search
     }
 
     // Search in the database
     const memories = await Memories.find(query)
-      .populate('userId', 'username') // Optional: Populate userId field to get username
+      .populate("userId", "username") // Optional: Populate userId field to get username
       .exec();
 
     if (!memories.length) {
@@ -176,15 +180,13 @@ memoriesRouter.get('/search', isAuthenticated, async (req, res) => {
     res.status(200).json({ memories });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to search memories stories' });
+    res.status(500).json({ error: "Failed to search memories stories" });
   }
 });
 
-
-
-memoriesRouter.delete('/delete/:id', isAuthenticated, async (req, res) => {
+memoriesRouter.delete("/delete/:id", isAuthenticated, async (req, res) => {
   try {
-    const deletedMemories = await  Memories.findByIdAndDelete(req.params.id);
+    const deletedMemories = await Memories.findByIdAndDelete(req.params.id);
     if (!deletedMemories) {
       return res.status(404).json({ error: "memories story not found" });
     }
@@ -194,6 +196,5 @@ memoriesRouter.delete('/delete/:id', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Failed to delete memories story" });
   }
 });
-
 
 export default memoriesRouter;
