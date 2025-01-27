@@ -1,5 +1,5 @@
 import express from 'express';
-import { Memories} from '../models/travelStory.js';
+import { Memories} from '../models/memories.j';
 import { isAuthenticated } from '../middleware/auth.js'; 
 import upload from '../middleware/multer.js';
 import fs from 'fs';
