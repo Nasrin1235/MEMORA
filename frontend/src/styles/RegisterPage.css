@@ -1,0 +1,135 @@
+.register-page {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+  
+  
+  .register-image {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #f0f0f0;
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .logo-text {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  
+  .register-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .register-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .input-group {
+    width: 100%;
+    max-width: 30rem;
+  }
+  
+  .input-field {
+    margin-bottom: 0.5rem; 
+  }
+  
+  .input-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .text-input {
+    width: 100%; 
+    padding: 0.75rem 1.5rem; 
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .text-input:focus {
+    border-bottom: 1px solid #900c3f;
+    outline: none;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: -0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .submit-button,
+  .login-button {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.85rem;
+    background-color: #900c3f; 
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .submit-button:hover,
+  .login-button:hover {
+    background-color: #72092e; 
+  }
+  
+  .login-prompt {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #555;
+  }
+  
+  @media (max-width: 768px) {
+    .register-page {
+      flex-direction: column;
+    }
+  
+    .register-image {
+      display: none;
+    }
+  
+    .register-form {
+      flex: none;
+      width: 100%;
+      padding: 1rem;
+    }
+  
+    .register-title {
+      font-size: 1.5rem;
+    }
+  
+    .submit-button,
+    .login-button {
+      font-size: 0.9rem;
+    }
+  }
+  
