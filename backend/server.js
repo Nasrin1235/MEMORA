@@ -3,8 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dbConnection } from "./script/dbConnection.js";
 import cors from "cors";
-import userRouter from "./routes/userRoutes.js";
-import memoriesRouter from "./routes/travelStoryRoutes.js"
+import userRouter from "./routes/UserRouter.js";
+import memoriesRouter from "./routes/MemoriesRouter.js"
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.json());
 // Setup CORS
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5174"],
+    origin: ["http://localhost:3000", "http://localhost:27017"],
     credentials: true,
   })
 );

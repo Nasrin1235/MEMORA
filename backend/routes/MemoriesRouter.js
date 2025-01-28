@@ -1,5 +1,5 @@
 import express from 'express';
-import { Memories} from '../models/memories.j';
+import { Memories} from '../models/memories.js';
 import { isAuthenticated } from '../middleware/auth.js'; 
 import upload from '../middleware/multer.js';
 import fs from 'fs';
@@ -10,16 +10,16 @@ import path from 'path';
 // Create a new memories story
 memoriesRouter.post('/add-memories', isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
+    const { title, memorie, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
 
     // Validate required fields
-    if (!title || !story || !visitedLocation || !imageUrl || !visitedDate) {
+    if (!title || !memorie || !visitedLocation || !imageUrl || !visitedDate) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const memories = new Memories({
       title,
-      story,
+      memorie,
       visitedLocation,
       isFavorite,
       userId: req.user.id, // Using authenticated user's ID
@@ -107,7 +107,7 @@ memoriesRouter.get('/:id', isAuthenticated, async (req, res) => {
 // Update a specific memories story by ID
 memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
   try {
-    const { title, story, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
+    const { title, memorie, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
 
     // Convert visitedDate from milliseconds to Date object
     const formattedVisitedDate = visitedDate ? new Date(visitedDate) : null;
@@ -125,11 +125,11 @@ memoriesRouter.put('/:id', isAuthenticated, async (req, res) => {
     }
 
     // Use a placeholder image if no new image is provided
-    const finalImageUrl = imageUrl || `http://localhost:3001/`; // Placeholder image URL
+    const finalImageUrl = imageUrl || `http://localhost:30001/`; // Placeholder image URL
 
     // Update the memories story
     memories.title = title || memories.title;
-    memories.story = story || memories.story;
+    memories.memorie = story || memorie.story;
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
     memories.isFavorite = isFavorite !== undefined ? isFavorite : memories.isFavorite;
     memories.imageUrl = finalImageUrl;
