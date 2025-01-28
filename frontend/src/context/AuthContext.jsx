@@ -9,17 +9,14 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/validate-token",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
+        const response = await fetch("http://localhost:3001/api/validate-token", {
+          method: "GET",
+          credentials: "include",
+        });
         if (response.ok) {
-          const data = await response.json();
           setIsLoggedIn(true);
-          setUsername(data.username);
+          const data = await response.json();//
+          setUsername(data.username);//
         } else {
           setIsLoggedIn(false);
         }
@@ -42,3 +39,4 @@ const AuthProvider = ({ children }) => {
 };
 
 export { AuthProvider, AuthContext };
+
