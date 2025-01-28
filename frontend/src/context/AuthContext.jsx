@@ -1,8 +1,8 @@
-import { createContext, useState, useEffect ,useContext} from "react";
+import { createContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
@@ -41,5 +41,4 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-
-export const useAuth = () => useContext(AuthContext);
+export { AuthProvider, AuthContext };
