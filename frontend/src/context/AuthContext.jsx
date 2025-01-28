@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
     const checkToken = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/validate-token",
+          "http://localhost:3000/api/validate-token",
           {
             method: "GET",
             credentials: "include",
