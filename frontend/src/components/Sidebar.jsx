@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext"; // Импорт AuthContext
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
-  const { isLoggedIn, username,logout} = useContext(AuthContext); // Деструктуризация username и isLoggedIn
+  const { isLoggedIn, username,logout} = useContext(AuthContext);
 
   
 
@@ -30,22 +30,22 @@ const Sidebar = () => {
         <button className="add-story-btn">Add Story</button>
       </div>
 
-      {/* Отображение информации о пользователе */}
+      
       <div className="user-info">
         {isLoggedIn ? (
           <>
             <img
-              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`} // Генерация аватара
+              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`}
               alt="User Avatar"
               className="user-avatar"
             />
-            <p>{username}</p> {/* Показываем имя пользователя */}
-            <button className="logout-btn" onClick={logout}>Logout</button> {/* Кнопка выхода */}
+            <p>{username}</p>
+            <button className="logout-btn" onClick={logout}>Logout</button> 
           </>
         ) : (
           <>
             <img src="/default-avatar.png" alt="Default Avatar" className="user-avatar" />
-            <p>Guest</p> {/* Отображение, если пользователь не залогинен */}
+            <p>Guest</p> 
           </>
         )}
       </div>
