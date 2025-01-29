@@ -47,7 +47,7 @@
     border: 1px solid #ddd;
 }
 
-/* Стили для кнопки Add Story */
+
 .story-section {
     margin-bottom: 10px;
     padding: 10px 0;
@@ -71,28 +71,28 @@
     background-color: #252c33;
 }
 
-/* Модальное окно */
+
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Затемнение фона */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Поверх всего */
+    z-index: 1000; 
 }
 
-/* Контейнер формы */
+
 .modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px; /* Ширина формы */
-    max-width: 90%; /* Адаптация для маленьких экранов */
+    width: 400px; 
+    max-width: 90%;
 }
 
 .modal-content h2 {
