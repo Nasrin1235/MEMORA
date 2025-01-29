@@ -1,7 +1,12 @@
+import Sidebar from "../components/Sidebar";
+
 const MainPage = () => {
   return (
-    <div>
-      <h1>MainPage</h1>
+    <div className="main-page">
+      <Sidebar />
+      <div className="content">
+        
+      </div>
     </div>
   );
 };

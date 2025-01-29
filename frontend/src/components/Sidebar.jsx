@@ -1,31 +1,10 @@
-// import '../styles/Sidebar.css';
-
-// const Sidebar = () => {
-//   return (
-//     <div className="sidebar">
-//       <h2 className="logo">Journal</h2>
-//       <nav className="menu">
-//         <ul>
-//           <li>Timeline</li>
-//           <li>Calendar</li>
-//           <li>Media</li>
-//         </ul>
-//       </nav>
-//       <div className="user-info">
-//         <img src="/default-avatar.png" alt="User" className="user-avatar" />
-
-//         <p>John Appleseed</p>
-//       </div>
-
-//       <button className="add-story-btn">Add Story</button>
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext"; // Импорт AuthContext
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
+  const { isLoggedIn, username } = useContext(AuthContext); // Деструктуризация username и isLoggedIn
+
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -41,17 +20,31 @@ const Sidebar = () => {
           <li>📷 Media</li>
           <li>🗺️ Atlas</li>
           <li>🏖️ Wetter</li>
-          <li>⭐Favorites</li>
+          <li>⭐ Favorites</li>
         </ul>
       </nav>
 
-      
       <div className="story-section">
         <button className="add-story-btn">Add Story</button>
       </div>
+
+      {/* Отображение информации о пользователе */}
       <div className="user-info">
-        <img src="/default-avatar.png" alt="User" className="user-avatar" />
-        <p>John Appleseed</p>
+        {isLoggedIn ? (
+          <>
+            <img
+              src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`} // Генерация аватара
+              alt="User Avatar"
+              className="user-avatar"
+            />
+            <p>{username}</p> {/* Показываем имя пользователя */}
+          </>
+        ) : (
+          <>
+            <img src="/default-avatar.png" alt="Default Avatar" className="user-avatar" />
+            <p>Guest</p> {/* Отображение, если пользователь не залогинен */}
+          </>
+        )}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import userRouter from "./routes/UserRouter.js";
 import memoriesRouter from "./routes/MemoriesRouter.js"
 import cookieParser from "cookie-parser";
 
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -17,10 +18,11 @@ app.use(express.json());
 // Setup CORS
 app.use(
   cors({
-    origin: ["http://localhost:3001", "http://localhost:5174"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
+
 
 // Static file serving
 const _fileName = fileURLToPath(import.meta.url);
