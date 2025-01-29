@@ -30,7 +30,7 @@ const RegisterPage = () => {
         setError("");
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("username", username);
-        navigate("/");
+        navigate("/login");
       } else {
         setError(data.error);
       }

@@ -30,7 +30,7 @@ const LoginPage = () => {
         setError("");
         setIsLoggedIn(true);
         setUsername(data.username);
-        navigate("/");
+        navigate("/main");
       } else {
         setError(data.error || "Failed to login. Please try again.");
       }
