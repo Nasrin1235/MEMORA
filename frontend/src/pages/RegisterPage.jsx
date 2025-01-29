@@ -47,7 +47,7 @@ const RegisterPage = () => {
     <section className="register-page">
       <div className="register-image">
   <img
-    src="Register.jpg"
+    src="r-l.jpg"
     alt="Register Illustration"
     className="image"
   />

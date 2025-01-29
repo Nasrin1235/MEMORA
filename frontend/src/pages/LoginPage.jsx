@@ -46,7 +46,7 @@ const LoginPage = () => {
   return (
     <section className="login-page">
       <div className="login-image">
-        <img src="Register.jpg" alt="Login Illustration" className="image" />
+        <img src="r-l.jpg" alt="Login Illustration" className="image" />
         <div className="logo-text">MEMORA</div>
       </div>
 
