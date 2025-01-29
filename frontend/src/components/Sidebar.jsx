@@ -1,11 +1,16 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import AddMemoryForm from "../components/AddMemoryForm";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
   const { isLoggedIn, username,logout} = useContext(AuthContext);
 
-  
+  const [showForm, setShowForm] = useState(false);
+
+  const handleAddStoryClick = () => {
+    setShowForm(true);
+  };
 
   return (
     <div className="sidebar">
@@ -26,10 +31,12 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      <div className="story-section">
-        <button className="add-story-btn">Add Story</button>
+   <div className="story-section">
+        <button className="add-story-btn" onClick={handleAddStoryClick}>
+          Add Story
+        </button>
       </div>
-
+      {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
       
       <div className="user-info">
         {isLoggedIn ? (

@@ -1,0 +1,70 @@
+.memory-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    background-color: #f8f9fa; /* Светлый фон */
+  }
+  
+  .memory-item {
+    background: white;
+    width: 80%;
+    max-width: 600px;
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    align-items: center; /* Выравниваем фото и текст */
+    gap: 15px;
+  }
+  
+  .memory-item:hover {
+    transform: scale(1.02);
+  }
+  
+  .memory-content {
+    flex: 1;
+  }
+  
+  .memory-item h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .memory-item .memory-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    max-height: 60px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+  }
+  
+  .show-more {
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .memory-item .memory-meta {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  .memory-image {
+    width: 120px; /* Миниатюра */
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  

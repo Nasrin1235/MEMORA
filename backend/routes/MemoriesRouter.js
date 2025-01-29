@@ -10,38 +10,42 @@ const memoriesRouter = express.Router();
 
 // Create a new memories story
 memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
-    try {
-      const { title, memorie, visitedLocation, isFavorite, imageUrl, visitedDate } =
-        req.body;
-  
-      // Validate required fields
-      if (!title || !memorie || !visitedLocation || !imageUrl || !visitedDate) {
-        return res.status(400).json({ error: "All fields are required" });
-      }
-  
-      const memories = new Memories({
-        title,
-        memorie,  
-        visitedLocation,
-        isFavorite,
-        userId: req.user.id, 
-        imageUrl,
-        visitedDate,
-      });
-  
-      await memories.save();
-  
-      res.status(201).json({
-        message: "memories story created successfully",
-        memories,
-      });
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ error: error.message });
-    }
-  });
-  
+  try {
+    const {
+      title,
+      memorie,
+      visitedLocation,
+      isFavorite,
+      imageUrl,
+      visitedDate,
+    } = req.body;
 
+    // Validate required fields
+    if (!title || !memorie || !visitedLocation || !visitedDate) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const memories = new Memories({
+      title,
+      memorie,
+      visitedLocation,
+      isFavorite: isFavorite || false, // По умолчанию false, если не передано
+      userId: req.user.id,
+      imageUrl: imageUrl || "", // Если фото нет — оставляем пустую строку
+      visitedDate,
+    });
+
+    await memories.save();
+
+    res.status(201).json({
+      message: "memories story created successfully",
+      memories,
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
   try {
@@ -96,9 +100,8 @@ memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
   console.log("GET request received");
   console.log("User ID:", req.user.id);
 
-  let memoryId = req.params.id.trim(); 
+  let memoryId = req.params.id.trim();
 
-  
   if (!mongoose.Types.ObjectId.isValid(memoryId)) {
     return res.status(400).json({ error: "Invalid memory ID" });
   }
@@ -113,17 +116,27 @@ memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
 
     res.status(200).json(memories);
   } catch (error) {
-    console.error("Database error:", error);  
-    res.status(500).json({ error: "Failed to fetch memories story", details: error.message });
+    console.error("Database error:", error);
+    res
+      .status(500)
+      .json({
+        error: "Failed to fetch memories story",
+        details: error.message,
+      });
   }
 });
-
 
 // Update a specific memories story by ID
 memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
   try {
-    const { title, memorie, visitedLocation, isFavorite, imageUrl, visitedDate } =
-      req.body;
+    const {
+      title,
+      memorie,
+      visitedLocation,
+      isFavorite,
+      imageUrl,
+      visitedDate,
+    } = req.body;
 
     // Convert visitedDate from milliseconds to Date object
     const formattedVisitedDate = visitedDate ? new Date(visitedDate) : null;
@@ -133,7 +146,9 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
 
     // Validate that the ID is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(memoryId)) {
-      return res.status(400).json({ error: "Invalid memory ID", details: error.message });
+      return res
+        .status(400)
+        .json({ error: "Invalid memory ID", details: error.message });
     }
 
     // Find the memories story by ID
@@ -174,27 +189,23 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-
 // Search memories stories based on title or story content
 memoriesRouter.post("/search", isAuthenticated, async (req, res) => {
-  const { title, story } = req.body;  
+  const { title, story } = req.body;
 
   try {
     const query = {};
 
-   
     if (title) {
-      query.title = { $regex: title, $options: 'i' }; 
+      query.title = { $regex: title, $options: "i" };
     }
 
- 
     if (story) {
-      query.memorie = { $regex: story, $options: 'i' }; 
+      query.memorie = { $regex: story, $options: "i" };
     }
 
-  
     const memories = await Memories.find(query)
-      .populate('userId', 'username') 
+      .populate("userId", "username")
       .exec();
 
     if (!memories.length) {
@@ -204,12 +215,9 @@ memoriesRouter.post("/search", isAuthenticated, async (req, res) => {
     res.status(200).json({ memories });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to search memories stories' });
+    res.status(500).json({ error: "Failed to search memories stories" });
   }
 });
-
-
-
 
 memoriesRouter.delete("/delete/:id", isAuthenticated, async (req, res) => {
   try {
