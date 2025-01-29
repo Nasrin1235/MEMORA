@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -19,6 +20,7 @@ const AuthProvider = ({ children }) => {
           setUsername(data.username);//
         } else {
           setIsLoggedIn(false);
+          setUsername("");
         }
       } catch (error) {
         console.error("Error validating token:", error);
@@ -27,12 +29,36 @@ const AuthProvider = ({ children }) => {
     };
     checkToken();
   }, []);
+  const navigate = useNavigate();
+  const logout = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        setIsLoggedIn(false);
+        setUsername("");
+        navigate("/login");
+      
+       
+       // После выхода имя очищается
+      } else {
+        console.error("Ошибка выхода:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Ошибка сети при выходе:", error);
+    }
+  };
 
   const value = {
     isLoggedIn,
     setIsLoggedIn,
     username,
     setUsername,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

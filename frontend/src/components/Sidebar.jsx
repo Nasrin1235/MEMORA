@@ -3,7 +3,9 @@ import { AuthContext } from "../context/AuthContext"; // Импорт AuthContex
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
-  const { isLoggedIn, username } = useContext(AuthContext); // Деструктуризация username и isLoggedIn
+  const { isLoggedIn, username,logout} = useContext(AuthContext); // Деструктуризация username и isLoggedIn
+
+  
 
   return (
     <div className="sidebar">
@@ -38,6 +40,7 @@ const Sidebar = () => {
               className="user-avatar"
             />
             <p>{username}</p> {/* Показываем имя пользователя */}
+            <button className="logout-btn" onClick={logout}>Logout</button> {/* Кнопка выхода */}
           </>
         ) : (
           <>

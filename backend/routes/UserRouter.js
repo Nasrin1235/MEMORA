@@ -28,7 +28,7 @@ userRouter.post("/login", async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: user._id, username: user.username, role: user.role },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -54,7 +54,11 @@ userRouter.post("/login", async (req, res) => {
 
 // Token validieren
 userRouter.get("/validate-token", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: "Token is valid", payload: req.user });
+  if (!req.user || !req.user.username) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  res.status(200).json({ username: req.user.username, isLoggedIn: true });
 });
 
 // Benutzer abmelden
