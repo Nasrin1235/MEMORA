@@ -1,5 +1,5 @@
 import Sidebar from "../components/Sidebar";
-import MemoryList from "../components/MemoryList"
+import MemoryList from "../components/MemoryList";
 import "../styles/MainPage.css";
 
 const MainPage = () => {
@@ -7,7 +7,7 @@ const MainPage = () => {
     <div className="main-page">
       <Sidebar />
       <div className="content">
-      <MemoryList />
+        <MemoryList />
       </div>
     </div>
   );
