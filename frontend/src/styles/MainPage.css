@@ -1,32 +1,17 @@
 .main-page {
     display: flex;
     flex-direction: row;
-    height: 100vh; 
-    width: 100vw; 
-}
-
-.sidebar {
-    width: 220px; 
     height: 100vh;
-    background-color: #f8f9fa;
-    flex-shrink: 0;
+    width: 100vw;
+    overflow: hidden;
 }
 
 .content {
     flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start; 
-    justify-content: flex-start;
+    height: 100vh;
+    overflow-y: auto;
     padding: 20px;
     background-color: white;
-}
+} 
 
-.memory-list {
-    width: 100%; 
-    max-width: 800px; 
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #f8f0f0;
-}
 
