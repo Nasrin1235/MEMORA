@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import AddMemoryForm from "../components/AddMemoryForm";
-import Calendar from "../components/Calendar";
+import { NavLink } from "react-router-dom";
+import { Calendar, Camera, Map, Sun, Star } from "lucide-react";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
   const { isLoggedIn, username, logout } = useContext(AuthContext);
   const [searchVisible, setSearchVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
 
   const handleAddStoryClick = () => {
     setShowForm(true);
@@ -16,14 +16,13 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-     
       <div className="search-box">
         {searchVisible ? (
           <input
             type="text"
             placeholder="Search"
             className="search-input"
-            onBlur={() => setSearchVisible(false)} 
+            onBlur={() => setSearchVisible(false)}
             autoFocus
           />
         ) : (
@@ -35,27 +34,33 @@ const Sidebar = () => {
 
       <nav className="menu">
         <ul>
-          <li>📅 Calendar</li>
-          <li>📷 Media</li>
-          <li>🗺️ Atlas</li>
-          <li>🏖️ Wetter</li>
-          <li>⭐ Favorites</li>
+          <li>
+            <NavLink to="/calendar" className="menu-item">
+              <Calendar size={20} /> <span>Calendar</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/media" className="menu-item">
+              <Camera size={20} /> <span>Media</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/atlas" className="menu-item">
+              <Map size={20} /> <span>Atlas</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/weather" className="menu-item">
+              <Sun size={20} /> <span>Weather</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/favorites" className="menu-item">
+              <Star size={20} /> <span>Favorites</span>
+            </NavLink>
+          </li>
         </ul>
       </nav>
-      <div className="calendar-section">
-        <button
-          className="calendar-btn"
-          onClick={() => setShowCalendar(!showCalendar)}
-        >
-          📅 {showCalendar ? "Hide Calendar" : "Show Calendar"}
-        </button>
-        {showCalendar && (
-          <div className="calendar-container">
-            <Calendar />
-          </div>
-        )}
-      </div>
-
       <div className="story-section">
         <button className="add-story-btn" onClick={handleAddStoryClick}>
           Add Story
