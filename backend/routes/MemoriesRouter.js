@@ -8,6 +8,22 @@ import mongoose from "mongoose";
 
 const memoriesRouter = express.Router();
 
+// Upload image
+memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No image file uploaded" });
+  }
+
+  try {
+    res.status(200).json({
+      message: "Image uploaded successfully",
+      imageUrl: `http://localhost:3001/uploads/${req.file.filename}`, // Link to the uploaded image
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Create a new memories story
 memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
   try {
@@ -56,21 +72,6 @@ memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
   }
 });
 
-// Upload image
-memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No image file uploaded" });
-  }
-
-  try {
-    res.status(200).json({
-      message: "Image uploaded successfully",
-      imageUrl: `http://localhost:3001/uploads/${req.file.filename}`, // Link to the uploaded image
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // Delete image
 memoriesRouter.delete("/delete-image", (req, res) => {

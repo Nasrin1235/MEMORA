@@ -8,26 +8,57 @@ const AddMemoryForm = ({ onClose }) => {
   const [memorie, setMemorie] = useState("");
   const [visitedLocation, setVisitedLocation] = useState("");
   const [visitedDate, setVisitedDate] = useState("");
-  const [imageUrl, setImageUrl] = useState(""); // Теперь фото не обязательно
+  const [image, setImage] = useState(null); // Handling the image file
   const [error, setError] = useState("");
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Проверяем только обязательные поля (без imageUrl)
+  
     if (!title || !memorie || !visitedLocation || !visitedDate) {
       setError("Title, Memory description, Location, and Date are required.");
       return;
     }
-
+  
+    let uploadedImageUrl = ""; // Initially set to an empty string
+  
+    if (image) {
+      // Upload image if there is one selected
+      const formData = new FormData();
+      formData.append("image", image);
+  
+      try {
+        const imageResponse = await fetch("http://localhost:3001/api/memory/upload-image", {
+          method: "POST",
+          body: formData,
+        });
+  
+        const imageData = await imageResponse.json();
+  
+        if (imageResponse.ok) {
+          uploadedImageUrl = imageData.imageUrl; // Correct variable name here
+        } else {
+          setError(imageData.error || "Failed to upload image.");
+          return;
+        }
+      } catch (err) {
+        setError("An error occurred while uploading the image.");
+        return;
+      }
+    }
+  
     const newMemory = {
       title,
       memorie,
       visitedLocation,
       visitedDate,
-      imageUrl: imageUrl || "", 
+      imageUrl: uploadedImageUrl, // Use uploadedImageUrl instead of imageUrl
     };
-
+  
     try {
       const response = await fetch("http://localhost:3001/api/memory/add-memories", {
         method: "POST",
@@ -37,15 +68,15 @@ const AddMemoryForm = ({ onClose }) => {
         body: JSON.stringify(newMemory),
         credentials: "include",
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         onClose();
       } else {
         setError(data.error || "Failed to add memory.");
       }
-    } catch  {
+    } catch {
       setError("An error occurred while adding the memory.");
     }
   };
@@ -55,7 +86,7 @@ const AddMemoryForm = ({ onClose }) => {
       <div className="modal">
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
-        <p>Adding memory as: <strong>{username}</strong></p>
+          <p>Adding memory as: <strong>{username}</strong></p>
           <input
             type="text"
             placeholder="Title (required)"
@@ -83,10 +114,9 @@ const AddMemoryForm = ({ onClose }) => {
             required
           />
           <input
-            type="text"
-            placeholder="Image URL (optional)"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
           />
           <button type="submit">Add Memory</button>
           <button type="button" onClick={onClose} className="cancel-btn">
@@ -99,4 +129,5 @@ const AddMemoryForm = ({ onClose }) => {
 };
 
 export default AddMemoryForm;
+
 
