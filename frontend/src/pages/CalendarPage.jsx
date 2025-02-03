@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 const Calendar = () => {
   return (
     <div>
-      <Sidebar />
+      <Sidebar setFilteredMemories={() => {}} />
     </div>
   );
 };
