@@ -1,3 +1,4 @@
+import "../styles/MemoryDetail.css"
 const MemoryDetail = ({ memory }) => {
     if (!memory) {
       return <p>No memory selected.</p>;
