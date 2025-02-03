@@ -113,6 +113,37 @@
   background: #444444;
 }
 
+.search-memory {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.search-icon:hover {
+  transform: scale(1.1); 
+}
+
+.search-input {
+  width: 180px; 
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: width 0.3s ease-in-out;
+}
+
+.search-input:focus {
+  width: 220px;
+  border-color: #696c6e;
+}
+
 @media screen and (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -150,9 +181,7 @@
     display: none;
   
   }
-  .search-input {
-    display: none;
-  }
+
 
   .search-icon {
     display: block;
