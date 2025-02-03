@@ -1,7 +1,6 @@
 
 import "../styles/MemoryList.css";
 
-import "../styles/MemoryList.css";
 
 const MemoryList = ({ memories, filteredMemories, onMemorySelect }) => {
   const displayedMemories = filteredMemories !== null ? filteredMemories : memories;

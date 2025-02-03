@@ -37,7 +37,7 @@ const MainPage = () => {
           <MemoryList memories={memories} filteredMemories={filteredMemories} onMemorySelect={setSelectedMemory} />
         </div>
         <div className="memory-detail-container">
-          {selectedMemory ? <MemoryDetail memory={selectedMemory} /> : <p>Выберите воспоминание для просмотра.</p>}
+          {selectedMemory ? <MemoryDetail memory={selectedMemory} /> : <p>Choose a memory to view.</p>}
         </div>
       
     </div>
