@@ -2,12 +2,12 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import AddMemoryForm from "../components/AddMemoryForm";
 import { NavLink } from "react-router-dom";
+import SearchMemory from "../components/SearchMemory";
 import { Calendar, Camera, Map, Sun, Star, Home } from "lucide-react";
 import "../styles/Sidebar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ memories,setFilteredMemories }) => {
   const { isLoggedIn, username, logout } = useContext(AuthContext);
-  const [searchVisible, setSearchVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
   const handleAddStoryClick = () => {
@@ -15,23 +15,11 @@ const Sidebar = () => {
   };
 
   return (
+    
     <div className="sidebar">
-      <div className="search-box">
-        {searchVisible ? (
-          <input
-            type="text"
-            placeholder="Search"
-            className="search-input"
-            onBlur={() => setSearchVisible(false)}
-            autoFocus
-          />
-        ) : (
-          <div className="search-icon" onClick={() => setSearchVisible(true)}>
-            🔍
-          </div>
-        )}
-      </div>
-
+    <div className="search-section">
+      <SearchMemory memories={memories} setFilteredMemories={setFilteredMemories} />
+    </div>
       <nav className="menu">
         <ul>
           <li>

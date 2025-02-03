@@ -1,16 +1,47 @@
+import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
-import MemoryList from "../components/MemoryList.jsx";
+import MemoryList from "../components/MemoryList";
+import MemoryDetail from "../components/MemoryDetail";
 import "../styles/MainPage.css";
 
 const MainPage = () => {
+  const [memories, setMemories] = useState([]); // All memories
+  const [filteredMemories, setFilteredMemories] = useState(null);
+
+  useEffect(() => {
+    const fetchMemories = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/api/memory/get", {
+          method: "GET",
+          credentials: "include",
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+          setMemories(data);
+        }
+      } catch (error) {
+        console.error("Error loading memories:", error);
+      }
+    };
+
+    fetchMemories();
+  }, []);
+
   return (
     <div className="main-page">
-      <Sidebar />
+      {/* Passing memories to Sidebar */}
+      <Sidebar memories={memories} setFilteredMemories={setFilteredMemories} />
       <div className="content">
-        <MemoryList />
+        <MemoryList memories={memories} filteredMemories={filteredMemories} />
+        {/* <MemoryDetail /> */}
       </div>
+      
     </div>
   );
 };
 
 export default MainPage;
+
+
+
