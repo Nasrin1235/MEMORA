@@ -1,5 +1,5 @@
 import Sidebar from "../components/Sidebar";
-import MemoryList from "../components/MemoryList";
+import MemoryList from "../components/MemoryList.jsx";
 import "../styles/MainPage.css";
 
 const MainPage = () => {

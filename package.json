@@ -26,6 +26,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "lucide-react": "^0.474.0",
     "mongoose": "^8.9.5",
     "nodemon": "^3.1.9",
     "react-router-dom": "^7.1.3"
