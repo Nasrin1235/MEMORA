@@ -7,6 +7,7 @@ import CalendarPage from "./pages/CalendarPage"
 import AtlasPage from "./pages/AtlasPage"
 import FavoritesPage from "./pages/FavoritesPage"
 
+
 function App() {
   return (
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/atlas" element={<AtlasPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
+        
       </Routes>
   )
 }
