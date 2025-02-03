@@ -11,7 +11,6 @@ const SearchMemory = ({ memories, setFilteredMemories }) => {
 
     if (!memories) return;
 
-   
     const filtered = memories.filter((memory) =>
       memory.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -25,12 +24,10 @@ const SearchMemory = ({ memories, setFilteredMemories }) => {
         type="text"
         placeholder="Search memories..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} 
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
     </div>
   );
 };
 
 export default SearchMemory;
-
-

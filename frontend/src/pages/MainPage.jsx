@@ -7,6 +7,7 @@ import "../styles/MainPage.css";
 const MainPage = () => {
   const [memories, setMemories] = useState([]); // All memories
   const [filteredMemories, setFilteredMemories] = useState(null);
+  const [selectedMemory, setSelectedMemory] = useState(null);
 
   useEffect(() => {
     const fetchMemories = async () => {
@@ -32,10 +33,12 @@ const MainPage = () => {
     <div className="main-page">
       {/* Passing memories to Sidebar */}
       <Sidebar memories={memories} setFilteredMemories={setFilteredMemories} />
-      <div className="content">
-        <MemoryList memories={memories} filteredMemories={filteredMemories} />
-        {/* <MemoryDetail /> */}
-      </div>
+     <div className="memory-list-container">
+          <MemoryList memories={memories} filteredMemories={filteredMemories} onMemorySelect={setSelectedMemory} />
+        </div>
+        <div className="memory-detail-container">
+          {selectedMemory ? <MemoryDetail memory={selectedMemory} /> : <p>Выберите воспоминание для просмотра.</p>}
+        </div>
       
     </div>
   );
