@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import AddMemoryForm from "../components/AddMemoryForm";
 import { NavLink } from "react-router-dom";
-import { Calendar, Camera, Map, Sun, Star } from "lucide-react";
+import { Calendar, Camera, Map, Sun, Star, Home } from "lucide-react";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
@@ -57,6 +57,11 @@ const Sidebar = () => {
           <li>
             <NavLink to="/favorites" className="menu-item">
               <Star size={20} /> <span>Favorites</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/main" className="menu-item">
+              <Home size={20} /> <span>All Memories</span>
             </NavLink>
           </li>
         </ul>
