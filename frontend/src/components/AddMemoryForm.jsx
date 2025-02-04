@@ -52,6 +52,7 @@ const AddMemoryForm = ({ onClose }) => {
     }
   
     const newMemory = {
+      _id: Date.now().toString(),
       title,
       memorie,
       visitedLocation,
@@ -77,7 +78,7 @@ const AddMemoryForm = ({ onClose }) => {
         setError(data.error || "Failed to add memory.");
       }
     } catch {
-      setError("An error occurred while adding the memory.");
+      setError("Error adding memory.");
     }
   };
 
