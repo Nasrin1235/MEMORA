@@ -13,7 +13,7 @@ const FavoritesPage = () => {
     <div>
       <Sidebar setFilteredMemories={() => {}} />
       <div className="memory-list-container">
-        <h2>:stern: Favorites</h2>
+        <h2>Favorites</h2>
         {favorites.length === 0 ? (
           <p>No favorite memories yet.</p>
         ) : (

@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 
- const MemoryContext = createContext();
+const MemoryContext = createContext();
 
- const MemoryProvider = ({ children }) => {
+export const MemoryProvider = ({ children }) => {
   const [memories, setMemories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -163,4 +163,5 @@ import { createContext, useState, useEffect } from "react";
     </MemoryContext.Provider>
   );
 };
+
 export { MemoryContext, MemoryProvider };
