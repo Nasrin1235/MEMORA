@@ -1,29 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
+import { MemoryContext } from "../context/MemoryContext";
 
-const SearchMemory = ({ memories, setFilteredMemories }) => {
+const SearchMemory = ({ setFilteredMemories }) => {
+  const { memories } = useContext(MemoryContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isInputVisible, setIsInputVisible] = useState(false); 
+  const [isInputVisible, setIsInputVisible] = useState(false);
 
   useEffect(() => {
     if (!searchTerm.trim()) {
-      setFilteredMemories(null);
+      if (typeof setFilteredMemories === "function") { 
+        setFilteredMemories(null);
+      }
       return;
     }
 
-    if (!memories) return;
-
-    const filtered = memories.filter((memory) =>
+    const filtered = memories?.filter((memory) =>
       memory.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    setFilteredMemories(filtered);
-  }, [searchTerm, memories, setFilteredMemories]);
+    if (typeof setFilteredMemories === "function") { 
+      setFilteredMemories(filtered);
+    }
+  }, [searchTerm, setFilteredMemories]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-    return (
+  return (
     <div className="search-memory">
       {!isInputVisible ? (
         <span className="search-icon" onClick={() => setIsInputVisible(true)} style={{ cursor: "pointer" }}>

@@ -6,20 +6,15 @@ import SearchMemory from "../components/SearchMemory";
 import { Calendar, Camera, Map, Sun, Star, Home } from "lucide-react";
 import "../styles/Sidebar.css";
 
-const Sidebar = ({ memories,setMemories,setFilteredMemories }) => {
+const Sidebar = ({ setFilteredMemories }) => {
   const { isLoggedIn, username, logout } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
 
-  const handleAddStoryClick = () => {
-    setShowForm(true);
-  };
-
   return (
-    
     <div className="sidebar">
-    <div className="search-section">
-      <SearchMemory memories={memories} setFilteredMemories={setFilteredMemories} />
-    </div>
+      <div className="search-section">
+        <SearchMemory setFilteredMemories={setFilteredMemories} />
+      </div>
       <nav className="menu">
         <ul>
           <li>
@@ -54,13 +49,14 @@ const Sidebar = ({ memories,setMemories,setFilteredMemories }) => {
           </li>
         </ul>
       </nav>
+
       <div className="story-section">
-        <button className="add-story-btn" onClick={handleAddStoryClick}>
+        <button className="add-story-btn" onClick={() => setShowForm(true)}>
           Add Story
         </button>
       </div>
 
-       {showForm && <AddMemoryForm setMemories={setMemories} onClose={() => setShowForm(false)} />}
+      {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
 
       <div className="user-info">
         {isLoggedIn ? (
