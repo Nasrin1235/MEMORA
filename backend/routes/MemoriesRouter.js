@@ -167,7 +167,7 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
     }
 
     // Use a placeholder image if no new image is provided
-    const finalImageUrl = imageUrl || `http://localhost:30001/`; // Placeholder image URL
+    const finalImageUrl = imageUrl || `http://localhost:3001/`; // Placeholder image URL
 
     // Update the memories story
     memories.title = title || memories.title;
