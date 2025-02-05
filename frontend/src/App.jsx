@@ -21,6 +21,7 @@ function App() {
         <Route path="/atlas" element={<AtlasPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/media" element={<MediaPage />} />
+
       </Routes>
     </AuthProvider>
   );
