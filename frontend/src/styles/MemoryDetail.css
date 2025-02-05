@@ -1,4 +1,3 @@
-
 .memory-detail {
   background: white;
   padding: 20px;
@@ -13,7 +12,10 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
+
 .memory-title {
   font-size: 28px;
   font-weight: bold;
@@ -21,12 +23,14 @@
   color: #333;
   margin-bottom: 20px;
 }
+
 .memory-image-container {
   display: flex;
   justify-content: center;
   width: 100%;
   max-height: 600px;
 }
+
 .memory-image {
   max-width: 100%;
   max-height: 500px;
@@ -34,26 +38,40 @@
   object-fit: cover;
   transition: transform 0.3s ease;
 }
+
 .memory-image:hover {
   transform: scale(1.02);
 }
-.no-image-text {
-  font-size: 16px;
-  font-weight: bold;
-  color: #999;
-}
-.memory-meta {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 10px;
-}
+
 .memory-text {
   font-size: 16px;
   color: #555;
   text-align: center;
   line-height: 1.6;
   margin-top: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
 }
+
+.memory-meta {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.memory-text {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
 .memory-bottom-nav {
   width: 100%;
   background: white;
@@ -67,6 +85,7 @@
   position: sticky;
   bottom: 0;
 }
+
 .nav-btn {
   display: flex;
   align-items: center;
@@ -81,13 +100,16 @@
   background: none;
   cursor: pointer;
 }
+
 .nav-btn:hover {
   background: #f0f0f0;
   transform: scale(1.05);
 }
+
 .nav-btn.delete {
   color: red;
 }
+
 .nav-btn.delete-image {
   background: #ff4d4d;
   color: white;
@@ -95,10 +117,12 @@
   border-radius: 6px;
   transition: background 0.3s ease, transform 0.2s ease;
 }
+
 .nav-btn.delete-image:hover {
   background: #cc0000;
   transform: scale(1.05);
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -111,6 +135,7 @@
   align-items: center;
   z-index: 1000;
 }
+
 .modal {
   background: white;
   padding: 20px;
@@ -120,6 +145,7 @@
   max-width: 500px;
   z-index: 1001;
 }
+
 .modal input,
 .modal textarea {
   width: 100%;
@@ -128,6 +154,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
 .modal button {
   width: 100%;
   padding: 10px;
@@ -138,14 +165,16 @@
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
 .modal button:hover {
   background: #ddd;
 }
+
 .cancel-btn {
   background: #ff4d4d;
   color: white;
 }
+
 .cancel-btn:hover {
   background: #cc0000;
 }
-

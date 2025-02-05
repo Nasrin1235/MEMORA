@@ -32,6 +32,8 @@
   padding: 15px;
   text-align: center;
   transition: transform 0.2s ease-in-out;
+  width: 90%; 
+  max-width: 600px;
 }
 
 .favorite-card:hover {
@@ -48,6 +50,16 @@
 .favorite-content {
   margin-top: 10px;
 }
+
+.favorite-content p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  white-space: normal; 
+}
+
 
 .favorite-content h3 {
   font-size: 18px;
