@@ -7,6 +7,7 @@ import CalendarPage from "./pages/CalendarPage";
 import AtlasPage from "./pages/AtlasPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import { AuthProvider } from "./context/AuthContext";
+import MediaPage from "./pages/MediaPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/atlas" element={<AtlasPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/media" element={<MediaPage />} />
       </Routes>
     </AuthProvider>
   );
