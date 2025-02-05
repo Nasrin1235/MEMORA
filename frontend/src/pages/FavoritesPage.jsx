@@ -21,10 +21,9 @@ const FavoritesPage = () => {
       try {
         const memoriesFromServer = await fetchMemories();
 
-        const savedFavorites =
-          JSON.parse(localStorage.getItem("favorites")) || [];
-        const validFavorites = savedFavorites.filter((fav) =>
-          memoriesFromServer.some((mem) => mem._id === fav._id)
+        const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        const validFavorites = savedFavorites.filter(fav => 
+          memoriesFromServer.some(mem => mem._id === fav._id)
         );
 
         if (validFavorites.length !== savedFavorites.length) {
@@ -59,25 +58,11 @@ const FavoritesPage = () => {
           <div className="favorites-grid">
             {filteredFavorites.map((memory) => (
               <div key={memory._id} className="favorite-card">
-                {memory.imageUrl && (
-                  <img
-                    src={memory.imageUrl}
-                    alt={memory.title}
-                    className="favorite-image"
-                  />
-                )}
+                {memory.imageUrl && <img src={memory.imageUrl} alt={memory.title} className="favorite-image" />}
                 <div className="favorite-content">
                   <h3>📌 {memory.title}</h3>
-                  <p className="memory-meta">
-                    📅{" "}
-                    {memory.visitedDate
-                      ? new Date(memory.visitedDate).toLocaleDateString()
-                      : "Not specified"}
-                  </p>
-                  <p>
-                    <strong>📍 Location:</strong>{" "}
-                    {memory.visitedLocation || "Unknown"}
-                  </p>
+                  <p className="memory-meta">📅 {memory.visitedDate ? new Date(memory.visitedDate).toLocaleDateString() : "Not specified"}</p>
+                  <p><strong>📍 Location:</strong> {memory.visitedLocation || "Unknown"}</p>
                   <p>{memory.memorie?.slice(0, 150)}...</p>
                 </div>
               </div>
