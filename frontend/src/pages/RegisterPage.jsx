@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 
@@ -6,57 +7,46 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    console.log("register:", username, email, password);
-
-    try {
+  const mutation = useMutation({
+    mutationFn: async ({ username, email, password }) => {
       const response = await fetch("http://localhost:3001/api/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
         credentials: "include",
       });
 
-      const data = await response.json();
-      console.log("Response from server:", data);
-
-      if (response.ok) {
-        setError("");
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", username);
-        navigate("/login");
-      } else {
-        setError(data.error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to register");
       }
-    } catch (error) {
-      setError(error.message);
-    }
-  };
 
-  const handleNavigateToLogin = () => {
-    navigate("/login");
+      return response.json();
+    },
+    onSuccess: () => {
+      navigate("/login");
+    },
+    onError: (error) => {
+      alert(error.message);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate({ username, email, password });
   };
 
   return (
     <section className="register-page">
       <div className="register-image">
-  <img
-    src="r-l.jpg"
-    alt="Register Illustration"
-    className="image"
-  />
-  <div className="logo-text">MEMORA</div>
-</div>
-
+        <img src="r-l.jpg" alt="Register Illustration" className="image" />
+        <div className="logo-text">MEMORA</div>
+      </div>
       <div className="register-form">
         <h2 className="register-title">Start Writing</h2>
-        <form onSubmit={handleRegister}>
+        <form onSubmit={handleSubmit}>
           <div className="input-group">
             <div className="input-field">
               <label className="input-label">Username</label>
@@ -94,22 +84,15 @@ const RegisterPage = () => {
                 autoComplete="new-password"
               />
             </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="submit-button">
-              Register
+            <button type="submit" className="submit-button" disabled={mutation.isLoading}>
+              {mutation.isLoading ? "Registering..." : "Register"}
             </button>
           </div>
         </form>
-        <p className="login-prompt">Already registered?</p>
-        <button onClick={handleNavigateToLogin} className="login-button">
-          Go to Login
-        </button>
       </div>
     </section>
   );
 };
 
-
-
-
 export default RegisterPage;
+

@@ -1,19 +1,26 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useSearchParams } from "react-router-dom";
 import AddMemoryForm from "../components/AddMemoryForm";
-import { NavLink } from "react-router-dom";
 import SearchMemory from "../components/SearchMemory";
+import { NavLink } from "react-router-dom";
 import { Calendar, Camera, Map, Sun, Star, Home } from "lucide-react";
 import "../styles/Sidebar.css";
 
 const Sidebar = ({ setFilteredMemories }) => {
   const { isLoggedIn, username, logout } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams(); // <-- Исправлено!
+
+  const handleSearch = (filter) => {
+    setSearchParams(filter ? { filter } : {});
+    setFilteredMemories(filter);
+  };
 
   return (
     <div className="sidebar">
       <div className="search-section">
-        <SearchMemory setFilteredMemories={setFilteredMemories} />
+        <SearchMemory onSearch={handleSearch} />
       </div>
       <nav className="menu">
         <ul>
@@ -49,15 +56,12 @@ const Sidebar = ({ setFilteredMemories }) => {
           </li>
         </ul>
       </nav>
-
       <div className="story-section">
         <button className="add-story-btn" onClick={() => setShowForm(true)}>
           Add Story
         </button>
       </div>
-
       {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
-
       <div className="user-info">
         {isLoggedIn ? (
           <>

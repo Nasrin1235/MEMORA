@@ -1,74 +1,60 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 import { MemoryContext } from "../context/MemoryContext";
 import "../styles/AddMemoryForm.css";
 
 const AddMemoryForm = ({ onClose }) => {
-  const { username } = useContext(AuthContext);
-  const { addMemory, fetchMemories } = useContext(MemoryContext);
+  const { addMemory, uploadImage } = useContext(MemoryContext);
+  const queryClient = useQueryClient();
+
   const [title, setTitle] = useState("");
   const [memorie, setMemorie] = useState("");
   const [visitedLocation, setVisitedLocation] = useState("");
   const [visitedDate, setVisitedDate] = useState("");
   const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(""); // URL загруженного фото
   const [error, setError] = useState("");
 
+  
+  // Показываем превью изображения перед загрузкой
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file);
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setImage(objectURL); // Показываем превью
+      setImageUrl(file); // Сохраняем файл для загрузки
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!title || !memorie || !visitedLocation || !visitedDate) {
-      setError("Title, Memory description, Location, and Date are required.");
+      setError("All fields are required.");
       return;
     }
 
-    let uploadedImageUrl = "";
-
-    if (image) {
-      const formData = new FormData();
-      formData.append("image", image);
-
-      try {
-        const imageResponse = await fetch(
-          "http://localhost:3001/api/memory/upload-image",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const imageData = await imageResponse.json();
-
-        if (imageResponse.ok) {
-          uploadedImageUrl = imageData.imageUrl;
-        } else {
-          setError(imageData.error || "Failed to upload image.");
-          return;
-        }
-      } catch {
-        setError("An error occurred while uploading the image.");
-        return;
-      }
-    }
-
-    const newMemory = {
-      title,
-      memorie,
-      visitedLocation,
-      visitedDate,
-      imageUrl: uploadedImageUrl,
-    };
-
     try {
-      await addMemory(newMemory);
-      fetchMemories();
+      let uploadedImageUrl = "";
+      if (imageUrl) {
+        const formData = new FormData();
+        formData.append("image", imageUrl);
+        const response = await uploadImage.mutateAsync(formData);
+        uploadedImageUrl = response.imageUrl;
+      }
+
+      await addMemory.mutateAsync({
+        title,
+        memorie,
+        visitedLocation,
+        visitedDate,
+        imageUrl: uploadedImageUrl,
+      });
+
+      queryClient.invalidateQueries(["memories"]);
       onClose();
-    } catch {
-      setError("Error adding memory.");
+    } catch (error) {
+      console.error("Error adding memory:", error);
+      setError("Failed to add memory.");
     }
   };
 
@@ -77,9 +63,7 @@ const AddMemoryForm = ({ onClose }) => {
       <div className="modal">
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <p>
-            Adding memory as: <strong>{username}</strong>
-          </p>
+          <p>Adding memory</p>
           <input
             type="text"
             placeholder="Title (required)"
@@ -106,11 +90,12 @@ const AddMemoryForm = ({ onClose }) => {
             onChange={(e) => setVisitedDate(e.target.value)}
             required
           />
+          {/* Поле для загрузки фото */}
           <input type="file" accept="image/*" onChange={handleImageChange} />
+          {/* Превью фото перед загрузкой (уменьшенное) */}
+          {image && <img src={image} alt="Preview" className="uploaded-image" />}
           <button type="submit">Add Memory</button>
-          <button type="button" onClick={onClose} className="cancel-btn">
-            Cancel
-          </button>
+          <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
         </form>
       </div>
     </div>

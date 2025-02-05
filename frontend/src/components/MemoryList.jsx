@@ -3,12 +3,17 @@ import { MemoryContext } from "../context/MemoryContext";
 import "../styles/MemoryList.css";
 
 const MemoryList = ({ onMemorySelect }) => {
-  const { memories, loading, error } = useContext(MemoryContext);
+  const memoryContext = useContext(MemoryContext);
 
-  if (loading) return <p>Loading memories...</p>;
-  if (error) return <p>{error}</p>;
-  if (!memories || memories.length === 0)
-    return <p>No memories found. Add a new one!</p>;
+  if (!memoryContext) {
+    return <p>Error: MemoryContext is not available</p>;
+  }
+
+  const { memories, error, isLoading } = memoryContext;
+
+  if (isLoading) return <p>Loading memories...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!memories || memories.length === 0) return <p>No memories found.</p>;
 
   return (
     <div className="memory-list">
@@ -18,7 +23,10 @@ const MemoryList = ({ onMemorySelect }) => {
           <li
             key={memory._id}
             className="memory-item"
-            onClick={() => onMemorySelect(memory)}
+            onClick={() => {
+              console.log("Clicked Memory ID:", memory._id);
+              onMemorySelect(memory);
+            }}
             style={{ cursor: "pointer" }}
           >
             {memory.imageUrl && (

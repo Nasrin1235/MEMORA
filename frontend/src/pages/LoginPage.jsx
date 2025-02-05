@@ -1,46 +1,44 @@
 import { useState, useContext } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import "../styles/LoginPage.css"
-
+import "../styles/LoginPage.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setIsLoggedIn, setUsername } = useContext(AuthContext);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
+  const mutation = useMutation({
+    mutationFn: async ({ email, password }) => {
       const response = await fetch("http://localhost:3001/api/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
         credentials: "include",
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setError("");
-        setIsLoggedIn(true);
-        setUsername(data.username);
-        navigate("/main");
-      } else {
-        setError(data.error || "Failed to login. Please try again.");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to login");
       }
-    } catch (error) {
-      setError(error,"An unexpected error occurred. Please try again later.");
-    }
-  };
 
-  const handleNavigateToRegister = () => {
-    navigate("/register");
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setIsLoggedIn(true);
+      setUsername(data.username);
+      navigate("/main");
+    },
+    onError: (error) => {
+      alert(error.message);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate({ email, password });
   };
 
   return (
@@ -49,10 +47,9 @@ const LoginPage = () => {
         <img src="r-l.jpg" alt="Login Illustration" className="image" />
         <div className="logo-text">MEMORA</div>
       </div>
-
       <div className="login-form">
         <h2 className="login-title">Welcome Back</h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
           <div className="input-group">
             <div className="input-field">
               <label className="input-label">Email</label>
@@ -78,20 +75,17 @@ const LoginPage = () => {
                 autoComplete="current-password"
               />
             </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="submit-button">
-              Login
+            <button type="submit" className="submit-button" disabled={mutation.isLoading}>
+              {mutation.isLoading ? "Logging in..." : "Login"}
             </button>
           </div>
         </form>
-        <p className="register-prompt">Dont have an account?</p>
-        <button onClick={handleNavigateToRegister} className="register-button">
-          Go to Register
-        </button>
       </div>
     </section>
   );
 };
 
 export default LoginPage;
+
+
 

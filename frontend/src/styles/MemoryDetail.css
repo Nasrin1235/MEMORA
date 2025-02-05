@@ -14,8 +14,6 @@
   align-items: center;
   position: relative;
 }
-
-
 .memory-title {
   font-size: 28px;
   font-weight: bold;
@@ -23,16 +21,12 @@
   color: #333;
   margin-bottom: 20px;
 }
-
-
 .memory-image-container {
   display: flex;
   justify-content: center;
   width: 100%;
   max-height: 600px;
 }
-
-
 .memory-image {
   max-width: 90%;
   max-height: 500px;
@@ -40,26 +34,19 @@
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-
 .memory-image:hover {
   transform: scale(1.02);
 }
-
-
 .no-image-text {
   font-size: 16px;
   font-weight: bold;
   color: #999;
 }
-
-
 .memory-meta {
   font-size: 14px;
   color: #777;
   margin-bottom: 10px;
 }
-
-
 .memory-text {
   font-size: 16px;
   color: #555;
@@ -67,8 +54,6 @@
   line-height: 1.6;
   margin-top: 15px;
 }
-
-
 .memory-bottom-nav {
   width: 100%;
   background: white;
@@ -82,8 +67,6 @@
   position: sticky;
   bottom: 0;
 }
-
-
 .nav-btn {
   display: flex;
   align-items: center;
@@ -98,17 +81,13 @@
   background: none;
   cursor: pointer;
 }
-
 .nav-btn:hover {
   background: #f0f0f0;
   transform: scale(1.05);
 }
-
-
 .nav-btn.delete {
   color: red;
 }
-
 .nav-btn.delete-image {
   background: #ff4d4d;
   color: white;
@@ -116,13 +95,10 @@
   border-radius: 6px;
   transition: background 0.3s ease, transform 0.2s ease;
 }
-
 .nav-btn.delete-image:hover {
   background: #cc0000;
   transform: scale(1.05);
 }
-
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -133,10 +109,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
-
-
 .modal {
   background: white;
   padding: 20px;
@@ -144,10 +118,8 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 500px;
-  z-index: 1001; 
+  z-index: 1001;
 }
-
-
 .modal input,
 .modal textarea {
   width: 100%;
@@ -156,8 +128,6 @@
   border: 1px solid #ccc;
   border-radius: 6px;
 }
-
-
 .modal button {
   width: 100%;
   padding: 10px;
@@ -168,23 +138,14 @@
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
 .modal button:hover {
   background: #ddd;
 }
-
-
 .cancel-btn {
   background: #ff4d4d;
   color: white;
 }
-
 .cancel-btn:hover {
   background: #cc0000;
 }
 
-
-
-
-
-  

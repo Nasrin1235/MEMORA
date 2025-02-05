@@ -1,162 +1,99 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const MemoryContext = createContext();
 
+const fetchMemories = async () => {
+  const response = await fetch("http://localhost:3001/api/memory/get", {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error("Failed to fetch memories");
+  return response.json();
+};
+
 const MemoryProvider = ({ children }) => {
-  const [memories, setMemories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchMemories();
-  }, []);
+  const { data: memories, error, isLoading } = useQuery({
+    queryKey: ["memories"],
+    queryFn: fetchMemories,
+  });
 
-// ✅ Load all memories on startup
-  const fetchMemories = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch("http://localhost:3001/api/memory/get", {
-        method: "GET",
+  const addMemory = useMutation({
+    mutationFn: async (newMemory) => {
+      const response = await fetch("http://localhost:3001/api/memory/add-memories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newMemory),
         credentials: "include",
       });
-      const data = await response.json();
-      if (response.ok) {
-        setMemories(data || []);
-      } else {
-        setError(data.error || "Failed to fetch memories");
-      }
-    } catch {
-      setError("Error loading memories");
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (!response.ok) throw new Error("Failed to add memory");
+      return response.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["memories"] }),
+  });
 
+  const updateMemory = useMutation({
+    mutationFn: async ({ id, updatedMemory }) => {
+      const response = await fetch(`http://localhost:3001/api/memory/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedMemory),
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to update memory");
+      return response.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["memories"] }),
+  });
 
- // ✅ Function for adding a memory
-  const addMemory = async (newMemory) => {
-    try {
-      const response = await fetch(
-        "http://localhost:3001/api/memory/add-memories",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newMemory),
-          credentials: "include",
-        }
-      );
+  const deleteMemory = useMutation({
+    mutationFn: async (id) => {
+      const response = await fetch(`http://localhost:3001/api/memory/delete/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to delete memory");
+      return response.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["memories"] }),
+  });
 
-      if (response.ok) {
-        fetchMemories();
-      } else {
-        const data = await response.json();
-        setError(data.error || "Failed to add memory");
-      }
-    } catch {
-      setError("Error adding memory");
-    }
-  };
-// Function for deleting a memory
-  const deleteMemory = async (memoryId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/memory/delete/${memoryId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+  const uploadImage = useMutation({
+    mutationFn: async (formData) => {
+      const response = await fetch("http://localhost:3001/api/memory/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) throw new Error("Failed to upload image");
+      return response.json();
+    },
+  });
 
-      if (response.ok) {
-        fetchMemories();
-      } else {
-        setError("Failed to delete memory");
-      }
-    } catch {
-      setError("Error deleting memory");
-    }
-  };
-    // ✅ Image loading function
-    const uploadImage = async (imageFile) => {
-      const formData = new FormData();
-      formData.append("image", imageFile);
-  
-      try {
-        const response = await fetch("http://localhost:3001/api/memory/upload-image", {
-          method: "POST",
-          body: formData,
-        });
-  
-        const data = await response.json();
-  
-        if (!response.ok) throw new Error(data.error || "Failed to upload image.");
-  
-        return data.imageUrl; // ✅ Возвращаем URL загруженного фото
-      } catch (error) {
-        console.error("Image upload error:", error);
-        throw error;
-      }
-    };
-  
-   // ✅ Delete image function
-    const deleteImage = async (imageUrl) => {
-      try {
-        const response = await fetch("http://localhost:3001/api/memory/delete-image", {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageUrl }),
-        });
-  
-        const data = await response.json();
-  
-        if (!response.ok) throw new Error(data.error || "Failed to delete image.");
-        
-        console.log("Image deleted successfully");
-      } catch (error) {
-        console.error("Image deletion error:", error);
-        throw error;
-      }
-    };
-    // ✅ Function for updating a memory
-
-  const updateMemory = async (memoryId, updatedMemory) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/memory/${memoryId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedMemory),
-          credentials: "include",
-        }
-      );
-
-      if (response.ok) {
-        fetchMemories();
-      } else {
-        setError("Failed to update memory");
-      }
-    } catch {
-      setError("Error updating memory");
-    }
-  };
+  const deleteImage = useMutation({
+    mutationFn: async (imageUrl) => {
+      const response = await fetch("http://localhost:3001/api/memory/delete-image", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl }),
+      });
+      if (!response.ok) throw new Error("Failed to delete image");
+      return response.json();
+    },
+  });
 
   return (
     <MemoryContext.Provider
       value={{
         memories,
-        loading,
+        isLoading,
         error,
         addMemory,
-        deleteMemory,
         updateMemory,
-        fetchMemories,
+        deleteMemory,
         uploadImage,
-         deleteImage,
+        deleteImage,
       }}
     >
       {children}
@@ -164,4 +101,10 @@ const MemoryProvider = ({ children }) => {
   );
 };
 
-export { MemoryContext, MemoryProvider };
+const useMemoryContext = () => {
+  return useContext(MemoryContext);
+};
+
+export { MemoryContext, MemoryProvider, useMemoryContext };
+
+
