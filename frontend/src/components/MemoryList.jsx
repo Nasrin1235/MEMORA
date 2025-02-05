@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { MemoryContext } from "../context/MemoryContext";
 import "../styles/MemoryList.css";
 
 const MemoryList = ({ onMemorySelect }) => {
   const memoryContext = useContext(MemoryContext);
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("filter") || ""; // ✅ Получаем значение поиска из URL
+  const [filteredMemories, setFilteredMemories] = useState([]);
 
   if (!memoryContext) {
     return <p>Error: MemoryContext is not available</p>;
@@ -11,15 +15,24 @@ const MemoryList = ({ onMemorySelect }) => {
 
   const { memories, error, isLoading } = memoryContext;
 
+  useEffect(() => {
+    if (memories) {
+      const filtered = memories.filter((memory) =>
+        memory.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredMemories(filtered);
+    }
+  }, [memories, searchTerm]);
+
   if (isLoading) return <p>Loading memories...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!memories || memories.length === 0) return <p>No memories found.</p>;
+  if (!filteredMemories || filteredMemories.length === 0) return <p>No memories found.</p>;
 
   return (
     <div className="memory-list">
       <h2>📖 My Memories</h2>
       <ul>
-        {memories.map((memory) => (
+        {filteredMemories.map((memory) => (
           <li
             key={memory._id}
             className="memory-item"
@@ -58,3 +71,4 @@ const MemoryList = ({ onMemorySelect }) => {
 };
 
 export default MemoryList;
+
