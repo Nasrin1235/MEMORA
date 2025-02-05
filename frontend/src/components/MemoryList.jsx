@@ -6,27 +6,24 @@ import "../styles/MemoryList.css";
 const MemoryList = ({ onMemorySelect }) => {
   const memoryContext = useContext(MemoryContext);
   const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get("filter") || ""; // ✅ Получаем значение поиска из URL
+  const searchTerm = searchParams.get("filter") || "";
   const [filteredMemories, setFilteredMemories] = useState([]);
 
-  if (!memoryContext) {
-    return <p>Error: MemoryContext is not available</p>;
-  }
-
-  const { memories, error, isLoading } = memoryContext;
+  const { memories, error, isLoading } = memoryContext || {};
 
   useEffect(() => {
-    if (memories) {
-      const filtered = memories.filter((memory) =>
-        memory.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredMemories(filtered);
-    }
+    setFilteredMemories(
+      Array.isArray(memories)
+        ? memories.filter((memory) =>
+            memory.title.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        : []
+    );
   }, [memories, searchTerm]);
 
   if (isLoading) return <p>Loading memories...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!filteredMemories || filteredMemories.length === 0) return <p>No memories found.</p>;
+  if (!filteredMemories.length) return <p>No memories found.</p>;
 
   return (
     <div className="memory-list">
@@ -36,10 +33,7 @@ const MemoryList = ({ onMemorySelect }) => {
           <li
             key={memory._id}
             className="memory-item"
-            onClick={() => {
-              console.log("Clicked Memory ID:", memory._id);
-              onMemorySelect(memory);
-            }}
+            onClick={() => onMemorySelect(memory)}
             style={{ cursor: "pointer" }}
           >
             {memory.imageUrl && (
@@ -71,4 +65,3 @@ const MemoryList = ({ onMemorySelect }) => {
 };
 
 export default MemoryList;
-
