@@ -7,6 +7,8 @@ import "leaflet/dist/leaflet.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "../styles/AtlasPage.css";
+
+
 const customIcon = new L.Icon({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
@@ -14,6 +16,8 @@ const customIcon = new L.Icon({
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 });
+
+
 const AtlasPage = () => {
   const { memories } = useContext(MemoryContext) || { memories: [] };
   console.log("Loaded memories:", memories);
@@ -52,14 +56,3 @@ const AtlasPage = () => {
   );
 };
 export default AtlasPage;
-
-
-
-
-
-
-
-
-
-
-

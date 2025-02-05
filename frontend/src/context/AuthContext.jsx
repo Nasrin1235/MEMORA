@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
         navigate("/login");
       
        
-       // После выхода имя очищается
+     
       } else {
         console.error("Ошибка выхода:", response.statusText);
       }

@@ -10,19 +10,37 @@ const AddMemoryForm = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [memorie, setMemorie] = useState("");
   const [visitedLocation, setVisitedLocation] = useState("");
+  const [coordinates, setCoordinates] = useState(null);
   const [visitedDate, setVisitedDate] = useState("");
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(""); // URL загруженного фото
+  const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
 
-  
-  // Показываем превью изображения перед загрузкой
+  const fetchCoordinates = async (location) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          location
+        )}`
+      );
+      const data = await response.json();
+      if (data.length > 0) {
+        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+      return null;
+    }
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const objectURL = URL.createObjectURL(file);
-      setImage(objectURL); // Показываем превью
-      setImageUrl(file); // Сохраняем файл для загрузки
+      setImage(objectURL);
+      setImageUrl(file);
     }
   };
 
@@ -32,6 +50,13 @@ const AddMemoryForm = ({ onClose }) => {
       setError("All fields are required.");
       return;
     }
+
+    const coordinates = await fetchCoordinates(visitedLocation);
+    if (!coordinates) {
+      setError("Could not find coordinates for this location.");
+      return;
+    }
+    setCoordinates(coordinates);
 
     try {
       let uploadedImageUrl = "";
@@ -45,7 +70,7 @@ const AddMemoryForm = ({ onClose }) => {
       await addMemory.mutateAsync({
         title,
         memorie,
-        visitedLocation,
+        visitedLocation: coordinates,
         visitedDate,
         imageUrl: uploadedImageUrl,
       });
@@ -77,9 +102,10 @@ const AddMemoryForm = ({ onClose }) => {
             onChange={(e) => setMemorie(e.target.value)}
             required
           />
+
           <input
             type="text"
-            placeholder="Visited Location (required)"
+            placeholder="Enter City (e.g. Paris, France)"
             value={visitedLocation}
             onChange={(e) => setVisitedLocation(e.target.value)}
             required
@@ -90,12 +116,16 @@ const AddMemoryForm = ({ onClose }) => {
             onChange={(e) => setVisitedDate(e.target.value)}
             required
           />
-          {/* Поле для загрузки фото */}
+
           <input type="file" accept="image/*" onChange={handleImageChange} />
-          {/* Превью фото перед загрузкой (уменьшенное) */}
-          {image && <img src={image} alt="Preview" className="uploaded-image" />}
+
+          {image && (
+            <img src={image} alt="Preview" className="uploaded-image" />
+          )}
           <button type="submit">Add Memory</button>
-          <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
+          <button type="button" onClick={onClose} className="cancel-btn">
+            Cancel
+          </button>
         </form>
       </div>
     </div>

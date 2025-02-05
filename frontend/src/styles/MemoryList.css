@@ -56,13 +56,13 @@
   object-fit: cover;
 }
 .memory-list {
-  max-height: 95vh; /* Максимальная высота */
-  overflow-y: scroll; /* Разрешаем прокрутку */
+  max-height: 95vh;
+  overflow-y: scroll;
   padding: 10px;
-  scrollbar-width: none; /* Убираем стандартный скроллбар в Firefox */
+  scrollbar-width: none;
 }
 
-/* Скрываем скроллбар в Chrome, Edge и Safari */
+
 .memory-list::-webkit-scrollbar {
   display: none;
 }
