@@ -1,41 +1,150 @@
 .memory-detail {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 85vw; 
-    max-width: 800px; 
-    margin: 70px auto;
-    height: 80vh; 
-    overflow-y: auto; 
-  }
-  
-  .memory-detail h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-  }
-  
-  .memory-detail-image {
-    width: 100%;
-    max-height: 400px;
-    border-radius: 8px;
-    object-fit: cover;
-    margin-bottom: 15px;
-  }
-  
-  .memory-meta {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 10px;
-  }
-  
-  .memory-text {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-    white-space: pre-wrap;
-  }
-  
-  
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 90vw;
+  max-width: 800px;
+  margin: 50px auto;
+  height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.memory-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+.memory-image-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-height: 600px;
+}
+.memory-image {
+  max-width: 90%;
+  max-height: 500px;
+  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.memory-image:hover {
+  transform: scale(1.02);
+}
+.no-image-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #999;
+}
+.memory-meta {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
+}
+.memory-text {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 15px;
+}
+.memory-bottom-nav {
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #ddd;
+  border-radius: 10px 10px 0 0;
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+}
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.nav-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+.nav-btn.delete {
+  color: red;
+}
+.nav-btn.delete-image {
+  background: #ff4d4d;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.nav-btn.delete-image:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  z-index: 1001;
+}
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.modal button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.modal button:hover {
+  background: #ddd;
+}
+.cancel-btn {
+  background: #ff4d4d;
+  color: white;
+}
+.cancel-btn:hover {
+  background: #cc0000;
+}
+
