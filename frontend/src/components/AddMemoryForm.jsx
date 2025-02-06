@@ -15,13 +15,13 @@ const AddMemoryForm = ({ onClose }) => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
+  const [suggestions, setSuggestions] = useState([]); // Список подсказок
 
+  // Функция получения координат
   const fetchCoordinates = async (location) => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          location
-        )}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
       );
       const data = await response.json();
       if (data.length > 0) {
@@ -34,6 +34,48 @@ const AddMemoryForm = ({ onClose }) => {
       return null;
     }
   };
+
+  // Функция получения подсказок городов
+  const fetchCitySuggestions = async (query) => {
+    if (query.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query)}`,
+        {
+          headers: {
+            "Accept-Language": "en",
+          },
+        }
+      );
+      const data = await response.json();
+  
+      const citySuggestions = data
+        .map((item) => {
+          const city = item.address.city || item.address.town || item.address.village || item.address.municipality;
+          const country = item.address.country;
+  
+          if (city && country) {
+            return {
+              name: `${city}, ${country}`,
+              lat: item.lat,
+              lon: item.lon,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean); // Убираем пустые результаты
+  
+      setSuggestions(citySuggestions);
+    } catch (error) {
+      console.error("Error fetching city suggestions:", error);
+    }
+  };
+  
+  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -66,11 +108,12 @@ const AddMemoryForm = ({ onClose }) => {
         const response = await uploadImage.mutateAsync(formData);
         uploadedImageUrl = response.imageUrl;
       }
+
       await addMemory.mutateAsync({
         title,
         memorie,
-        cityName: visitedLocation,
-        visitedLocation: coordinates, 
+        cityName: visitedLocation, // Сохраняем название города
+        visitedLocation: coordinates, // Сохраняем координаты
         visitedDate,
         imageUrl: uploadedImageUrl,
       });
@@ -103,13 +146,36 @@ const AddMemoryForm = ({ onClose }) => {
             required
           />
 
+          {/* Поле ввода города с автодополнением */}
           <input
             type="text"
             placeholder="Enter City (e.g. Paris, France)"
             value={visitedLocation}
-            onChange={(e) => setVisitedLocation(e.target.value)}
+            onChange={(e) => {
+              setVisitedLocation(e.target.value);
+              fetchCitySuggestions(e.target.value);
+            }}
             required
           />
+
+          {/* Выпадающий список подсказок */}
+          {suggestions.length > 0 && (
+            <ul className="suggestions-list">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    setVisitedLocation(suggestion.name);
+                    setSuggestions([]); // Очистить список после выбора
+                  }}
+                  className="suggestion-item"
+                >
+                  {suggestion.name}
+                </li>
+              ))}
+            </ul>
+          )}
+
           <input
             type="date"
             value={visitedDate}
@@ -119,9 +185,7 @@ const AddMemoryForm = ({ onClose }) => {
 
           <input type="file" accept="image/*" onChange={handleImageChange} />
 
-          {image && (
-            <img src={image} alt="Preview" className="uploaded-image" />
-          )}
+          {image && <img src={image} alt="Preview" className="uploaded-image" />}
           <button type="submit">Add Memory</button>
           <button type="button" onClick={onClose} className="cancel-btn">
             Cancel
@@ -133,3 +197,4 @@ const AddMemoryForm = ({ onClose }) => {
 };
 
 export default AddMemoryForm;
+
