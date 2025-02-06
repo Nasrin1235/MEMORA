@@ -30,6 +30,7 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
     const {
       title,
       memorie,
+      cityName, 
       visitedLocation,
       isFavorite,
       imageUrl,
@@ -37,13 +38,14 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!title || !memorie || !visitedLocation || !visitedDate) {
+    if (!title || !memorie || !visitedLocation || !visitedDate || !cityName) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const memories = new Memories({
       title,
       memorie,
+      cityName,
       visitedLocation,
       isFavorite: isFavorite || false, // По умолчанию false, если не передано
       userId: req.user.id,
@@ -66,6 +68,7 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
 memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
   try {
     const memories = await Memories.find({ userId: req.user.id });
+    console.log("Sending memories from API:", memories);
     res.status(200).json(memories);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch memories stories" });

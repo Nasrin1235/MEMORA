@@ -42,6 +42,7 @@ const AtlasPage = () => {
                 <Marker key={memory._id} position={[lat, lng]} icon={customIcon}>
                   <Popup>
                     <h3>{memory.title}</h3>
+                    <p><strong>📍 {memory.cityName}</strong></p>
                     <p>{memory.memorie}</p>
                     {memory.imageUrl && (
                       <img src={memory.imageUrl} alt={memory.title} style={{ width: "100px", borderRadius: "8px" }} />

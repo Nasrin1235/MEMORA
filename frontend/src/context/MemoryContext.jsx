@@ -8,9 +8,14 @@ const fetchMemories = async () => {
     method: "GET",
     credentials: "include",
   });
+
   if (!response.ok) throw new Error("Failed to fetch memories");
-  return response.json();
+
+  const data = await response.json();
+  console.log("Loaded from API:", data);  // <-- Добавленный лог
+  return data;
 };
+
 
 const MemoryProvider = ({ children }) => {
   const queryClient = useQueryClient();
@@ -22,6 +27,7 @@ const MemoryProvider = ({ children }) => {
 
   const addMemory = useMutation({
     mutationFn: async (newMemory) => {
+      console.log("Sending to API:", newMemory); 
       const response = await fetch("http://localhost:3001/api/memory/add-memories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
