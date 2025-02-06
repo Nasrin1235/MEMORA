@@ -62,7 +62,7 @@ const FavoritesPage = () => {
                 <div className="favorite-content">
                   <h3>📌 {memory.title}</h3>
                   <p className="memory-meta">📅 {memory.visitedDate ? new Date(memory.visitedDate).toLocaleDateString() : "Not specified"}</p>
-                  <p><strong>📍 Location:</strong> {memory.visitedLocation || "Unknown"}</p>
+                  <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
                   <p>{memory.memorie?.slice(0, 150)}...</p>
                 </div>
               </div>
