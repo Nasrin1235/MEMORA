@@ -66,11 +66,11 @@ const AddMemoryForm = ({ onClose }) => {
         const response = await uploadImage.mutateAsync(formData);
         uploadedImageUrl = response.imageUrl;
       }
-
       await addMemory.mutateAsync({
         title,
         memorie,
-        visitedLocation: coordinates,
+        cityName: visitedLocation,
+        visitedLocation: coordinates, 
         visitedDate,
         imageUrl: uploadedImageUrl,
       });

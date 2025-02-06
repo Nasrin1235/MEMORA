@@ -10,7 +10,6 @@ const MemoryList = ({ onMemorySelect }) => {
   const [filteredMemories, setFilteredMemories] = useState([]);
 
   const { memories, error, isLoading } = memoryContext || {};
-
   useEffect(() => {
     setFilteredMemories(
       Array.isArray(memories)
@@ -51,10 +50,7 @@ const MemoryList = ({ onMemorySelect }) => {
                   ? new Date(memory.visitedDate).toLocaleDateString()
                   : "Not specified"}
               </p>
-              <p>
-                <strong>📍 Location:</strong>{" "}
-                {memory.visitedLocation || "Unknown"}
-              </p>
+              <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
               <p className="memory-text">{memory.memorie?.slice(0, 150)}...</p>
             </div>
           </li>

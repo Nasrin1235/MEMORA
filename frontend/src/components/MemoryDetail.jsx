@@ -148,9 +148,7 @@ const MemoryDetail = ({ memoryId }) => {
           ? new Date(memory.visitedDate).toLocaleDateString()
           : "Not specified"}
       </p>
-      <p>
-        <strong>📍 Location:</strong> {memory.visitedLocation || "Unknown"}
-      </p>
+      <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
       <p className="memory-text">{memory.memorie}</p>
 
       <nav className="memory-bottom-nav">

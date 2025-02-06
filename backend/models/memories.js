@@ -11,6 +11,10 @@ const memoriesSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cityName: {
+      type: String,
+      required: false,
+    },
     visitedLocation: {
       type: [String], 
       default: [], 
