@@ -16,6 +16,7 @@ const SearchMemory = ({ onSearch }) => {
     <div className="search-memory">
       <input
         type="text"
+        name="text"
         className="search-input"
         placeholder="Search memories..."
         value={searchTerm}

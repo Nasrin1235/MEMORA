@@ -24,6 +24,16 @@ const Sidebar = ({ setFilteredMemories }) => {
       </div>
       <nav className="menu">
         <ul>
+        <li>
+            <NavLink to="/main" className="menu-item">
+              <Home size={20} /> <span>All Memories</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/favorites" className="menu-item">
+              <Star size={20} /> <span>Favorites</span>
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/calendar" className="menu-item">
               <Calendar size={20} /> <span>Calendar</span>
@@ -42,16 +52,6 @@ const Sidebar = ({ setFilteredMemories }) => {
           <li>
             <NavLink to="/weather" className="menu-item">
               <Sun size={20} /> <span>Weather</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/favorites" className="menu-item">
-              <Star size={20} /> <span>Favorites</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/main" className="menu-item">
-              <Home size={20} /> <span>All Memories</span>
             </NavLink>
           </li>
         </ul>
