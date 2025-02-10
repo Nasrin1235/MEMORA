@@ -5,7 +5,9 @@ import "../styles/HomePage.css";
 const HomePage = () => {
   return (
     <div className="container">
-      <h1 className="slogan">Momente kommen und gehen, Erinnerungen bleiben.</h1>
+      <div className="titel">
+      <h1 className="h1-slogan">MEMORA</h1>
+      <h2 className="slogan">Momente kommen und gehen, Erinnerungen bleiben.</h2>
       <div className="buttons">
         <Link to="/login">
           <button className="btn login">Login</button>
@@ -13,6 +15,7 @@ const HomePage = () => {
         <Link to="/register">
           <button className="btn register">Register</button>
         </Link>
+        </div>
       </div>
     </div>
   );
