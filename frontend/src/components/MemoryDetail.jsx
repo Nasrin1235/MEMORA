@@ -135,7 +135,7 @@ const MemoryDetail = ({ memoryId }) => {
           <img
             src={memory.imageUrl}
             alt={memory.title}
-            className="memory-image"
+            className="memory-image-detail"
           />
         </div>
       ) : (
