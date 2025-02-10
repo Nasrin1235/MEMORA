@@ -45,7 +45,7 @@ const HomePage = () => {
   
       <div className="video-section">
         <video autoPlay muted loop className="video-half">
-          <source src="home.mp4" type="video/mp4" />
+          <source src="bj.mp4" type="video/mp4" />
           Ihr Browser unterstützt kein Video-Tag.
         </video>
         <div className="video-text-container">
