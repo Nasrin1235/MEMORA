@@ -25,19 +25,19 @@ const HomePage = () => {
  
       <div className="info-bar">
         <div className="info-item">
-          <img src="vite.svg" alt="Icon 1" />
+          <img src="16-Photoroom.png" alt="Icon 1" />
           <p>Erinnerungen bewahren</p>
         </div>
         <div className="info-item">
-          <img src="vite.svg" alt="Icon 2" />
+          <img src="16-Photoroom.png" alt="Icon 2" />
           <p>Gemeinsam teilen</p>
         </div>
         <div className="info-item">
-          <img src="vite.svg" alt="Icon 3" />
+          <img src="16-Photoroom.png" alt="Icon 3" />
           <p>Momente genießen</p>
         </div>
         <div className="info-item">
-          <img src="vite.svg" alt="Icon 4" />
+          <img src="16-Photoroom.png" alt="Icon 4" />
           <p>Für die Zukunft sichern</p>
         </div>
       </div>
@@ -45,7 +45,7 @@ const HomePage = () => {
   
       <div className="video-section">
         <video autoPlay muted loop className="video-half">
-          <source src="bj.mp4" type="video/mp4" />
+          <source src="video-homepage.mp4" type="video/mp4" />
           Ihr Browser unterstützt kein Video-Tag.
         </video>
         <div className="video-text-container">
