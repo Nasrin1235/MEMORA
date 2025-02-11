@@ -6,19 +6,19 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [imageUrl, setImageUrl] = useState("/default-avatar.png"); 
+  const [imageUrl, setImageUrl] = useState("/default-avatar.png");
 
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/validate-token", {
+        const response = await fetch("http://localhost:3001/api/profile", {
           method: "GET",
           credentials: "include",
         });
 
         if (response.ok) {
-          setIsLoggedIn(true);
           const data = await response.json();
+          setIsLoggedIn(true);
           setUsername(data.username);
           setImageUrl(data.imageUrl || "/default-avatar.png");
         } else {
@@ -29,11 +29,15 @@ const AuthProvider = ({ children }) => {
       } catch (error) {
         console.error("Error validating token:", error);
         setIsLoggedIn(false);
+        setUsername("");
+        setImageUrl("/default-avatar.png");
       }
     };
     checkToken();
   }, []);
+
   const navigate = useNavigate();
+
   const logout = async () => {
     try {
       const response = await fetch("http://localhost:3001/api/logout", {
@@ -45,27 +49,32 @@ const AuthProvider = ({ children }) => {
       if (response.ok) {
         setIsLoggedIn(false);
         setUsername("");
+        setImageUrl("/default-avatar.png");
         navigate("/login");
-      
-       
-     
       } else {
-        console.error("Ошибка выхода:", response.statusText);
+        console.error("Logout error:", response.statusText);
       }
     } catch (error) {
-      console.error("Ошибка сети при выходе:", error);
+      console.error("Network error during logout:", error);
     }
   };
- 
+
+  const updateProfile = (newUsername, newImageUrl) => {
+    setUsername(newUsername);
+    setImageUrl(newImageUrl || "/default-avatar.png");
+  };
+
   const value = {
     isLoggedIn,
     setIsLoggedIn,
     username,
     setUsername,
-    imageUrl, // Добавлено
-    setImageUrl, // Добавлено
+    imageUrl,
+    setImageUrl,
     logout,
+    updateProfile,
   };
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

@@ -8,7 +8,7 @@ import { Calendar, Camera, Map, Star, Home, Settings } from "lucide-react";
 import "../styles/Sidebar.css";
 
 const Sidebar = ({ setFilteredMemories }) => {
-  const { isLoggedIn, username, logout } = useContext(AuthContext);
+  const { isLoggedIn, username, logout, imageUrl } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -24,7 +24,7 @@ const Sidebar = ({ setFilteredMemories }) => {
       </div>
       <nav className="menu">
         <ul>
-        <li>
+          <li>
             <NavLink to="/main" className="menu-item">
               <Home size={20} /> <span>All Memories</span>
             </NavLink>
@@ -67,7 +67,7 @@ const Sidebar = ({ setFilteredMemories }) => {
           <>
             <div className="user-details">
               <img
-                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`}
+                src={imageUrl || "/default-avatar.png"}
                 alt="User Avatar"
                 className="user-avatar"
               />

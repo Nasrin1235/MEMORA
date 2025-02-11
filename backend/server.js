@@ -4,9 +4,8 @@ import { fileURLToPath } from "url";
 import { dbConnection } from "./script/dbConnection.js";
 import cors from "cors";
 import userRouter from "./routes/UserRouter.js";
-import memoriesRouter from "./routes/MemoriesRouter.js"
+import memoriesRouter from "./routes/MemoriesRouter.js";
 import cookieParser from "cookie-parser";
-
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,7 +24,6 @@ app.use(
   })
 );
 
-
 // Static file serving
 const _fileName = fileURLToPath(import.meta.url);
 const _path = path.dirname(_fileName);
@@ -41,8 +39,6 @@ app.use("/api", userRouter);
 app.use("/api/memory", memoriesRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads/avatars", express.static("uploads/avatars"));
-
-
 
 // Fallback for frontend routing
 app.get("*", (req, res) => {

@@ -23,7 +23,6 @@ function App() {
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/media" element={<MediaPage />} />
         <Route path="/settings" element={<UserSettings />} />
-
       </Routes>
     </AuthProvider>
   );

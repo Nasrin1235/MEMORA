@@ -3,12 +3,13 @@ import { AuthContext } from "../context/AuthContext";
 import "../styles/UserSettings.css";
 
 const UserSettings = ({ onClose }) => {
-  const { username, setUsername } = useContext(AuthContext);
+  const { username, setUsername, imageUrl, setImageUrl, updateProfile } =
+    useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState("");
+  const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -17,45 +18,44 @@ const UserSettings = ({ onClose }) => {
         });
         const data = await response.json();
         setEmail(data.email);
-        setImageUrl(data.imageUrl || "default-avatar.png");
+        setImageUrl(data.imageUrl || "/default-avatar.png");
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
     };
     fetchUserProfile();
-  }, []);
+  }, [setImageUrl]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const objectURL = URL.createObjectURL(file);
-      setImage(objectURL);
-      setImageUrl(file);
+      setNewImage(file); // save new image
+      setImage(URL.createObjectURL(file)); //  preview image
     }
   };
 
   const handleSave = async () => {
     console.log("Before sending request:", { username, email, imageUrl });
-  
+
     setLoading(true);
-    let uploadedImageUrl = imageUrl;
-  
-    if (imageUrl instanceof File) {
+    let uploadedImageUrl = imageUrl; // use current imageUrl as default
+
+    if (newImage) {
       const formData = new FormData();
-      formData.append("image", imageUrl);
+      formData.append("image", newImage);
       console.log("Uploading avatar...");
-  
+
       try {
         const response = await fetch("http://localhost:3001/api/upload-image", {
           method: "POST",
           body: formData,
           credentials: "include",
         });
-  
+
         if (!response.ok) {
           throw new Error("Failed to upload image");
         }
-  
+
         const data = await response.json();
         uploadedImageUrl = data.imageUrl;
         console.log("Uploaded image URL:", uploadedImageUrl);
@@ -65,25 +65,33 @@ const UserSettings = ({ onClose }) => {
         return;
       }
     }
-  
+
     console.log("Final imageUrl:", uploadedImageUrl);
-  
+
     try {
       const response = await fetch("http://localhost:3001/api/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          username, 
-          email, 
-          imageUrl: uploadedImageUrl || ""  
+        body: JSON.stringify({
+          username,
+          email,
+          imageUrl: uploadedImageUrl || "/default-avatar.png",
         }),
         credentials: "include",
       });
-  
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
+      }
+
       const data = await response.json();
       console.log("Response from server:", data);
-  
-      setUsername(data.user.username);
+
+      setUsername(data.user.username); // update username
+      setImageUrl(data.user.imageUrl); // update avatar
+
+      updateProfile(data.user.username, data.user.imageUrl); // update context
+
       setLoading(false);
       onClose && onClose();
     } catch (error) {
@@ -97,25 +105,44 @@ const UserSettings = ({ onClose }) => {
       <h2>User Settings</h2>
       <label className="file-label">
         Profile Picture:
-        <input type="file" accept="image/*" onChange={handleImageChange} className="file-input" />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="file-input"
+        />
       </label>
-      {image && <img src={image} alt="Profile Preview" className="profile-preview" />}
-      <label className="input-label">
+      {image ? (
+        <img src={image} alt="Profile Preview" className="profile-preview" />
+      ) : (
+        <img src={imageUrl} alt="Current Avatar" className="profile-preview" />
+      )}
+      <label className="user-input-label">
         Username:
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="text-input" />
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="user-text-input"
+        />
       </label>
       <label className="input-label">
         Email:
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="text-input" />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="user-text-input"
+        />
       </label>
-      <button onClick={handleSave} disabled={loading} className="save-btn">{loading ? "Saving..." : "Save"}</button>
-      <button onClick={onClose} className="close-btn">Close</button>
+      <button onClick={handleSave} disabled={loading} className="save-btn">
+        {loading ? "Saving..." : "Save"}
+      </button>
+      <button onClick={onClose} className="close-btn">
+        Close
+      </button>
     </div>
   );
 };
 
 export default UserSettings;
-
-
-
-

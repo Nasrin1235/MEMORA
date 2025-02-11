@@ -23,8 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8,
-    select: false, // Standardmäßig wird das Passwort bei Abfragen (find, findOne) nicht zurückgegeben,
-    // um die Sicherheit zu erhöhen und sensible Daten zu schützen..
+    select: false,
   },
   role: {
     type: String,
