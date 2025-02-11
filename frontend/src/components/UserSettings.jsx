@@ -114,9 +114,9 @@ const UserSettings = ({ onClose }) => {
         <h2>User Settings</h2>
 
         <label className="file-label">
-          Profile Picture:
-          <input type="file" accept="image/*" onChange={handleImageChange} className="file-input" />
-        </label>
+  <span className="upload-btn"> Upload New Avatar</span>
+  <input type="file" accept="image/*" onChange={handleImageChange} className="file-input" />
+</label>
 
         {image ? (
           <img src={image} alt="Profile Preview" className="profile-preview" />
