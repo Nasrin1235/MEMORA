@@ -1,14 +1,17 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom"; // Добавлен useNavigate
 import "../styles/UserSettings.css";
 
 const UserSettings = ({ onClose }) => {
-  const { username, setUsername, imageUrl, setImageUrl, updateProfile } =
+  const { username, setUsername, imageUrl, setImageUrl, updateProfile, logout } =
     useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // Состояние для модального окна
+  const navigate = useNavigate(); // Для редиректа
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -29,21 +32,18 @@ const UserSettings = ({ onClose }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewImage(file); // Сохраняем новый файл
-      setImage(URL.createObjectURL(file)); // Показываем превью
+      setNewImage(file);
+      setImage(URL.createObjectURL(file));
     }
   };
 
   const handleSave = async () => {
-    console.log("Before sending request:", { username, email, imageUrl });
-
     setLoading(true);
-    let uploadedImageUrl = imageUrl; // Используем текущий аватар по умолчанию
+    let uploadedImageUrl = imageUrl;
 
     if (newImage) {
       const formData = new FormData();
       formData.append("image", newImage);
-      console.log("Uploading avatar...");
 
       try {
         const response = await fetch("http://localhost:3001/api/upload-image", {
@@ -58,7 +58,6 @@ const UserSettings = ({ onClose }) => {
 
         const data = await response.json();
         uploadedImageUrl = data.imageUrl;
-        console.log("Uploaded image URL:", uploadedImageUrl);
       } catch (error) {
         console.error("Upload error:", error);
         setLoading(false);
@@ -66,17 +65,11 @@ const UserSettings = ({ onClose }) => {
       }
     }
 
-    console.log("Final imageUrl:", uploadedImageUrl);
-
     try {
       const response = await fetch("http://localhost:3001/api/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          email,
-          imageUrl: uploadedImageUrl || "/default-avatar.png",
-        }),
+        body: JSON.stringify({ username, email, imageUrl: uploadedImageUrl }),
         credentials: "include",
       });
 
@@ -85,8 +78,6 @@ const UserSettings = ({ onClose }) => {
       }
 
       const data = await response.json();
-      console.log("Response from server:", data);
-
       setUsername(data.user.username);
       setImageUrl(data.user.imageUrl);
       updateProfile(data.user.username, data.user.imageUrl);
@@ -99,6 +90,24 @@ const UserSettings = ({ onClose }) => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/delete-account", {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete account");
+      }
+
+      logout(); // Выход из системы
+      navigate("/register"); // Перенаправляем на страницу входа
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="user-settings-modal" onClick={(e) => e.stopPropagation()}>
@@ -106,12 +115,7 @@ const UserSettings = ({ onClose }) => {
 
         <label className="file-label">
           Profile Picture:
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="file-input"
-          />
+          <input type="file" accept="image/*" onChange={handleImageChange} className="file-input" />
         </label>
 
         {image ? (
@@ -122,22 +126,12 @@ const UserSettings = ({ onClose }) => {
 
         <label className="user-input-label">
           Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="user-text-input"
-          />
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="user-text-input" />
         </label>
 
         <label className="user-input-label">
           Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="user-text-input"
-          />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="user-text-input" />
         </label>
 
         <button onClick={handleSave} disabled={loading} className="save-btn">
@@ -147,9 +141,31 @@ const UserSettings = ({ onClose }) => {
         <button onClick={onClose} className="close-btn">
           Close
         </button>
+
+        {/* 🔥 Кнопка удаления аккаунта */}
+        <button onClick={() => setShowDeleteModal(true)} className="delete-btn">
+          Delete Account
+        </button>
+
+        {/* 🔥 Модальное окно подтверждения */}
+        {showDeleteModal && (
+          <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
+            <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+              <h3>Are you sure you want to delete your account?</h3>
+              <p>This action is irreversible.</p>
+              <button onClick={handleDeleteAccount} className="confirm-delete-btn">
+                Yes, delete my account
+              </button>
+              <button onClick={() => setShowDeleteModal(false)} className="cancel-btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default UserSettings;
+

@@ -26,8 +26,21 @@ const uploadAvatar = multer({ storage: avatarStorage });
 userRouter.post("/register", async (req, res) => {
   try {
     console.log("Received request data:", req.body);
-    const { username, email, password } = req.body;
-    const user = await User.create({ username, email, password });
+    const { username, email, password, imageUrl } = req.body;
+
+    // Если imageUrl не передан, устанавливаем случайный аватар
+    const defaultAvatars = [
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=random1",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=random2",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=random3",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=random4",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=random5",
+    ];
+    const randomAvatar = imageUrl || defaultAvatars[Math.floor(Math.random() * defaultAvatars.length)];
+
+    // Создаем пользователя
+    const user = await User.create({ username, email, password, imageUrl: randomAvatar });
+
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     console.log(error.message);
@@ -153,6 +166,17 @@ userRouter.put("/update", isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Failed to update user profile" });
   }
 });
+userRouter.delete("/delete-account", isAuthenticated, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.user.id);
+    res.cookie("token", "", { expires: new Date(0) });
+    res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    res.status(500).json({ error: "Failed to delete account" });
+  }
+});
+
 // Benutzer abmelden
 userRouter.post("/logout", async (req, res) => {
   try {

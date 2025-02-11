@@ -32,10 +32,20 @@ const RegisterPage = () => {
       alert(error.message);
     },
   });
+  const getRandomAvatar = () => {
+    const avatarList = [
+      "https://api.dicebear.com/7.x/pixel-art/svg?seed=random1",
+      "https://api.dicebear.com/7.x/pixel-art/svg?seed=random2",
+      "https://api.dicebear.com/7.x/pixel-art/svg?seed=random3",
+      "https://api.dicebear.com/7.x/pixel-art/svg?seed=random4",
+    ];
+    return avatarList[Math.floor(Math.random() * avatarList.length)];
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate({ username, email, password });
+    const randomAvatar = getRandomAvatar();
+    mutation.mutate({ username, email, password, imageUrl: randomAvatar });
   };
 
   return (
