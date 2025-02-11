@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
           const data = await response.json();
           setIsLoggedIn(true);
           setUsername(data.username);
-          setImageUrl(data.imageUrl || "/default-avatar.png");
+          setImageUrl(data.imageUrl || "/default-avatar.png"); // 🔥 Устанавливаем аватар
         } else {
           setIsLoggedIn(false);
           setUsername("");
@@ -79,3 +79,4 @@ const AuthProvider = ({ children }) => {
 };
 
 export { AuthProvider, AuthContext };
+

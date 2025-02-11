@@ -8,7 +8,7 @@ import AtlasPage from "./pages/AtlasPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import { AuthProvider } from "./context/AuthContext";
 import MediaPage from "./pages/MediaPage";
-import UserSettings from "./components/UserSettings";
+
 
 function App() {
   return (
@@ -22,7 +22,6 @@ function App() {
         <Route path="/atlas" element={<AtlasPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/media" element={<MediaPage />} />
-        <Route path="/settings" element={<UserSettings />} />
       </Routes>
     </AuthProvider>
   );

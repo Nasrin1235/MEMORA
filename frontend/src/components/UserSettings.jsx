@@ -29,8 +29,8 @@ const UserSettings = ({ onClose }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewImage(file); // save new image
-      setImage(URL.createObjectURL(file)); //  preview image
+      setNewImage(file); // Сохраняем новый файл
+      setImage(URL.createObjectURL(file)); // Показываем превью
     }
   };
 
@@ -38,7 +38,7 @@ const UserSettings = ({ onClose }) => {
     console.log("Before sending request:", { username, email, imageUrl });
 
     setLoading(true);
-    let uploadedImageUrl = imageUrl; // use current imageUrl as default
+    let uploadedImageUrl = imageUrl; // Используем текущий аватар по умолчанию
 
     if (newImage) {
       const formData = new FormData();
@@ -87,10 +87,9 @@ const UserSettings = ({ onClose }) => {
       const data = await response.json();
       console.log("Response from server:", data);
 
-      setUsername(data.user.username); // update username
-      setImageUrl(data.user.imageUrl); // update avatar
-
-      updateProfile(data.user.username, data.user.imageUrl); // update context
+      setUsername(data.user.username);
+      setImageUrl(data.user.imageUrl);
+      updateProfile(data.user.username, data.user.imageUrl);
 
       setLoading(false);
       onClose && onClose();
@@ -101,46 +100,54 @@ const UserSettings = ({ onClose }) => {
   };
 
   return (
-    <div className="user-settings-modal">
-      <h2>User Settings</h2>
-      <label className="file-label">
-        Profile Picture:
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="file-input"
-        />
-      </label>
-      {image ? (
-        <img src={image} alt="Profile Preview" className="profile-preview" />
-      ) : (
-        <img src={imageUrl} alt="Current Avatar" className="profile-preview" />
-      )}
-      <label className="user-input-label">
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="user-text-input"
-        />
-      </label>
-      <label className="input-label">
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="user-text-input"
-        />
-      </label>
-      <button onClick={handleSave} disabled={loading} className="save-btn">
-        {loading ? "Saving..." : "Save"}
-      </button>
-      <button onClick={onClose} className="close-btn">
-        Close
-      </button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="user-settings-modal" onClick={(e) => e.stopPropagation()}>
+        <h2>User Settings</h2>
+
+        <label className="file-label">
+          Profile Picture:
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="file-input"
+          />
+        </label>
+
+        {image ? (
+          <img src={image} alt="Profile Preview" className="profile-preview" />
+        ) : (
+          <img src={imageUrl} alt="Current Avatar" className="profile-preview" />
+        )}
+
+        <label className="user-input-label">
+          Username:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="user-text-input"
+          />
+        </label>
+
+        <label className="user-input-label">
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="user-text-input"
+          />
+        </label>
+
+        <button onClick={handleSave} disabled={loading} className="save-btn">
+          {loading ? "Saving..." : "Save"}
+        </button>
+
+        <button onClick={onClose} className="close-btn">
+          Close
+        </button>
+      </div>
     </div>
   );
 };

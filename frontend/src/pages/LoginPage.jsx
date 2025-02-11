@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUsername } = useContext(AuthContext);
+  const { setIsLoggedIn, setUsername,setImageUrl } = useContext(AuthContext);
 
   const mutation = useMutation({
     mutationFn: async ({ email, password }) => {
@@ -26,10 +26,25 @@ const LoginPage = () => {
 
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setIsLoggedIn(true);
       setUsername(data.username);
-      navigate("/main");
+
+      try {
+        const profileResponse = await fetch("http://localhost:3001/api/profile", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          setImageUrl(profileData.imageUrl || "/default-avatar.png"); // 🔥 Устанавливаем аватар сразу
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+      }
+
+      navigate("/main"); // Перенаправляем после входа
     },
     onError: (error) => {
       alert(error.message);

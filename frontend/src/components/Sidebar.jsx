@@ -5,12 +5,14 @@ import AddMemoryForm from "../components/AddMemoryForm";
 import SearchMemory from "../components/SearchMemory";
 import { NavLink } from "react-router-dom";
 import { Calendar, Camera, Map, Star, Home, Settings } from "lucide-react";
+import UserSettings from "../components/UserSettings"; // Добавлен импорт
 import "../styles/Sidebar.css";
 
 const Sidebar = ({ setFilteredMemories }) => {
   const { isLoggedIn, username, logout, imageUrl } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showSettings, setShowSettings] = useState(false); // Состояние для модального окна
 
   const handleSearch = (filter) => {
     setSearchParams(filter ? { filter } : {});
@@ -50,18 +52,25 @@ const Sidebar = ({ setFilteredMemories }) => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/settings" className="menu-item">
+            {/* Кнопка для открытия модального окна */}
+            <button onClick={() => setShowSettings(true)} className="menu-item">
               <Settings size={20} /> <span>Settings</span>
-            </NavLink>
+            </button>
           </li>
         </ul>
       </nav>
+
       <div className="story-section">
         <button className="add-story-btn" onClick={() => setShowForm(true)}>
           Add Story
         </button>
       </div>
+      
       {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
+
+      {/* UserSettings в модальном окне */}
+      {showSettings && <UserSettings onClose={() => setShowSettings(false)} />}
+
       <div className="user-info">
         {isLoggedIn ? (
           <>
@@ -95,3 +104,4 @@ const Sidebar = ({ setFilteredMemories }) => {
 };
 
 export default Sidebar;
+
