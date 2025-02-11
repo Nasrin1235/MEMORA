@@ -20,6 +20,8 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
@@ -38,6 +40,8 @@ await dbConnection();
 app.use("/api", userRouter);
 app.use("/api/memory", memoriesRouter);
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads/avatars", express.static("uploads/avatars"));
+
 
 
 // Fallback for frontend routing

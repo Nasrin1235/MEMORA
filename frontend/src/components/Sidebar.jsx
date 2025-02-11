@@ -4,13 +4,13 @@ import { useSearchParams } from "react-router-dom";
 import AddMemoryForm from "../components/AddMemoryForm";
 import SearchMemory from "../components/SearchMemory";
 import { NavLink } from "react-router-dom";
-import { Calendar, Camera, Map, Sun, Star, Home } from "lucide-react";
+import { Calendar, Camera, Map, Star, Home, Settings } from "lucide-react";
 import "../styles/Sidebar.css";
 
 const Sidebar = ({ setFilteredMemories }) => {
   const { isLoggedIn, username, logout } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams(); // <-- Исправлено!
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSearch = (filter) => {
     setSearchParams(filter ? { filter } : {});
@@ -50,8 +50,8 @@ const Sidebar = ({ setFilteredMemories }) => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/weather" className="menu-item">
-              <Sun size={20} /> <span>Weather</span>
+            <NavLink to="/settings" className="menu-item">
+              <Settings size={20} /> <span>Settings</span>
             </NavLink>
           </li>
         </ul>

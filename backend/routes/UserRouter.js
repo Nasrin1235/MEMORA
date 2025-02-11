@@ -3,9 +3,26 @@ import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { isAuthenticated } from "../middleware/auth.js";
+import multer from "multer";
+import fs from "fs";
+import path from "path";
+
 
 const userRouter = express.Router();
 
+const avatarStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = "uploads/avatars/";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true }); // 🔥 Создаём папку, если её нет
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${req.user.id}-${Date.now()}${path.extname(file.originalname)}`);
+  },
+});
+const uploadAvatar = multer({ storage: avatarStorage });
 // Registriere einen neuen Benutzer
 userRouter.post("/register", async (req, res) => {
   try {
@@ -61,6 +78,74 @@ userRouter.get("/validate-token", isAuthenticated, (req, res) => {
   res.status(200).json({ username: req.user.username, isLoggedIn: true });
 });
 
+userRouter.get("/profile", isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({
+      username: user.username,
+      email: user.email,
+      imageUrl: user.imageUrl || "default-avatar.png",
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch user profile" });
+  }
+});
+userRouter.post("/upload-image", isAuthenticated, uploadAvatar.single("image"), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No image file uploaded" });
+  }
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    user.imageUrl = `http://localhost:3001/uploads/avatars/${req.file.filename}`;
+    await user.save();
+
+    res.status(200).json({
+      message: "Avatar uploaded successfully",
+      imageUrl: user.imageUrl,
+    });
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+userRouter.put("/update", isAuthenticated, async (req, res) => {
+  try {
+    console.log("Received update request:", req.body);
+    const { username, email, imageUrl } = req.body;
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (username) user.username = username;
+    if (email) user.email = email;
+
+    // 🔥 Проверяем `imageUrl`, чтобы оно было строкой
+    if (typeof imageUrl === "string" && imageUrl.trim() !== "") {
+      user.imageUrl = imageUrl;
+    } else {
+      console.warn("Invalid imageUrl received:", imageUrl);
+    }
+
+    await user.save();
+    console.log("User updated successfully:", user);
+
+    res.status(200).json({
+      message: "User profile updated successfully",
+      user: { username: user.username, email: user.email, imageUrl: user.imageUrl },
+    });
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ error: "Failed to update user profile" });
+  }
+});
 // Benutzer abmelden
 userRouter.post("/logout", async (req, res) => {
   try {

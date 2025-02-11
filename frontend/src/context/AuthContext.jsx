@@ -6,6 +6,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [imageUrl, setImageUrl] = useState("/default-avatar.png"); 
 
   useEffect(() => {
     const checkToken = async () => {
@@ -14,13 +15,16 @@ const AuthProvider = ({ children }) => {
           method: "GET",
           credentials: "include",
         });
+
         if (response.ok) {
           setIsLoggedIn(true);
-          const data = await response.json();//
-          setUsername(data.username);//
+          const data = await response.json();
+          setUsername(data.username);
+          setImageUrl(data.imageUrl || "/default-avatar.png");
         } else {
           setIsLoggedIn(false);
           setUsername("");
+          setImageUrl("/default-avatar.png");
         }
       } catch (error) {
         console.error("Error validating token:", error);
@@ -52,15 +56,16 @@ const AuthProvider = ({ children }) => {
       console.error("Ошибка сети при выходе:", error);
     }
   };
-
+ 
   const value = {
     isLoggedIn,
     setIsLoggedIn,
     username,
     setUsername,
+    imageUrl, // Добавлено
+    setImageUrl, // Добавлено
     logout,
   };
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     enum: ["admin", "user"],
     default: "user",
   },
+  imageUrl: {
+    type: String,
+    default: "default-avatar.png",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
