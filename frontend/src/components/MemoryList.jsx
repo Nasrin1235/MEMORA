@@ -26,7 +26,7 @@ const MemoryList = ({ onMemorySelect }) => {
 
   return (
     <div className="memory-list">
-      <h2>📖 My Memories</h2>
+      <h2>My Memories</h2>
       <ul>
         {filteredMemories.map((memory) => (
           <li
@@ -43,14 +43,14 @@ const MemoryList = ({ onMemorySelect }) => {
               />
             )}
             <div className="memory-content">
-              <h3>📌 {memory.title}</h3>
+              <h3> {memory.title}</h3>
               <p className="memory-meta">
-                📅{" "}
+                {" "}
                 {memory.visitedDate
                   ? new Date(memory.visitedDate).toLocaleDateString()
                   : "Not specified"}
               </p>
-              <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
+              <p><strong>Location:</strong> {memory.cityName || "Unknown"}</p>
               <p className="memory-text">{memory.memorie?.slice(0, 150)}...</p>
             </div>
           </li>
