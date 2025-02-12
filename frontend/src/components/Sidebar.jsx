@@ -24,7 +24,7 @@ const Sidebar = ({ setFilteredMemories }) => {
       <div className="search-section">
         <SearchMemory onSearch={handleSearch} />
       </div>
-      <nav className="menu">
+      <nav className="sidebar-menu">
         <ul>
           <li>
             <NavLink to="/main" className="menu-item">
@@ -61,7 +61,7 @@ const Sidebar = ({ setFilteredMemories }) => {
       </nav>
 
       <div className="story-section">
-        <button className="add-story-btn" onClick={() => setShowForm(true)}>
+        <button className="sidebar-add-story-btn" onClick={() => setShowForm(true)}>
           Add Story
         </button>
       </div>
@@ -71,24 +71,24 @@ const Sidebar = ({ setFilteredMemories }) => {
       {/* UserSettings в модальном окне */}
       {showSettings && <UserSettings onClose={() => setShowSettings(false)} />}
 
-      <div className="user-info">
+      <div className="sidebar-user-info">
         {isLoggedIn ? (
           <>
-            <div className="user-details">
+            <div className="sidebar-user-details">
               <img
                 src={imageUrl || "/default-avatar.png"}
                 alt="User Avatar"
-                className="user-avatar"
+                className="sidebar-user-avatar"
               />
-              <p className="username">{username}</p>
+              <p className="sidebar-username">{username}</p>
             </div>
-            <button className="logout-btn" onClick={logout}>
+            <button className="sidebar-logout-btn" onClick={logout}>
               Logout
             </button>
           </>
         ) : (
           <>
-            <div className="user-details">
+            <div className="sidebar-user-details">
               <img
                 src="/default-avatar.png"
                 alt="Default Avatar"
