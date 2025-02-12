@@ -2,6 +2,7 @@ body {
     background-image: url("jeremy-bishop-uAfZBP-GtiA-unsplash.jpg");
     background-size: cover;
     background-position: center;
+    overflow: auto; 
 
 }
 .main-page {

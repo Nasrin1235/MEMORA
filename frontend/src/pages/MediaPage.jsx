@@ -43,13 +43,13 @@ const MediaPage = () => {
       </div>
 
       {selectedMemory && (
-        <div className="modal-overlay" onClick={() => setSelectedMemory(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="media-modal-overlay" onClick={() => setSelectedMemory(null)}>
+          <div className="media-modal" onClick={(e) => e.stopPropagation()}>
             <h2>{selectedMemory.title}</h2>
             <img
               src={selectedMemory.imageUrl}
               alt={selectedMemory.title}
-              className="modal-image"
+              className="media-modal-image"
             />
             <p>
               <strong>📅 Date:</strong> {new Date(selectedMemory.visitedDate).toLocaleDateString()}
@@ -57,8 +57,8 @@ const MediaPage = () => {
             <p>
               <strong>📍 Location:</strong> {selectedMemory.cityName || "Unknown"}
             </p>
-            <p className="modal-description">{selectedMemory.memorie}</p>
-            <button onClick={() => setSelectedMemory(null)} className="cancel-btn">Close</button>
+            <p className="media-modal-description">{selectedMemory.memorie}</p>
+            <button onClick={() => setSelectedMemory(null)} className="media-cancel-btn">Close</button>
           </div>
         </div>
       )}

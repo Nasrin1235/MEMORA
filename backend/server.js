@@ -7,6 +7,7 @@ import userRouter from "./routes/UserRouter.js";
 import memoriesRouter from "./routes/MemoriesRouter.js";
 import cookieParser from "cookie-parser";
 
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -39,6 +40,7 @@ app.use("/api", userRouter);
 app.use("/api/memory", memoriesRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads/avatars", express.static("uploads/avatars"));
+app.use("/uploads/backgrounds", express.static("uploads/backgrounds"));
 
 // Fallback for frontend routing
 app.get("*", (req, res) => {

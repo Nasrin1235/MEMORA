@@ -212,11 +212,11 @@
     align-items: center;
     justify-content: center;
   }
-  .menu-item,span {
+  /* .menu-item,span {
     display: none;
   
-  }
-
+  } */
+ 
 
   .search-icon {
     display: block;

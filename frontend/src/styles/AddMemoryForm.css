@@ -1,25 +1,30 @@
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1002;
+  pointer-events: auto;
   }
   
-  .modal {
+   .modal {
     background: white;
-    padding: 30px;
-    border-radius: 16px;
-    width: 70%;
-    max-width: 800px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    animation: fadeIn 0.3s ease-in-out;
+  padding: 30px;
+  border-radius: 16px;
+  width: 70%;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  position: relative;
+  z-index: 1003; /* ✅ Форма должна быть выше */
+  pointer-events: auto; /* ✅ Разрешает клики */
   }
   
   @keyframes fadeIn {

@@ -6,8 +6,12 @@ import { isAuthenticated } from "../middleware/auth.js";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const userRouter = express.Router();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const avatarStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -100,11 +104,84 @@ userRouter.get("/profile", isAuthenticated, async (req, res) => {
       username: user.username,
       email: user.email,
       imageUrl: user.imageUrl || "default-avatar.png",
+      backgroundImage: user.backgroundImage || "",
     });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch user profile" });
   }
 });
+const backgroundStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = "uploads/backgrounds/";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${req.user.id}-${Date.now()}${path.extname(file.originalname)}`);
+  },
+});
+
+const uploadBackground = multer({ storage: backgroundStorage });
+
+userRouter.post(
+  "/upload-background",
+  isAuthenticated,
+  uploadBackground.single("image"),
+  async (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "No background image uploaded" });
+    }
+
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      user.backgroundImage = `http://localhost:3001/uploads/backgrounds/${req.file.filename}`;
+      await user.save();
+
+      res.status(200).json({
+        message: "Background uploaded successfully",
+        backgroundImage: user.backgroundImage,
+      });
+    } catch (error) {
+      console.error("Error uploading background:", error);
+      res.status(500).json({ error: "Failed to upload background" });
+    }
+  }
+);
+userRouter.delete("/delete-background", isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    if (user.backgroundImage && user.backgroundImage.includes("/uploads/backgrounds/")) {
+      // Формируем корректный путь к файлу
+      const filePath = path.join(__dirname, "..", "uploads", "backgrounds", path.basename(user.backgroundImage));
+      
+      console.log("Attempting to delete:", filePath);
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        console.log("Background image deleted successfully.");
+      } else {
+        console.warn("File not found:", filePath);
+      }
+    }
+
+    // Удаляем URL из базы данных
+    user.backgroundImage = "";
+    await user.save();
+
+    res.status(200).json({ message: "Background removed successfully" });
+  } catch (error) {
+    console.error("Error deleting background:", error);
+    res.status(500).json({ error: "Failed to delete background" });
+  }
+});
+
+
 userRouter.post(
   "/upload-image",
   isAuthenticated,

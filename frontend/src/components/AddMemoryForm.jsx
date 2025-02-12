@@ -8,16 +8,16 @@ const AddMemoryForm = ({ onClose }) => {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
-  const [memorie, setMemorie] = useState("");
+  const [memory, setMemory] = useState("");
   const [visitedLocation, setVisitedLocation] = useState("");
   const [coordinates, setCoordinates] = useState(null);
   const [visitedDate, setVisitedDate] = useState("");
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
-  const [suggestions, setSuggestions] = useState([]); // Список подсказок
+  const [suggestions, setSuggestions] = useState([]);
 
-  // Функция получения координат
+  // Function to fetch coordinates from Nominatim API
   const fetchCoordinates = async (location) => {
     try {
       const response = await fetch(
@@ -35,13 +35,13 @@ const AddMemoryForm = ({ onClose }) => {
     }
   };
 
-  // Функция получения подсказок городов
+  // Function to fetch city name suggestions
   const fetchCitySuggestions = async (query) => {
     if (query.length < 2) {
       setSuggestions([]);
       return;
     }
-  
+
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query)}`,
@@ -52,12 +52,12 @@ const AddMemoryForm = ({ onClose }) => {
         }
       );
       const data = await response.json();
-  
+
       const citySuggestions = data
         .map((item) => {
           const city = item.address.city || item.address.town || item.address.village || item.address.municipality;
           const country = item.address.country;
-  
+
           if (city && country) {
             return {
               name: `${city}, ${country}`,
@@ -67,15 +67,13 @@ const AddMemoryForm = ({ onClose }) => {
           }
           return null;
         })
-        .filter(Boolean); // Убираем пустые результаты
-  
+        .filter(Boolean); // Remove empty results
+
       setSuggestions(citySuggestions);
     } catch (error) {
       console.error("Error fetching city suggestions:", error);
     }
   };
-  
-  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -88,7 +86,7 @@ const AddMemoryForm = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !memorie || !visitedLocation || !visitedDate) {
+    if (!title || !memory || !visitedLocation || !visitedDate) {
       setError("All fields are required.");
       return;
     }
@@ -111,9 +109,9 @@ const AddMemoryForm = ({ onClose }) => {
 
       await addMemory.mutateAsync({
         title,
-        memorie,
-        cityName: visitedLocation, // Сохраняем название города
-        visitedLocation: coordinates, // Сохраняем координаты
+        memory,
+        cityName: visitedLocation, // Save city name
+        visitedLocation: coordinates, // Save coordinates
         visitedDate,
         imageUrl: uploadedImageUrl,
       });
@@ -123,6 +121,42 @@ const AddMemoryForm = ({ onClose }) => {
     } catch (error) {
       console.error("Error adding memory:", error);
       setError("Failed to add memory.");
+    }
+  };
+
+  // Function to get user's current location
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+
+          try {
+            // Reverse geocoding request to Nominatim API
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            );
+            const data = await response.json();
+
+            if (data.address) {
+              const city = data.address.city || data.address.town || data.address.village || "Unknown City";
+              const country = data.address.country || "Unknown Country";
+              setVisitedLocation(`${city}, ${country}`);
+            } else {
+              setError("Could not determine your location.");
+            }
+          } catch (error) {
+            console.error("Error with reverse geocoding:", error);
+            setError("Failed to get location details.");
+          }
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          setError("Failed to get location. Ensure you allowed location access.");
+        }
+      );
+    } else {
+      setError("Your browser does not support geolocation.");
     }
   };
 
@@ -141,12 +175,12 @@ const AddMemoryForm = ({ onClose }) => {
           />
           <textarea
             placeholder="Memory description (required)"
-            value={memorie}
-            onChange={(e) => setMemorie(e.target.value)}
+            value={memory}
+            onChange={(e) => setMemory(e.target.value)}
             required
           />
 
-          {/* Поле ввода города с автодополнением */}
+          {/* City input field with autocomplete */}
           <input
             type="text"
             placeholder="Enter City (e.g. Paris, France)"
@@ -157,8 +191,11 @@ const AddMemoryForm = ({ onClose }) => {
             }}
             required
           />
+          <button type="button" onClick={getCurrentLocation}>
+            Use Current Location
+          </button>
 
-          {/* Выпадающий список подсказок */}
+          {/* Suggestions dropdown */}
           {suggestions.length > 0 && (
             <ul className="suggestions-list">
               {suggestions.map((suggestion, index) => (
@@ -166,7 +203,7 @@ const AddMemoryForm = ({ onClose }) => {
                   key={index}
                   onClick={() => {
                     setVisitedLocation(suggestion.name);
-                    setSuggestions([]); // Очистить список после выбора
+                    setSuggestions([]); // Clear list after selection
                   }}
                   className="suggestion-item"
                 >
@@ -197,4 +234,5 @@ const AddMemoryForm = ({ onClose }) => {
 };
 
 export default AddMemoryForm;
+
 

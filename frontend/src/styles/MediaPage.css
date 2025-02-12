@@ -32,7 +32,7 @@
     transform: scale(1.05);
   }
   
-  .modal-overlay {
+  .media-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -47,7 +47,7 @@
     padding: 10px;
   }
   
-  .modal {
+  .media-modal {
     background: white;
     padding: 20px;
     border-radius: 12px;
@@ -63,12 +63,12 @@
     overflow-y: auto;
   }
   
-  .modal h2 {
+  .media-modal h2 {
     font-size: 22px;
     margin-bottom: 10px;
   }
   
-  .modal-image {
+  .media-modal-image {
     width: 100%;
     max-height: 250px;
     object-fit: cover;
@@ -76,7 +76,7 @@
     margin: 10px 0;
   }
   
-  .modal-description {
+  .media-modal-description {
     font-size: 16px;
     margin: 5px 0;
     word-wrap: break-word;
@@ -84,7 +84,7 @@
     white-space: normal;
   }
   
-  .cancel-btn {
+  .media-cancel-btn {
     background: linear-gradient(135deg, #ff4b4b, #b30000);
     color: white;
     padding: 10px 20px;
@@ -96,7 +96,7 @@
     transition: background 0.3s;
   }
   
-  .cancel-btn:hover {
+  .media-cancel-btn:hover {
     background: linear-gradient(135deg, #cc0000, #660000);
   }
   

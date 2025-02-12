@@ -25,7 +25,7 @@
   text-align: center;
 }
 
-.modal-overlay {
+/* .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -37,8 +37,9 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-}
-
+  pointer-events: auto;
+} */
+/* 
 .modal {
   background: white;
   padding: 20px;
@@ -48,8 +49,8 @@
   text-align: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 1001;
-}
+  z-index: 1003;
+} */
 
 .modal h2 {
   font-size: 22px;
