@@ -92,7 +92,7 @@ const AtlasPage = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
 
-          {/* 🔥 Кластеризация маркеров */}
+        
           <MarkerClusterGroup>
             {memories &&
               memories.length > 0 &&

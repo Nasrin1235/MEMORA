@@ -5,14 +5,14 @@ import AddMemoryForm from "../components/AddMemoryForm";
 import SearchMemory from "../components/SearchMemory";
 import { NavLink } from "react-router-dom";
 import { Calendar, Camera, Map, Star, Home, Settings } from "lucide-react";
-import UserSettings from "../components/UserSettings"; // Добавлен импорт
+import UserSettings from "../components/UserSettings";
 import "../styles/Sidebar.css";
 
-const Sidebar = ({ setFilteredMemories }) => {
+const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
   const { isLoggedIn, username, logout, imageUrl } = useContext(AuthContext);
   const [showForm, setShowForm] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showSettings, setShowSettings] = useState(false); // Состояние для модального окна
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleSearch = (filter) => {
     setSearchParams(filter ? { filter } : {});
@@ -52,7 +52,6 @@ const Sidebar = ({ setFilteredMemories }) => {
             </NavLink>
           </li>
           <li>
-            {/* Кнопка для открытия модального окна */}
             <button onClick={() => setShowSettings(true)} className="menu-item">
               <Settings size={20} /> <span>Settings</span>
             </button>
@@ -61,14 +60,19 @@ const Sidebar = ({ setFilteredMemories }) => {
       </nav>
 
       <div className="story-section">
-        <button className="sidebar-add-story-btn" onClick={() => setShowForm(true)}>
+        <button
+          className="sidebar-add-story-btn"
+          onClick={() => {
+            setShowForm(true);
+            setSelectedMemoryId(null); // 🚀 بستن MemoryDetail
+          }}
+        >
           Add Story
         </button>
       </div>
-      
-      {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
 
-      {/* UserSettings в модальном окне */}
+      {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
+      {console.log(showForm)}
       {showSettings && <UserSettings onClose={() => setShowSettings(false)} />}
 
       <div className="sidebar-user-info">
