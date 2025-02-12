@@ -5,7 +5,7 @@
 }
 
 
-.header {
+.homePage-header {
     width: 100%;
     height: 100vh;
     background-image: url("HomePage.jpg");
@@ -18,7 +18,7 @@
     position: relative;
 }
 
-.titel {
+.homePage-titel {
     width: 60%;
     backdrop-filter: blur(2px);
     padding: 2rem;
@@ -38,7 +38,7 @@
     margin-bottom: 1.875rem;
 }
 
-.buttons {
+.homePage-buttons {
     display: flex;
     justify-content: center;
     gap: 1.25rem;
@@ -53,12 +53,12 @@
     transition: 0.3s;
 }
 
-.login {
+.homePage-login {
     background-color: #f1e1d4;
     color: #900c3f;
 }
 
-.register {
+.homePage-register {
     background-color: #4b2f31;
     color: white;
 }
@@ -68,48 +68,7 @@
 }
 
 
-.info-bar {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 50vh;
-    background: white;
-    padding: 2rem 0;
-    margin-bottom: 2rem;
-}
-
-.info-item {
-    background:white;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.info-item:hover {
-    transform: scale(1.05);
-    background: #f9f9f9;
-}
-
-.info-item img {
-    width: 100%;
-    height: auto;
-    max-width: 150px;
-    transition: transform 0.3s ease;
-}
-
-.info-item p {
-    margin-top: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-}
-
-
-.video-section {
+.homePage-video-section {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -120,7 +79,7 @@
     
 }
 
-.video-half {
+.homePage-video-half{
     width: 50%;
     height: 100%;
     object-fit: cover;
@@ -166,11 +125,6 @@
 
     .slogan {
         font-size: 1.875rem;
-    }
-
-    .info-bar {
-        flex-direction: column;
-        align-items: center;
     }
 
     .video-overlay {

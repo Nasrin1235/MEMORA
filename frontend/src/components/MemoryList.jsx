@@ -25,13 +25,13 @@ const MemoryList = ({ onMemorySelect }) => {
   if (!filteredMemories.length) return <p>No memories found.</p>;
 
   return (
-    <div className="memory-list">
+    <div className="memorylist">
       <h2>My Memories</h2>
       <ul>
         {filteredMemories.map((memory) => (
           <li
             key={memory._id}
-            className="memory-item"
+            className="memorylist-item"
             onClick={() => onMemorySelect(memory)}
             style={{ cursor: "pointer" }}
           >
@@ -39,19 +39,19 @@ const MemoryList = ({ onMemorySelect }) => {
               <img
                 src={memory.imageUrl}
                 alt={memory.title}
-                className="memory-image"
+                className="memorylist-image"
               />
             )}
-            <div className="memory-content">
+            <div className="memorylist-content">
               <h3> {memory.title}</h3>
-              <p className="memory-meta">
+              <p className="memorylist-meta">
                 {" "}
                 {memory.visitedDate
                   ? new Date(memory.visitedDate).toLocaleDateString()
                   : "Not specified"}
               </p>
               <p><strong>Location:</strong> {memory.cityName || "Unknown"}</p>
-              <p className="memory-text">{memory.memorie?.slice(0, 150)}...</p>
+              <p className="memorylist-text">{memory.memorie?.slice(0, 150)}...</p>
             </div>
           </li>
         ))}

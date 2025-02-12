@@ -127,31 +127,31 @@ const MemoryDetail = ({ memoryId }) => {
   };
 
   return (
-    <div className="memory-detail">
-      <h2 className="memory-title">{memory.title}</h2>
+    <div className="memoryDetail">
+      <h2 className="memoryDetail-title">{memory.title}</h2>
 
       {memory.imageUrl ? (
-        <div className="memory-image-container">
+        <div className="memoryDetail-image-container">
           <img
             src={memory.imageUrl}
             alt={memory.title}
-            className="memory-image-detail"
+            className="memoryDetail-image-detail"
           />
         </div>
       ) : (
         <p className="no-image-text">No image uploaded.</p>
       )}
 
-      <p className="memory-meta">
+      <p className="memoryDetail-meta">
         📅{" "}
         {memory.visitedDate
           ? new Date(memory.visitedDate).toLocaleDateString()
           : "Not specified"}
       </p>
       <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
-      <p className="memory-text">{memory.memorie}</p>
+      <p className="memoryDetail-text">{memory.memorie}</p>
 
-      <nav className="memory-bottom-nav">
+      <nav className="memoryDetail-bottom-nav">
         <button onClick={toggleFavorite} className="nav-btn">
           {isFavorite ? <Star color="gold" /> : <Star />}
           {isFavorite ? " Remove from Favorites" : " Add to Favorites"}
@@ -169,8 +169,8 @@ const MemoryDetail = ({ memoryId }) => {
       </nav>
 
       {isEditing && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div className="memoryDetail-modal-overlay">
+          <div className="memoryDetail-modal">
             <h3>Edit Memory</h3>
             <input
               type="text"
@@ -227,8 +227,8 @@ const MemoryDetail = ({ memoryId }) => {
       )}
 
       {isDeleting && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div className="memoryDetail-modal-overlay">
+          <div className="memoryDetail-modal">
             <h3>Are you sure you want to delete this memory?</h3>
             <p>This action cannot be undone.</p>
             <button onClick={handleDelete} className="delete-btn">

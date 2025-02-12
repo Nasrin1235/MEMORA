@@ -7,44 +7,23 @@ const HomePage = () => {
   return (
     <div className="homepage">
    
-      <div className="header">
-        <div className="titel">
+      <div className="homePage-header">
+        <div className="homePage-titel">
           <h1 className="h1-slogan">MEMORA</h1>
           <h2 className="slogan">Momente kommen und gehen, Erinnerungen bleiben.</h2>
-          <div className="buttons">
+          <div className="homePage-buttons">
             <Link to="/login">
-              <button className="btn login">Login</button>
+              <button className="btn homePage-login">Login</button>
             </Link>
             <Link to="/register">
-              <button className="btn register">Register</button>
+              <button className="btn homePage-register">Register</button>
             </Link>
           </div>
         </div>
       </div>
 
- 
-      <div className="info-bar">
-        <div className="info-item">
-          <img src="16-Photoroom.png" alt="Icon 1" />
-          <p>Erinnerungen bewahren</p>
-        </div>
-        <div className="info-item">
-          <img src="16-Photoroom.png" alt="Icon 2" />
-          <p>Gemeinsam teilen</p>
-        </div>
-        <div className="info-item">
-          <img src="16-Photoroom.png" alt="Icon 3" />
-          <p>Momente genießen</p>
-        </div>
-        <div className="info-item">
-          <img src="16-Photoroom.png" alt="Icon 4" />
-          <p>Für die Zukunft sichern</p>
-        </div>
-      </div>
-
-  
-      <div className="video-section">
-        <video autoPlay muted loop className="video-half">
+      <div className="homePage-video-section">
+        <video autoPlay muted loop className="homePage-video-half">
           <source src="video-homepage.mp4" type="video/mp4" />
           Ihr Browser unterstützt kein Video-Tag.
         </video>
