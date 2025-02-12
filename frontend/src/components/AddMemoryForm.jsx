@@ -161,8 +161,8 @@ const AddMemoryForm = ({ onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
+    <div className="addMemoryForm-modal-overlay">
+      <div className="addMemoryForm-modal">
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <p>Adding memory</p>
@@ -180,7 +180,7 @@ const AddMemoryForm = ({ onClose }) => {
             required
           />
 
-          {/* City input field with autocomplete */}
+         
           <input
             type="text"
             placeholder="Enter City (e.g. Paris, France)"
@@ -195,9 +195,9 @@ const AddMemoryForm = ({ onClose }) => {
             Use Current Location
           </button>
 
-          {/* Suggestions dropdown */}
+        
           {suggestions.length > 0 && (
-            <ul className="suggestions-list">
+            <ul className="addMemoryForm-suggestions-list">
               {suggestions.map((suggestion, index) => (
                 <li
                   key={index}
@@ -205,7 +205,7 @@ const AddMemoryForm = ({ onClose }) => {
                     setVisitedLocation(suggestion.name);
                     setSuggestions([]); // Clear list after selection
                   }}
-                  className="suggestion-item"
+                  className="addMemoryForm-suggestion-item"
                 >
                   {suggestion.name}
                 </li>
@@ -222,7 +222,7 @@ const AddMemoryForm = ({ onClose }) => {
 
           <input type="file" accept="image/*" onChange={handleImageChange} />
 
-          {image && <img src={image} alt="Preview" className="uploaded-image" />}
+          {image && <img src={image} alt="Preview" className="addMemoryForm-uploaded-image" />}
           <button type="submit">Add Memory</button>
           <button type="button" onClick={onClose} className="cancel-btn">
             Cancel
