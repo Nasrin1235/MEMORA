@@ -81,6 +81,7 @@ const CalendarPage = () => {
             eventClick={handleEventClick}
             editable={false}
             selectable={false}
+            height="100%" 
           />
         )}
       </div>
