@@ -51,7 +51,7 @@ const FavoritesPage = () => {
     <div className="favorites-page">
       <Sidebar setSearchParams={setSearchParams} />
       <div className="favorites-container">
-        <h2>⭐ My Favorite Memories</h2>
+        <h2>My Favorite Memories</h2>
         {filteredFavorites.length === 0 ? (
           <p>No favorite memories found.</p>
         ) : (
@@ -61,7 +61,7 @@ const FavoritesPage = () => {
                 {memory.imageUrl && <img src={memory.imageUrl} alt={memory.title} className="favorite-image" />}
                 <div className="favorite-content">
                   <h3>📌 {memory.title}</h3>
-                  <p className="memory-meta">📅 {memory.visitedDate ? new Date(memory.visitedDate).toLocaleDateString() : "Not specified"}</p>
+                  <p className="favorite-memory-meta">📅 {memory.visitedDate ? new Date(memory.visitedDate).toLocaleDateString() : "Not specified"}</p>
                   <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
                   <p>{memory.memorie?.slice(0, 150)}...</p>
                 </div>

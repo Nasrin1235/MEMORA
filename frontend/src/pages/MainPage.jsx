@@ -17,6 +17,7 @@ const fetchMemories = async () => {
 
 const MainPage = () => {
   const [selectedMemoryId, setSelectedMemoryId] = useState(null);
+  const [showForm, setShowForm] = useState(false); 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const {
@@ -31,18 +32,16 @@ const MainPage = () => {
 
   const filteredMemories = searchParams.get("filter")
     ? memories?.filter((memory) =>
-        memory.title
-          .toLowerCase()
-          .includes(searchParams.get("filter").toLowerCase())
+        memory.title.toLowerCase().includes(searchParams.get("filter").toLowerCase())
       )
     : memories;
 
   return (
     <div className="main-page">
       <Sidebar
-        setFilteredMemories={(filter) =>
-          setSearchParams(filter ? { filter } : {})
-        }
+        setFilteredMemories={(filter) => setSearchParams(filter ? { filter } : {})}
+        setSelectedMemoryId={setSelectedMemoryId} 
+        setShowForm={setShowForm} 
       />
 
       <div className="memory-list-container">
@@ -52,8 +51,9 @@ const MainPage = () => {
           <MemoryList
             memories={filteredMemories}
             onMemorySelect={(memory) => {
-              console.log("Selected Memory ID:", memory._id); // 🔥 Debug Log
-              setSelectedMemoryId(memory._id);
+              if (!showForm) { 
+                setSelectedMemoryId(memory._id);
+              }
             }}
           />
         ) : (
@@ -62,7 +62,7 @@ const MainPage = () => {
       </div>
 
       <div className="memory-detail-container">
-        {selectedMemoryId ? (
+        {!showForm && selectedMemoryId ? ( 
           <MemoryDetail memoryId={selectedMemoryId} />
         ) : (
           <p>Select a memory to view.</p>
