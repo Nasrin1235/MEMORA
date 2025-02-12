@@ -1,46 +1,35 @@
 .calendar-layout {
   display: flex;
   height: 100vh;
+  overflow: hidden;
   background-color: #f8f9fa;
 }
 
 .calendar-container {
   flex-grow: 1;
   padding: 20px;
-  min-height: 600px;
+ max-height: 100vh;
+  
 }
 
 .calendar-thumbnail {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   object-fit: cover;
-  border-radius: 4px;
-  display: inline-block;
+  border-radius: 50%;
   margin-right: 5px;
+  vertical-align: middle;
 }
 
 .calendar-event {
   display: flex;
   align-items: center;
   text-align: center;
+  height: 50px;
 }
 
-/* .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  pointer-events: auto;
-} */
-/* 
-.modal {
+
+.calendar-modal {
   background: white;
   padding: 20px;
   border-radius: 12px;
@@ -50,14 +39,14 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1003;
-} */
+}
 
-.modal h2 {
+.calendar-modal h2 {
   font-size: 22px;
   margin-bottom: 10px;
 }
 
-.modal-image {
+.calendar-modal-image {
   width: 100%;
   max-height: 250px;
   object-fit: cover;
@@ -65,12 +54,12 @@
   margin: 10px 0;
 }
 
-.modal p {
+.calendar-modal p {
   font-size: 16px;
   margin: 5px 0;
 }
 
-.cancel-btn {
+.calendar-cancel-btn {
   background: linear-gradient(135deg, #ff4b4b, #b30000);
   color: white;
   padding: 10px 20px;
@@ -82,15 +71,8 @@
   transition: background 0.3s;
 }
 
-.cancel-btn:hover {
+.calendar-cancel-btn:hover {
   background: linear-gradient(135deg, #cc0000, #660000);
 }
 
-.calendar-thumbnail {
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 5px;
-  vertical-align: middle;
-}
+
