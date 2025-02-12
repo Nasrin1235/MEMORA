@@ -5,7 +5,14 @@ import { X } from "lucide-react";
 import "../styles/UserSettings.css";
 
 const UserSettings = ({ onClose }) => {
-  const { username, setUsername, imageUrl, setImageUrl, updateProfile, logout } =useContext(AuthContext);
+  const {
+    username,
+    setUsername,
+    imageUrl,
+    setImageUrl,
+    updateProfile,
+    logout,
+  } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
@@ -15,7 +22,7 @@ const UserSettings = ({ onClose }) => {
   const [bgInput, setBgInput] = useState("");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -105,8 +112,8 @@ const UserSettings = ({ onClose }) => {
         throw new Error("Failed to delete account");
       }
 
-      logout(); // Выход из системы
-      navigate("/register"); // Перенаправляем на страницу входа
+      logout();
+      navigate("/register");
     } catch (error) {
       console.error("Error deleting account:", error);
     }
@@ -119,18 +126,21 @@ const UserSettings = ({ onClose }) => {
     } else if (file) {
       const formData = new FormData();
       formData.append("image", file);
-  
+
       try {
-        const response = await fetch("http://localhost:3001/api/upload-background", {
-          method: "POST",
-          body: formData,
-          credentials: "include",
-        });
-  
+        const response = await fetch(
+          "http://localhost:3001/api/upload-background",
+          {
+            method: "POST",
+            body: formData,
+            credentials: "include",
+          }
+        );
+
         if (!response.ok) {
           throw new Error("Failed to upload background image");
         }
-  
+
         const data = await response.json();
         localStorage.setItem("backgroundImage", data.backgroundImage);
         updateBackground(data.backgroundImage);
@@ -145,7 +155,6 @@ const UserSettings = ({ onClose }) => {
       updateBackground(savedBg);
       setPreview(savedBg);
     } else {
-      // Запрашиваем фон из API
       fetch("http://localhost:3001/api/profile", {
         credentials: "include",
       })
@@ -159,67 +168,80 @@ const UserSettings = ({ onClose }) => {
         .catch((error) => console.error("Error fetching background:", error));
     }
   }, []);
-  
-const handleFileChange = (event) => {
-  const selectedFile = event.target.files[0];
 
-  if (selectedFile) {
-    const objectURL = URL.createObjectURL(selectedFile);
-    setPreview(objectURL);
-    setFile(selectedFile);
-  }
-};
-const handleResetBackground = async () => {
-  // Удаляем фон в UI
-  updateBackground(""); 
-  setBgInput("");
-  setFile(null);
-  setPreview("");
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
 
-  // Удаляем фон из localStorage
-  localStorage.removeItem("backgroundImage");
+    if (selectedFile) {
+      const objectURL = URL.createObjectURL(selectedFile);
+      setPreview(objectURL);
+      setFile(selectedFile);
+    }
+  };
+  const handleResetBackground = async () => {
+    updateBackground("");
+    setBgInput("");
+    setFile(null);
+    setPreview("");
 
-  // Удаляем фон с сервера
-  try {
-    await fetch("http://localhost:3001/api/delete-background", {
-      method: "DELETE",
-      credentials: "include",
-    });
-  } catch (error) {
-    console.error("Error deleting background:", error);
-  }
-};
+    localStorage.removeItem("backgroundImage");
+
+    try {
+      await fetch("http://localhost:3001/api/delete-background", {
+        method: "DELETE",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Error deleting background:", error);
+    }
+  };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      
+    <div className="settings-modal-overlay" onClick={onClose}>
       <div className="user-settings-modal" onClick={(e) => e.stopPropagation()}>
- {/* Кнопка закрытия (иконка крестика) */}
- <button className="close-btn" onClick={onClose}>
+        <button className="settings-close-btn" onClick={onClose}>
           <X size={24} />
         </button>
-
 
         <h2>User Settings</h2>
 
         {image ? (
           <img src={image} alt="Profile Preview" className="profile-preview" />
         ) : (
-          <img src={imageUrl} alt="Current Avatar" className="profile-preview" />
+          <img
+            src={imageUrl}
+            alt="Current Avatar"
+            className="profile-preview"
+          />
         )}
-             <label className="file-label">
-  <span className="upload-btn"> Upload New Avatar</span>
-  <input type="file" accept="image/*" onChange={handleImageChange} className="file-input" />
-</label>
+        <label className="file-label">
+          <span className="upload-btn"> Upload New Avatar</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="file-input"
+          />
+        </label>
 
         <label className="user-input-label">
           Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="user-text-input" />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="user-text-input"
+          />
         </label>
 
         <label className="user-input-label">
           Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="user-text-input" />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="user-text-input"
+          />
         </label>
 
         <label className="user-input-label">
@@ -231,37 +253,56 @@ const handleResetBackground = async () => {
             className="user-text-input"
           />
         </label>
-        
-
 
         <label className="file-label">
-        <span className="upload-image-btn"> Upload Background</span>
-          <input type="file" accept="image/*" onChange={handleFileChange} className="settings-image-input"/>
+          <span className="upload-image-btn"> Upload Background</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="settings-image-input"
+          />
         </label>
-        {preview && <img src={preview} alt="Background Preview" className="settings-preview-image" />}
-        <button onClick={handleBackgroundChange} className="save-btn">Set Background</button>
-        <button onClick={handleResetBackground} className="reset-btn">Reset Background</button>
-        
+        {preview && (
+          <img
+            src={preview}
+            alt="Background Preview"
+            className="settings-preview-image"
+          />
+        )}
+        <button onClick={handleBackgroundChange} className="save-btn">
+          Set Background
+        </button>
+        <button onClick={handleResetBackground} className="reset-btn">
+          Reset Background
+        </button>
 
         <button onClick={handleSave} disabled={loading} className="save-btn">
           {loading ? "Saving..." : "Save"}
         </button>
 
-        {/* 🔥 Кнопка удаления аккаунта */}
         <button onClick={() => setShowDeleteModal(true)} className="delete-btn">
           Delete Account
         </button>
 
-        {/* 🔥 Модальное окно подтверждения */}
         {showDeleteModal && (
-          <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
+          <div
+            className="settings-modal-overlay"
+            onClick={() => setShowDeleteModal(false)}
+          >
             <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
               <h3>Are you sure you want to delete your account?</h3>
               <p>This action is irreversible.</p>
-              <button onClick={handleDeleteAccount} className="confirm-delete-btn">
+              <button
+                onClick={handleDeleteAccount}
+                className="confirm-delete-btn"
+              >
                 Yes, delete my account
               </button>
-              <button onClick={() => setShowDeleteModal(false)} className="cancel-btn">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="cancel-btn"
+              >
                 Cancel
               </button>
             </div>
@@ -273,4 +314,3 @@ const handleResetBackground = async () => {
 };
 
 export default UserSettings;
-

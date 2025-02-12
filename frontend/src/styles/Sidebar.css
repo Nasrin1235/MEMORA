@@ -6,8 +6,6 @@
   flex-direction: column;
   padding: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(40px);
-
 }
 
 .sidebar-menu ul {
