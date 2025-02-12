@@ -53,7 +53,7 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
           </li>
           <li>
             <button onClick={() => setShowSettings(true)} className="menu-item">
-              <Settings size={20} /> <span>Settings</span>
+              <Settings size={20} /><span>Settings</span>
             </button>
           </li>
         </ul>
