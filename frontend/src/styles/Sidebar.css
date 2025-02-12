@@ -230,6 +230,10 @@ button,.menu-item,span{
   .sidebar-add-story-btn {
     display: none;
   }
+  .search-toggle,
+  .sidebar-add-story-btn {
+    display: none;
+  }
  
 
 }

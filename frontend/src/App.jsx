@@ -8,11 +8,15 @@ import AtlasPage from "./pages/AtlasPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import { AuthProvider } from "./context/AuthContext";
 import MediaPage from "./pages/MediaPage";
+import MobileHeader from "./components/MobileHeader";
+
 
 
 function App() {
   return (
     <AuthProvider>
+      {window.matchMedia("(max-width: 768px)").matches && <MobileHeader />}
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
