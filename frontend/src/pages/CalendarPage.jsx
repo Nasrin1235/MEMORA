@@ -58,7 +58,7 @@ const CalendarPage = () => {
     <div className="calendar-layout">
       <Sidebar />
       <div className="calendar-container">
-        <h2>📅 Calendar</h2>
+       
         {events.length === 0 ? (
           <p>Loading events...</p>
         ) : (
@@ -86,14 +86,14 @@ const CalendarPage = () => {
       </div>
 
       {selectedMemory && (
-        <div className="modal-overlay" onClick={() => setSelectedMemory(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="calendar-modal-overlay" onClick={() => setSelectedMemory(null)}>
+          <div className="calendar-modal" onClick={(e) => e.stopPropagation()}>
             <h2>{selectedMemory.title}</h2>
             {selectedMemory.imageUrl && (
               <img
                 src={selectedMemory.imageUrl}
                 alt={selectedMemory.title}
-                className="modal-image"
+                className="calendar-modal-image"
               />
             )}
             <p>
@@ -107,7 +107,7 @@ const CalendarPage = () => {
             <p>{selectedMemory.description}</p>
             <button
               onClick={() => setSelectedMemory(null)}
-              className="cancel-btn"
+              className="calendar-cancel-btn"
             >
               Close
             </button>
