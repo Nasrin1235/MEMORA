@@ -52,10 +52,10 @@ const MediaPage = () => {
               className="media-modal-image"
             />
             <p>
-              <strong>📅 Date:</strong> {new Date(selectedMemory.visitedDate).toLocaleDateString()}
+              <strong>Date:</strong> {new Date(selectedMemory.visitedDate).toLocaleDateString()}
             </p>
             <p>
-              <strong>📍 Location:</strong> {selectedMemory.cityName || "Unknown"}
+              <strong>Location:</strong> {selectedMemory.cityName || "Unknown"}
             </p>
             <p className="media-modal-description">{selectedMemory.memorie}</p>
             <button onClick={() => setSelectedMemory(null)} className="media-cancel-btn">Close</button>

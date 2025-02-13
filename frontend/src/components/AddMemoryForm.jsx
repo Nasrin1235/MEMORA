@@ -109,7 +109,7 @@ const AddMemoryForm = ({ onClose }) => {
 
       await addMemory.mutateAsync({
         title,
-        memory,
+        memorie: memory,
         cityName: visitedLocation, // Save city name
         visitedLocation: coordinates, // Save coordinates
         visitedDate,

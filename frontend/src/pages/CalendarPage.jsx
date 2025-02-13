@@ -30,6 +30,7 @@ const CalendarPage = () => {
           extendedProps: {
             description: memory.memorie,
             location: memory.visitedLocation,
+            cityName: memory.cityName, 
             imageUrl: memory.imageUrl,
           },
         }));
@@ -49,6 +50,7 @@ const CalendarPage = () => {
       title: e.event.title,
       description: e.event.extendedProps.description,
       location: e.event.extendedProps.location,
+      cityName: e.event.extendedProps.cityName,
       visitedDate: e.event.start,
       imageUrl: e.event.extendedProps.imageUrl,
     });
@@ -98,12 +100,12 @@ const CalendarPage = () => {
               />
             )}
             <p>
-              <strong>📅 Date:</strong>{" "}
+              <strong>Date:</strong>{" "}
               {new Date(selectedMemory.visitedDate).toLocaleDateString()}
             </p>
             <p>
-              <strong>📍 Location:</strong>{" "}
-              {selectedMemory.location || "Unknown"}
+              <strong> Location:</strong>{" "}
+              {selectedMemory.cityName || "Unknown"}
             </p>
             <p>{selectedMemory.description}</p>
             <button

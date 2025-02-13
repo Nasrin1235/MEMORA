@@ -63,7 +63,9 @@ const MainPage = () => {
 
       <div className="memory-detail-container">
         {!showForm && selectedMemoryId ? ( 
-          <MemoryDetail memoryId={selectedMemoryId} />
+          <MemoryDetail memoryId={selectedMemoryId}
+          onClose={() => setSelectedMemoryId(null)}
+          />
         ) : (
           <p>Select a memory to view.</p>
         )}

@@ -47,9 +47,9 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
       memorie,
       cityName,
       visitedLocation,
-      isFavorite: isFavorite || false, // По умолчанию false, если не передано
+      isFavorite: isFavorite || false,
       userId: req.user.id,
-      imageUrl: imageUrl || "", // Если фото нет — оставляем пустую строку
+      imageUrl: imageUrl || "", 
       visitedDate,
     });
 

@@ -2,10 +2,10 @@ import { useState, useContext, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import "../styles/MemoryDetail.css";
-import { Star, Edit, Trash2, Calendar } from "lucide-react";
+import { Star, Edit, Trash2, Calendar, X } from "lucide-react";
 import { MemoryContext } from "../context/MemoryContext.jsx";
 
-const MemoryDetail = ({ memoryId }) => {
+const MemoryDetail = ({ memoryId, onClose }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { updateMemory, uploadImage } = useContext(MemoryContext);
@@ -128,6 +128,11 @@ const MemoryDetail = ({ memoryId }) => {
 
   return (
     <div className="memoryDetail">
+
+       {/* Close Button */}
+       <button className="memoryDetail-close-btn" onClick={onClose}>
+        <X size={24} />
+      </button>
       <h2 className="memoryDetail-title">{memory.title}</h2>
 
       {memory.imageUrl ? (
