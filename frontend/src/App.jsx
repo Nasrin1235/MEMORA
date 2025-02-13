@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
@@ -8,11 +9,24 @@ import AtlasPage from "./pages/AtlasPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import { AuthProvider } from "./context/AuthContext";
 import MediaPage from "./pages/MediaPage";
+import MobileHeader from "./components/MobileHeader";
+
 
 
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <AuthProvider>
+     {isMobile && <MobileHeader />}
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />

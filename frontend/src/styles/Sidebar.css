@@ -165,6 +165,23 @@
   width: 220px;
   border-color: #696c6e;
 }
+button,.menu-item{
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #292727;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+button,.menu-item,span{
+  font-size: 18px;
+  color: #292727;
+  display: flex;
+  gap: 10px;
+}
+
 
 @media screen and (max-width: 768px) {
   .sidebar {
@@ -214,13 +231,16 @@
   .sidebar-add-story-btn {
     display: none;
   }
+  .search-toggle,
+  .sidebar-add-story-btn {
+    display: none;
+  }
+ 
+
 }
 .search-input[type = "text"] {
-  border: none;
- padding: 1rem;
- border-radius: 1rem;
- background: #e8e8e8;
- transition: 0.3s;
+
+ display: none;
 }
 
 .search-input:focus {
@@ -228,4 +248,5 @@
  background: #e8e8e8;
  transition: 0.3s;
 }
+
  

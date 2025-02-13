@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from "react"
 import { AuthContext } from "../context/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import AddMemoryForm from "../components/AddMemoryForm";
@@ -6,6 +6,7 @@ import SearchMemory from "../components/SearchMemory";
 import { NavLink } from "react-router-dom";
 import { Calendar, Camera, Map, Star, Home, Settings } from "lucide-react";
 import UserSettings from "../components/UserSettings";
+import MobileHeader from "../components/MobileHeader";
 import "../styles/Sidebar.css";
 
 const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
@@ -20,6 +21,9 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
   };
 
   return (
+  <>
+    {window.innerWidth <= 768 && <MobileHeader onSearch={handleSearch} />}
+
     <div className="sidebar">
       <div className="search-section">
         <SearchMemory onSearch={handleSearch} />
@@ -53,7 +57,7 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
           </li>
           <li>
             <button onClick={() => setShowSettings(true)} className="menu-item">
-              <Settings size={20} /> <span>Settings</span>
+              <Settings size={20} /><span>Settings</span>
             </button>
           </li>
         </ul>
@@ -64,7 +68,7 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
           className="sidebar-add-story-btn"
           onClick={() => {
             setShowForm(true);
-            setSelectedMemoryId(null); // 🚀 بستن MemoryDetail
+            setSelectedMemoryId(null);
           }}
         >
           Add Story
@@ -104,6 +108,7 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
         )}
       </div>
     </div>
+  </>
   );
 };
 
