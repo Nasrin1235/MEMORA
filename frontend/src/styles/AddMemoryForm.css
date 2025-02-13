@@ -47,7 +47,6 @@
 .addMemoryForm-modal textarea {
   width: 100%;
   padding: 10px;
-
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
@@ -116,6 +115,33 @@
 .location-button:hover {
   background: #302823;
 }
+.addMemoryForm-modal input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: #f8f8f8; 
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+
+.addMemoryForm-modal input[type="date"]:focus {
+  border-color: #8c8e91; 
+  outline: none; 
+}
+
+
+.addMemoryForm-modal input[type="date"]:valid {
+  border-color:#8c8e91;
+ 
+}
+.addMemoryForm-modal input[type="date"]:invalid {
+  border-color: #dc3545; 
+}
+
+
 
 .addMemoryForm-uploaded-image {
   max-width: 100%;
@@ -181,38 +207,37 @@
     padding: 20px;
   }
   
-  
-  
-
-}
-.addMemoryForm-modal input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  background-color: #f8f8f8; 
-  color: #333;
-  transition: border-color 0.3s ease;
 }
 
-
-.addMemoryForm-modal input[type="date"]:focus {
-  border-color: #8c8e91; 
-  outline: none; 
-}
-
-
-.addMemoryForm-modal input[type="date"]:valid {
-  border-color:#8c8e91;
- 
-}
-.addMemoryForm-modal input[type="date"]:invalid {
-  border-color: #dc3545; 
-}
-
-@media screen and (max-width: 900px) {
-  .addMemoryForm-modal input[type="date"] {
-    font-size: 14px; 
+@media screen and (max-width: 600px) {
+  .addMemoryForm-modal {
+    width: 90%;
+    padding: 20px;
+   
   }
+  .addForm-h2{
+    font-size: 18px;
+   
+  }
+  .addMemoryForm-modal input,
+.addMemoryForm-modal textarea {
+  font-size: 14px;
+  padding: 4px;
+
+}
+.addMemoryForm-modal button{
+  font-size: 16px;
+}
+.custom-file-upload{
+  padding: 10px 15px;
+  font-size: 14px;}
+
+  .addMemoryForm-modal input[type="date"] {
+    font-size: 13px;
+    padding: 4px;
+  }
+  .addMemoryForm-modal button{
+    padding: 8px 12px;
+  }
+
 }
