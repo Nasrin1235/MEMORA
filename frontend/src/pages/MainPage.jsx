@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Sidebar from "../components/Sidebar";
@@ -19,6 +19,16 @@ const MainPage = () => {
   const [selectedMemoryId, setSelectedMemoryId] = useState(null);
   const [showForm, setShowForm] = useState(false); 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [ isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1700);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1700);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const {
     data: memories,
@@ -36,42 +46,41 @@ const MainPage = () => {
       )
     : memories;
 
-  return (
-    <div className="main-page">
-      <Sidebar
-        setFilteredMemories={(filter) => setSearchParams(filter ? { filter } : {})}
-        setSelectedMemoryId={setSelectedMemoryId} 
-        setShowForm={setShowForm} 
-      />
-
-      <div className="memory-list-container">
-        {isLoading && <p>Loading memories...</p>}
-        {error && <p>{error.message}</p>}
-        {filteredMemories ? (
-          <MemoryList
-            memories={filteredMemories}
-            onMemorySelect={(memory) => {
-              if (!showForm) { 
-                setSelectedMemoryId(memory._id);
-              }
-            }}
-          />
-        ) : (
-          <p>No memories available.</p>
+    return (
+      <div className="main-page">
+        <Sidebar
+          setFilteredMemories={(filter) => setSearchParams(filter ? { filter } : {})}
+          setSelectedMemoryId={setSelectedMemoryId}
+          setShowForm={setShowForm}
+        />
+  
+        <div className={`memory-list-container ${isSmallScreen && selectedMemoryId ? "hidden" : ""}`}>
+          {isLoading && <p>Loading memories...</p>}
+          {error && <p>{error.message}</p>}
+          {filteredMemories ? (
+            <MemoryList
+              memories={filteredMemories}
+              onMemorySelect={(memory) => {
+                if (!showForm) {
+                  setSelectedMemoryId(memory._id);
+                }
+              }}
+            />
+          ) : (
+            <p>No memories available.</p>
+          )}
+        </div>
+  
+        {selectedMemoryId && (
+          <div className="memory-detail-container">
+            <MemoryDetail 
+              memoryId={selectedMemoryId}
+              onClose={() => setSelectedMemoryId(null)}
+            />
+          </div>
         )}
       </div>
-
-      <div className="memory-detail-container">
-        {!showForm && selectedMemoryId ? ( 
-          <MemoryDetail memoryId={selectedMemoryId}
-          onClose={() => setSelectedMemoryId(null)}
-          />
-        ) : (
-          <p>Select a memory to view.</p>
-        )}
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default MainPage;

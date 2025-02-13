@@ -182,3 +182,20 @@
 .memoryDetail-close-btn:hover {
   color: red;
 }
+
+@media screen and (max-width: 1700px) {
+  .memory-detail-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+  }
+}
+
