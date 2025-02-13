@@ -60,4 +60,10 @@
   display: none;
 }
 
+@media screen and (max-width: 1700px) {
+  .memory-list-container.hidden {
+    display: none; 
+  }
+}
+
 
