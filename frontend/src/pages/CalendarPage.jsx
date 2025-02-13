@@ -103,7 +103,7 @@ const CalendarPage = () => {
             </p>
             <p>
               <strong>📍 Location:</strong>{" "}
-              {selectedMemory.location || "Unknown"}
+              {selectedMemory.cityName || "Unknown"}
             </p>
             <p>{selectedMemory.description}</p>
             <button

@@ -13,31 +13,35 @@
     z-index: 1000;
   }
   
-  /* Иконки поиска и добавления */
+ 
   .mobile-search-toggle,
-  .mobile-add-story-btn {
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    color: #6e4040;
-  }
-  
-  /* Поле поиска */
-  .mobile-search-input {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    display: none;
-  }
-  
-  .mobile-search-input:focus {
-    display: block;
-  }
+.mobile-add-story-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color:#292727;
+}
+
+
+.mobile-search-input {
+  position: absolute;
+
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  padding: 7px;
+  font-size: 12px;
+  border: 1px solid #292727;
+  border-radius: 5px;
+  outline: none;
+  background: white;
+  display: none; 
+}
+
+
+.mobile-search-input.visible {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}

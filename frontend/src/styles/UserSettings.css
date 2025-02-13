@@ -191,11 +191,10 @@ h2 {
   .reset-btn,
   .delete-btn,
   .save-btn {
-    width: 45%; /* Чтобы уместить в две колонки */
+    width: 45%; 
   }
 }
 
-/* 📌 **Адаптация для телефонов (до 600px)** */
 
 
 @media screen and (max-width: 600px) {
@@ -204,14 +203,14 @@ h2 {
     padding: 12px;
   }
   h2 {
-    font-size: 12px;
+    font-size: 13px;
   }
   .profile-preview {
     width: 80px;
     height: 80px;
   }
   .user-text-input {
-    font-size: 12px;
+    font-size: 13px;
     padding: 4px;
   }
   .reset-btn,
@@ -219,12 +218,12 @@ h2 {
   .save-btn,
   .upload-btn,
   .upload-image-btn {
-    font-size: 10px;
+    font-size: 13px;
     padding: 8px;
     max-width: 200px;
   }
   .user-input-label {
-    font-size: 12px;
+    font-size: 13px;
   }
   .settings-preview-image {
     width: 100%;

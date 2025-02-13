@@ -238,11 +238,8 @@ button,.menu-item,span{
 
 }
 .search-input[type = "text"] {
-  border: none;
- padding: 1rem;
- border-radius: 1rem;
- background: #e8e8e8;
- transition: 0.3s;
+
+ display: none;
 }
 
 .search-input:focus {
