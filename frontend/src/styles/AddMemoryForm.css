@@ -16,7 +16,7 @@
 .addMemoryForm-modal {
   background: white;
   padding: 30px;
-  border-radius: 16px;
+  border-radius: 3px;
   width: 70%;
   max-width: 800px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -25,6 +25,11 @@
   position: relative;
   z-index: 1003;
   pointer-events: auto;
+}
+.addForm-h2{
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 @keyframes fadeIn {
@@ -41,17 +46,21 @@
 .addMemoryForm-modal input,
 .addMemoryForm-modal textarea {
   width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 12px;
+  padding: 10px;
+
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
+  margin-bottom: 15px;
   transition: border 0.3s;
+}
+.location-input-city[type="text"]{
+  margin-bottom: 0;
 }
 
 .addMemoryForm-modal input:focus,
 .addMemoryForm-modal textarea:focus {
-  border: 1px solid #007bff;
+  border: 2px solid #8c8e91;
   outline: none;
 }
 
@@ -61,31 +70,53 @@
   background: #f8f8f8;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px; 
 }
 
 .addMemoryForm-modal button {
-  background: linear-gradient(135deg, #007bff, #001933);
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  flex: 1; 
+  padding: 10px 15px;
   font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
   transition: background 0.3s;
-  margin-right: 1rem;
-}
-
-.addMemoryForm-modal button:hover {
-  background: linear-gradient(135deg, #0056b3, #003f7f);
 }
 
 .addMemoryForm-modal .cancel-btn {
-  background: linear-gradient(135deg, #f80505, #330000);
+  background: hwb(351 66% 31%);
+  color: white;
 }
 
 .addMemoryForm-modal .cancel-btn:hover {
-  background: linear-gradient(135deg, #910d0d, #9e0000);
+  background: #302823;
 }
+
+
+.addMemoryForm-modal button[type="submit"] {
+  background: hwb(351 66% 31%);
+  color: white;
+}
+
+.addMemoryForm-modal button[type="submit"]:hover {
+  background: #302823;
+}
+.location-button {
+  background: hwb(351 66% 31%);
+  color: white;
+  margin: 10px 5px;
+}
+
+.location-button:hover {
+  background: #302823;
+}
+
 .addMemoryForm-uploaded-image {
   max-width: 100%;
   max-height: 200px;
@@ -97,16 +128,15 @@
 }
 .addMemoryForm-suggestions-list {
   position: absolute;
-  width: 100%;
+  width: 80%; 
   background: white;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 3px;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
   list-style: none;
   padding: 0;
-  margin: 5px 0;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -120,9 +150,69 @@
 .addMemoryForm-suggestion-item:hover {
   background: #f1f1f1;
 }
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f3f3f3;
+  color: #555;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  border: 2px dashed #ccc;
+}
 
-.addMemoryForm-suggestion-item.active {
-  background: #007bff;
-  color: white;
-  font-weight: bold;
+
+.custom-file-upload:hover {
+  background: #e0e0e0;
+  border-color: #a89f78;
+}
+
+.upload-icon {
+  font-size: 20px;
+}
+
+@media screen and (max-width: 900px) {
+  .addMemoryForm-modal {
+    width: 80%;
+    padding: 20px;
+  }
+  
+  
+  
+
+}
+.addMemoryForm-modal input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: #f8f8f8; 
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+
+.addMemoryForm-modal input[type="date"]:focus {
+  border-color: #8c8e91; 
+  outline: none; 
+}
+
+
+.addMemoryForm-modal input[type="date"]:valid {
+  border-color:#8c8e91;
+ 
+}
+.addMemoryForm-modal input[type="date"]:invalid {
+  border-color: #dc3545; 
+}
+
+@media screen and (max-width: 900px) {
+  .addMemoryForm-modal input[type="date"] {
+    font-size: 14px; 
+  }
 }

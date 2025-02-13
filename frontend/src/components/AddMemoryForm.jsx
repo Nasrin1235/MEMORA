@@ -21,7 +21,9 @@ const AddMemoryForm = ({ onClose }) => {
   const fetchCoordinates = async (location) => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          location
+        )}`
       );
       const data = await response.json();
       if (data.length > 0) {
@@ -44,7 +46,9 @@ const AddMemoryForm = ({ onClose }) => {
 
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(query)}`,
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(
+          query
+        )}`,
         {
           headers: {
             "Accept-Language": "en",
@@ -55,7 +59,11 @@ const AddMemoryForm = ({ onClose }) => {
 
       const citySuggestions = data
         .map((item) => {
-          const city = item.address.city || item.address.town || item.address.village || item.address.municipality;
+          const city =
+            item.address.city ||
+            item.address.town ||
+            item.address.village ||
+            item.address.municipality;
           const country = item.address.country;
 
           if (city && country) {
@@ -67,7 +75,7 @@ const AddMemoryForm = ({ onClose }) => {
           }
           return null;
         })
-        .filter(Boolean); // Remove empty results
+        .filter(Boolean);
 
       setSuggestions(citySuggestions);
     } catch (error) {
@@ -139,7 +147,11 @@ const AddMemoryForm = ({ onClose }) => {
             const data = await response.json();
 
             if (data.address) {
-              const city = data.address.city || data.address.town || data.address.village || "Unknown City";
+              const city =
+                data.address.city ||
+                data.address.town ||
+                data.address.village ||
+                "Unknown City";
               const country = data.address.country || "Unknown Country";
               setVisitedLocation(`${city}, ${country}`);
             } else {
@@ -152,7 +164,9 @@ const AddMemoryForm = ({ onClose }) => {
         },
         (error) => {
           console.error("Geolocation error:", error);
-          setError("Failed to get location. Ensure you allowed location access.");
+          setError(
+            "Failed to get location. Ensure you allowed location access."
+          );
         }
       );
     } else {
@@ -165,7 +179,7 @@ const AddMemoryForm = ({ onClose }) => {
       <div className="addMemoryForm-modal">
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <p>Adding memory</p>
+          <h2 className="addForm-h2">Adding memory</h2>
           <input
             type="text"
             placeholder="Title (required)"
@@ -180,9 +194,9 @@ const AddMemoryForm = ({ onClose }) => {
             required
           />
 
-         
           <input
             type="text"
+            className="location-input-city"
             placeholder="Enter City (e.g. Paris, France)"
             value={visitedLocation}
             onChange={(e) => {
@@ -191,11 +205,6 @@ const AddMemoryForm = ({ onClose }) => {
             }}
             required
           />
-          <button type="button" onClick={getCurrentLocation}>
-            Use Current Location
-          </button>
-
-        
           {suggestions.length > 0 && (
             <ul className="addMemoryForm-suggestions-list">
               {suggestions.map((suggestion, index) => (
@@ -203,7 +212,7 @@ const AddMemoryForm = ({ onClose }) => {
                   key={index}
                   onClick={() => {
                     setVisitedLocation(suggestion.name);
-                    setSuggestions([]); // Clear list after selection
+                    setSuggestions([]); 
                   }}
                   className="addMemoryForm-suggestion-item"
                 >
@@ -212,6 +221,14 @@ const AddMemoryForm = ({ onClose }) => {
               ))}
             </ul>
           )}
+          <button
+            type="button"
+            className="location-button"
+            onClick={getCurrentLocation}
+          >
+            Use Current Location
+          </button>
+         
 
           <input
             type="date"
@@ -220,13 +237,29 @@ const AddMemoryForm = ({ onClose }) => {
             required
           />
 
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <label className="custom-file-upload">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              hidden
+            />
+            <span className="upload-icon">📂</span> Upload Image
+          </label>
 
-          {image && <img src={image} alt="Preview" className="addMemoryForm-uploaded-image" />}
-          <button type="submit">Add Memory</button>
-          <button type="button" onClick={onClose} className="cancel-btn">
-            Cancel
-          </button>
+          {image && (
+            <img
+              src={image}
+              alt="Preview"
+              className="addMemoryForm-uploaded-image"
+            />
+          )}
+          <div className="button-group">
+            <button type="submit">Add Memory</button>
+            <button type="button" onClick={onClose} className="cancel-btn">
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -234,5 +267,3 @@ const AddMemoryForm = ({ onClose }) => {
 };
 
 export default AddMemoryForm;
-
-
