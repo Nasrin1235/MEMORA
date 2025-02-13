@@ -68,6 +68,8 @@ const CalendarPage = () => {
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             events={events}
+            dayMaxEventRows={3}
+            moreLinkText="More"
             eventContent={(arg) => (
               <div className="calendar-event">
                 {arg.event.extendedProps.imageUrl && (
@@ -107,7 +109,7 @@ const CalendarPage = () => {
               <strong> Location:</strong>{" "}
               {selectedMemory.cityName || "Unknown"}
             </p>
-            <p>{selectedMemory.description}</p>
+            <p className="parag">{selectedMemory.description}</p>
             <button
               onClick={() => setSelectedMemory(null)}
               className="calendar-cancel-btn"
