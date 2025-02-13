@@ -90,6 +90,7 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
               />
               <p className="sidebar-username">{username}</p>
             </div>
+            
             <button className="sidebar-logout-btn" onClick={logout}>
               Logout
             </button>
