@@ -21,7 +21,7 @@ body {
     flex-grow: 1;
     height: 100vh;
     overflow-y: auto;
-    padding: 20px;
+
     background-color: white;
     margin-top: 20px;
 } 
