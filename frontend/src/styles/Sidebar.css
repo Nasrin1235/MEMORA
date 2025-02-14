@@ -210,10 +210,12 @@ span {
   }
   .sidebar-user-info{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 10px;
+  flex-direction: row; /* Выстраиваем элементы в ряд */
+  align-items: center;
+  justify-content: flex-end; /* Перемещаем всё вправо */
+  padding: 10px;
+  width: 100%;
+  gap: 12px;
   }
   .sidebar-user-details {
     display: flex;
@@ -234,8 +236,9 @@ span {
     border-radius: 3px;
     height: 30px;
     font-size: 13px;
-    padding: 5px 10px; 
+    padding: 5px 5px; 
     margin-top: 0; 
+  
     background: hwb(351 66% 31%);;
 
   }
