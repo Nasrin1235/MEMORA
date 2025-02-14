@@ -97,6 +97,24 @@
   width: 100%; 
 }
 
+@media screen and (max-width: 600px) {
+  .memorylist-item {
+    width: 80%; 
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .memorylist-item {
+    width: 60%; 
+  }
+}
+
+
+@media screen and (max-width: 400px) {
+  .memorylist-item {
+    width: 40%; 
+  }
+}
 
 
 

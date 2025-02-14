@@ -137,3 +137,12 @@
 }
 
 
+@media screen and (max-width: 768px) {
+ .fc-toolbar.fc-header-toolbar {
+   margin-top: 2rem;
+   display: flex;
+  font-size: 10px;
+ 
+  }
+}
+

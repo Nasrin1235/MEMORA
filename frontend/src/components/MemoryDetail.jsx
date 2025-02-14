@@ -159,17 +159,20 @@ const MemoryDetail = ({ memoryId, onClose }) => {
       <nav className="memoryDetail-bottom-nav">
         <button onClick={toggleFavorite} className="nav-btn">
           {isFavorite ? <Star color="gold" /> : <Star />}
-          {isFavorite ? " Remove from Favorites" : " Add to Favorites"}
+          {isFavorite ?  <span>Remove from Favorites</span>: <span>Add to Favorites</span> }
+          
+          
+
         </button>
 
         <button onClick={handleEdit} className="nav-btn">
-          <Edit /> Edit
+          <Edit /><span>Edit</span>
         </button>
         <button onClick={confirmDelete} className="nav-btn delete">
-          <Trash2 /> Delete
+          <Trash2 /> <span>Delete </span>
         </button>
         <button onClick={() => navigate("/calendar")} className="nav-btn">
-          <Calendar /> Calendar
+          <Calendar /><span>Calendar </span>
         </button>
       </nav>
 

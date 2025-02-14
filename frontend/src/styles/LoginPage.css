@@ -112,6 +112,8 @@
   @media (max-width: 768px) {
     .login-page {
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .login-image {
@@ -131,5 +133,6 @@
     .submit-button,
     .register-button {
       font-size: 0.9rem;
+      justify-content: center;
     }
   }
