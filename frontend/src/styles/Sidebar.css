@@ -61,7 +61,7 @@
 }
 
 .sidebar-menu li a.active {
-  color: #141414;
+  color: #7191bb;
 }
 
 .sidebar-add-story-btn {
@@ -78,7 +78,7 @@
 }
 
 .sidebar-add-story-btn:hover {
-  background: #5a0000;
+  background: #00095a;
 }
 
 .sidebar-user-info {
@@ -169,8 +169,6 @@ span {
   gap: 10px;
 }
 
-
-
 @media screen and (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -210,9 +208,9 @@ span {
   }
   .sidebar-user-info{
     display: flex;
-  flex-direction: row; /* Выстраиваем элементы в ряд */
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-end; /* Перемещаем всё вправо */
+  justify-content: flex-end;
   padding: 10px;
   width: 100%;
   gap: 12px;
