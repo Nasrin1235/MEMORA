@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { X } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 
 import "../styles/CalendarPage.css";
@@ -93,6 +94,11 @@ const CalendarPage = () => {
       {selectedMemory && (
         <div className="calendar-modal-overlay" onClick={() => setSelectedMemory(null)}>
           <div className="calendar-modal" onClick={(e) => e.stopPropagation()}>
+          <button
+              onClick={() => setSelectedMemory(null)}
+              className="calendar-cancel-btn">
+              <X size={24} />
+            </button>
             <h2>{selectedMemory.title}</h2>
             {selectedMemory.imageUrl && (
               <img
@@ -110,12 +116,7 @@ const CalendarPage = () => {
               {selectedMemory.cityName || "Unknown"}
             </p>
             <p className="parag">{selectedMemory.description}</p>
-            <button
-              onClick={() => setSelectedMemory(null)}
-              className="calendar-cancel-btn"
-            >
-              Close
-            </button>
+           
           </div>
         </div>
       )}
