@@ -4,7 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { X } from "lucide-react";
 import Sidebar from "../components/Sidebar";
-
 import "../styles/CalendarPage.css";
 
 const fetchMemories = async () => {
