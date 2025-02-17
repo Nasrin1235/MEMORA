@@ -85,19 +85,21 @@
   }
   
   .media-cancel-btn {
-    background: linear-gradient(135deg, #ff4b4b, #b30000);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: background 0.3s;
+    position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px; 
+
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s;
   }
   
   .media-cancel-btn:hover {
-    background: linear-gradient(135deg, #cc0000, #660000);
+    color: red;
+    transform: scale(1.2);
   }
   
   

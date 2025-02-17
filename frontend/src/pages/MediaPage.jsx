@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { X } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import "../styles/MediaPage.css";
 
@@ -45,6 +46,7 @@ const MediaPage = () => {
       {selectedMemory && (
         <div className="media-modal-overlay" onClick={() => setSelectedMemory(null)}>
           <div className="media-modal" onClick={(e) => e.stopPropagation()}>
+          <button onClick={() => setSelectedMemory(null)} className="media-cancel-btn">  <X size={24} /></button>
             <h2>{selectedMemory.title}</h2>
             <img
               src={selectedMemory.imageUrl}
@@ -58,7 +60,7 @@ const MediaPage = () => {
               <strong>Location:</strong> {selectedMemory.cityName || "Unknown"}
             </p>
             <p className="media-modal-description">{selectedMemory.memorie}</p>
-            <button onClick={() => setSelectedMemory(null)} className="media-cancel-btn">Close</button>
+           
           </div>
         </div>
       )}
