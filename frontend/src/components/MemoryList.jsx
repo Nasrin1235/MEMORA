@@ -10,13 +10,19 @@ const MemoryList = ({ onMemorySelect }) => {
   const [filteredMemories, setFilteredMemories] = useState([]);
 
   const { memories, error, isLoading } = memoryContext || {};
+
   useEffect(() => {
+    if (!Array.isArray(memories)) {
+      setFilteredMemories([]);
+      return;
+    }
+
     setFilteredMemories(
-      Array.isArray(memories)
-        ? memories.filter((memory) =>
-            memory.title.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-        : []
+      memories
+        .filter((memory) =>
+          memory.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => new Date(b.visitedDate || 0) - new Date(a.visitedDate || 0))
     );
   }, [memories, searchTerm]);
 
