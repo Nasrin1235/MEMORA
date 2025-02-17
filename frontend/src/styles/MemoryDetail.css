@@ -15,6 +15,11 @@
   word-wrap: break-word;
   position: relative;
 }
+.memoryDetail::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
 
 .memoryDetail-title {
   font-size: 28px;
