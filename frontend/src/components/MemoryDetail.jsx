@@ -16,6 +16,24 @@ const MemoryDetail = ({ memoryId, onClose }) => {
   const [newImage, setNewImage] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
+const fetchCoordinates = async (location) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+      );
+      const data = await response.json();
+      if (data.length > 0) {
+        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+      return null;
+    }
+  };
+  
+
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(savedFavorites);
@@ -83,7 +101,7 @@ const MemoryDetail = ({ memoryId, onClose }) => {
     setEditedMemory({
       title: memory.title,
       memorie: memory.memorie,
-      visitedLocation: memory.visitedLocation,
+      visitedLocation: memory.cityName,
       visitedDate: memory.visitedDate,
       imageUrl: memory.imageUrl,
     });
@@ -92,11 +110,13 @@ const MemoryDetail = ({ memoryId, onClose }) => {
 
   const handleSave = async () => {
     let imageUrl = editedMemory.imageUrl;
-
+    let newCoordinates = memory.visitedLocation; 
+  
+  
     if (newImage) {
       const formData = new FormData();
       formData.append("image", newImage);
-
+  
       try {
         const response = await uploadImage.mutateAsync(formData);
         imageUrl = response.imageUrl;
@@ -105,17 +125,44 @@ const MemoryDetail = ({ memoryId, onClose }) => {
         return;
       }
     }
-
-    await updateMemory.mutateAsync({
-      id: memory._id,
-      updatedMemory: { ...editedMemory, imageUrl },
-    });
-
-    await queryClient.invalidateQueries(["memory", memoryId]);
-    await queryClient.invalidateQueries(["memories"]);
-
-    setIsEditing(false);
+  
+  
+    if (editedMemory.visitedLocation !== memory.cityName) {
+      try {
+        newCoordinates = await fetchCoordinates(editedMemory.visitedLocation);
+        if (!newCoordinates) {
+          console.error("Error fetching coordinates");
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching new coordinates:", error);
+        return;
+      }
+    }
+  
+    
+    try {
+      await updateMemory.mutateAsync({
+        id: memory._id,
+        updatedMemory: { 
+          ...editedMemory, 
+          imageUrl, 
+          cityName: editedMemory.visitedLocation,
+          visitedLocation: newCoordinates, 
+        },
+      });
+  
+   
+      await queryClient.invalidateQueries(["memory", memoryId]);
+      await queryClient.invalidateQueries(["memories"]);
+  
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating memory:", error);
+    }
   };
+  
+  
 
   const confirmDelete = () => {
     setIsDeleting(true);

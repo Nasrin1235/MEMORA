@@ -137,6 +137,7 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
       title,
       memorie,
       visitedLocation,
+      cityName, 
       isFavorite,
       imageUrl,
       visitedDate,
@@ -152,7 +153,7 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(memoryId)) {
       return res
         .status(400)
-        .json({ error: "Invalid memory ID", details: error.message });
+        .json({ error: "Invalid memory ID" });
     }
 
     // Find the memories story by ID
@@ -170,11 +171,12 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
     }
 
     // Use a placeholder image if no new image is provided
-    const finalImageUrl = imageUrl || `http://localhost:3001/`; // Placeholder image URL
+    const finalImageUrl = imageUrl || `http://localhost:3001/`;
 
-    // Update the memories story
+    
     memories.title = title || memories.title;
     memories.memorie = memorie || memories.memorie;
+    memories.cityName = cityName || memories.cityName; 
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
     memories.isFavorite =
       isFavorite !== undefined ? isFavorite : memories.isFavorite;
@@ -192,6 +194,7 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Failed to update memories story" });
   }
 });
+
 
 // Search memories stories based on title or story content
 memoriesRouter.post("/search", isAuthenticated, async (req, res) => {
