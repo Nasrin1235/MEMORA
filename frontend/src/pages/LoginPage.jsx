@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/LoginPage.css";
@@ -8,7 +8,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUsername,setImageUrl } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+  const { setIsLoggedIn, setUsername, setImageUrl, updateBackground } = useContext(AuthContext);
 
   const mutation = useMutation({
     mutationFn: async ({ email, password }) => {
@@ -38,13 +39,27 @@ const LoginPage = () => {
 
         if (profileResponse.ok) {
           const profileData = await profileResponse.json();
-          setImageUrl(profileData.imageUrl || "/default-avatar.png"); // 🔥 Устанавливаем аватар сразу
+          setImageUrl(profileData.imageUrl || "/default-avatar.png");
+
+          
+          localStorage.removeItem("backgroundImage");
+
+          if (profileData.backgroundImage) {
+            updateBackground(profileData.backgroundImage);
+            localStorage.setItem("backgroundImage", profileData.backgroundImage);
+            document.body.style.backgroundImage = `url(${profileData.backgroundImage})`;
+          } else {
+            document.body.style.backgroundImage = "none";
+          }
         }
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
 
-      navigate("/main"); // Перенаправляем после входа
+     
+      queryClient.invalidateQueries(["memories"]);
+
+      navigate("/main");
     },
     onError: (error) => {
       alert(error.message);
@@ -101,6 +116,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
 
 
 

@@ -16,22 +16,36 @@ const AuthProvider = ({ children }) => {
           method: "GET",
           credentials: "include",
         });
-
+    
         if (response.ok) {
           const data = await response.json();
           setIsLoggedIn(true);
           setUsername(data.username);
           setImageUrl(data.imageUrl || "/default-avatar.png");
+    
+         
+          if (data.backgroundImage) {
+            setBackgroundImage(data.backgroundImage);
+            localStorage.setItem("backgroundImage", data.backgroundImage);
+            document.body.style.backgroundImage = `url(${data.backgroundImage})`;
+          } else {
+            localStorage.removeItem("backgroundImage");
+            document.body.style.backgroundImage = "none";
+          }
         } else {
           setIsLoggedIn(false);
           setUsername("");
           setImageUrl("/default-avatar.png");
+          localStorage.removeItem("backgroundImage");
+          document.body.style.backgroundImage = "none";
         }
       } catch (error) {
         console.error("Error validating token:", error);
         setIsLoggedIn(false);
         setUsername("");
         setImageUrl("/default-avatar.png");
+        localStorage.removeItem("backgroundImage");
+        document.body.style.backgroundImage = "none";
       }
     };
     checkToken();
@@ -43,7 +57,7 @@ const AuthProvider = ({ children }) => {
     const savedBackground = localStorage.getItem("backgroundImage");
     if (savedBackground) {
       setBackgroundImage(savedBackground);
-      document.body.style.backgroundImage = `url(${savedBackground})`; // Применяем фон сразу!
+      document.body.style.backgroundImage = `url(${savedBackground})`; 
       document.body.style.backgroundSize = "cover";
       document.body.style.backgroundPosition = "center";
     }
@@ -59,8 +73,8 @@ const AuthProvider = ({ children }) => {
     document.body.style.backgroundPosition = "center";
   } else {
     localStorage.removeItem("backgroundImage");
-    document.body.style.backgroundImage = "none"; // Убираем фон
-    document.body.style.backgroundColor = "#f7f9fa"; // Цвет по умолчанию
+    document.body.style.backgroundImage = "none"; 
+    document.body.style.backgroundColor = "#f7f9fa"; 
   }
 };
 
