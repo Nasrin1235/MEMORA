@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 const MemoryContext = createContext();
 
 const fetchMemories = async () => {
-  const response = await fetch("http://localhost:3001/api/memory/get", {
+  const response = await fetch("/api/memory/get", {
     method: "GET",
     credentials: "include",
   });
@@ -12,7 +12,7 @@ const fetchMemories = async () => {
   if (!response.ok) throw new Error("Failed to fetch memories");
 
   const data = await response.json();
-  console.log("Loaded from API:", data);  // <-- Добавленный лог
+  console.log("Loaded from API:", data);
   return data;
 };
 
@@ -28,7 +28,7 @@ const MemoryProvider = ({ children }) => {
   const addMemory = useMutation({
     mutationFn: async (newMemory) => {
       console.log("Sending to API:", newMemory); 
-      const response = await fetch("http://localhost:3001/api/memory/add-memories", {
+      const response = await fetch("/api/memory/add-memories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newMemory),
@@ -42,7 +42,7 @@ const MemoryProvider = ({ children }) => {
 
   const updateMemory = useMutation({
     mutationFn: async ({ id, updatedMemory }) => {
-      const response = await fetch(`http://localhost:3001/api/memory/${id}`, {
+      const response = await fetch(`/api/memory/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedMemory),
@@ -56,7 +56,7 @@ const MemoryProvider = ({ children }) => {
 
   const deleteMemory = useMutation({
     mutationFn: async (id) => {
-      const response = await fetch(`http://localhost:3001/api/memory/delete/${id}`, {
+      const response = await fetch(`/api/memory/delete/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -68,7 +68,7 @@ const MemoryProvider = ({ children }) => {
 
   const uploadImage = useMutation({
     mutationFn: async (formData) => {
-      const response = await fetch("http://localhost:3001/api/memory/upload-image", {
+      const response = await fetch("/api/memory/upload-image", {
         method: "POST",
         body: formData,
       });
@@ -79,7 +79,7 @@ const MemoryProvider = ({ children }) => {
 
   const deleteImage = useMutation({
     mutationFn: async (imageUrl) => {
-      const response = await fetch("http://localhost:3001/api/memory/delete-image", {
+      const response = await fetch("/api/memory/delete-image", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageUrl }),

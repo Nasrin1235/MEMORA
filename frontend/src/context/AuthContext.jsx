@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/profile", {
+        const response = await fetch("/api/profile", {
           method: "GET",
           credentials: "include",
         });
@@ -66,7 +66,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/logout", {
+      const response = await fetch("/api/logout", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

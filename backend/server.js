@@ -16,14 +16,6 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Setup CORS
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
 
 // Static file serving
 const _fileName = fileURLToPath(import.meta.url);
@@ -51,3 +43,5 @@ app.get("*", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+export default app;

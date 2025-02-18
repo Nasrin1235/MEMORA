@@ -52,7 +52,7 @@ const fetchCoordinates = async (location) => {
     queryFn: async () => {
       if (!memoryId) throw new Error("No memoryId provided");
       const response = await fetch(
-        `http://localhost:3001/api/memory/${memoryId}`,
+       `/api/memory/${memoryId}`,
         {
           credentials: "include",
         }
@@ -67,7 +67,7 @@ const fetchCoordinates = async (location) => {
   const deleteMemoryMutation = useMutation({
     mutationFn: async (id) => {
       const response = await fetch(
-        `http://localhost:3001/api/memory/delete/${id}`,
+       `/api/memory/delete/${id}`,
         {
           method: "DELETE",
           credentials: "include",

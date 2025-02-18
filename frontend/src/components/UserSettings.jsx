@@ -27,7 +27,7 @@ const UserSettings = ({ onClose }) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/profile", {
+        const response = await fetch("/api/profile", {
           credentials: "include",
         });
         const data = await response.json();
@@ -57,7 +57,7 @@ const UserSettings = ({ onClose }) => {
       formData.append("image", newImage);
 
       try {
-        const response = await fetch("http://localhost:3001/api/upload-image", {
+        const response = await fetch("/api/upload-image", {
           method: "POST",
           body: formData,
           credentials: "include",
@@ -77,7 +77,7 @@ const UserSettings = ({ onClose }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/api/update", {
+      const response = await fetch("/api/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, imageUrl: uploadedImageUrl }),
@@ -103,7 +103,7 @@ const UserSettings = ({ onClose }) => {
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/delete-account", {
+      const response = await fetch("/api/delete-account", {
         method: "DELETE",
         credentials: "include",
       });
@@ -129,7 +129,7 @@ const UserSettings = ({ onClose }) => {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/api/upload-background",
+          "/api/upload-background",
           {
             method: "POST",
             body: formData,
@@ -155,7 +155,7 @@ const UserSettings = ({ onClose }) => {
       updateBackground(savedBg);
       setPreview(savedBg);
     } else {
-      fetch("http://localhost:3001/api/profile", {
+      fetch("/api/profile", {
         credentials: "include",
       })
         .then((res) => res.json())
@@ -187,7 +187,7 @@ const UserSettings = ({ onClose }) => {
     localStorage.removeItem("backgroundImage");
 
     try {
-      await fetch("http://localhost:3001/api/delete-background", {
+      await fetch("/api/delete-background", {
         method: "DELETE",
         credentials: "include",
       });

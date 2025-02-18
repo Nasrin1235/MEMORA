@@ -7,7 +7,7 @@ import MemoryDetail from "../components/MemoryDetail";
 import "../styles/MainPage.css";
 
 const fetchMemories = async () => {
-  const response = await fetch("http://localhost:3001/api/memory/get", {
+  const response = await fetch("/api/memory/get", {
     method: "GET",
     credentials: "include",
   });

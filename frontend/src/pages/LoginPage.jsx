@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ email, password }) => {
-      const response = await fetch("http://localhost:3001/api/login", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -31,20 +31,20 @@ const LoginPage = () => {
       setUsername(data.username);
 
       try {
-        const profileResponse = await fetch("http://localhost:3001/api/profile", {
+        const profileResponse = await fetch("/api/profile", {
           method: "GET",
           credentials: "include",
         });
 
         if (profileResponse.ok) {
           const profileData = await profileResponse.json();
-          setImageUrl(profileData.imageUrl || "/default-avatar.png"); // 🔥 Устанавливаем аватар сразу
+          setImageUrl(profileData.imageUrl || "/default-avatar.png");
         }
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
 
-      navigate("/main"); // Перенаправляем после входа
+      navigate("/main"); 
     },
     onError: (error) => {
       alert(error.message);

@@ -98,7 +98,7 @@ userRouter.get("/profile", isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(401).json({ message: "Unauthorized" }); 
     }
     res.status(200).json({
       username: user.username,
@@ -138,7 +138,7 @@ userRouter.post(
       const user = await User.findById(req.user.id);
       if (!user) return res.status(404).json({ error: "User not found" });
 
-      user.backgroundImage = `http://localhost:3001/uploads/backgrounds/${req.file.filename}`;
+      user.backgroundImage = `/uploads/backgrounds/${req.file.filename}`;
       await user.save();
 
       res.status(200).json({
@@ -195,7 +195,7 @@ userRouter.post(
       const user = await User.findById(req.user.id);
       if (!user) return res.status(404).json({ error: "User not found" });
 
-      user.imageUrl = `http://localhost:3001/uploads/avatars/${req.file.filename}`;
+      user.imageUrl = `/uploads/avatars/${req.file.filename}`;
       await user.save();
 
       res.status(200).json({

@@ -17,7 +17,7 @@ memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
   try {
     res.status(200).json({
       message: "Image uploaded successfully",
-      imageUrl: `http://localhost:3001/uploads/${req.file.filename}`, // Link to the uploaded image
+      imageUrl: `/uploads/${req.file.filename}`, // Link to the uploaded image
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
