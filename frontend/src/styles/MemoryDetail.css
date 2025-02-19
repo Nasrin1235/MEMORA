@@ -210,8 +210,8 @@
 
   .memoryDetail-title {
     font-size: 16px;
-    padding-bottom: 0;
-    margin: 10px 0;
+    padding-top: 10px;
+    margin: 10px;
   }
   .memoryDetail-text {
     font-size: 14px;
