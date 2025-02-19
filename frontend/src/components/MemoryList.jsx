@@ -32,7 +32,6 @@ const MemoryList = ({ onMemorySelect }) => {
 
   return (
     <div className="memorylist">
-      <h2>My Memories</h2>
       <ul>
         {filteredMemories.map((memory) => (
           <li

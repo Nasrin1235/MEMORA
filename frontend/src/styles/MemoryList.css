@@ -1,4 +1,7 @@
 .memorylist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   max-height: 95vh;
   overflow-y: scroll;
   padding: 10px;
@@ -8,6 +11,7 @@
 
 .memorylist-item {
   background: white;
+  flex: 1 1 45%;
   max-width: 600px;
   padding: 15px;
   border-radius: 12px;
@@ -17,11 +21,10 @@
   align-items: center;
   gap: 15px;
   box-sizing: border-box;
-  margin: 10px;
-  min-height: 150px;
-  max-height: 150px; 
+  margin: 10px auto;
+  min-height: 200px;
   overflow: hidden;
-  width: 100%;
+  width: 90%;
 }
 
 .memorylist-content {
@@ -53,13 +56,11 @@
 }
 
 .memorylist-image {
-  width: 120px;
-  min-width: 70px;
-  max-width: 600px;
+  height: 100%;
+  max-height: 150px;
   border-radius: 8px;
   object-fit: cover;
   aspect-ratio: 16/9;
-  display: block;
 }
 
 .memorylist::-webkit-scrollbar {
@@ -70,51 +71,30 @@
   .memory-list-container.hidden {
     display: none; 
   }
-  .memorylist-item {
-    width: 100%; 
-    min-height: 180px; 
-    max-height: none; 
-    padding: 20px;
-    flex-direction: column; 
-    align-items: flex-start;
-  }
-
-  .memorylist-image {
-    width: 100%; 
-    height: auto; 
-    max-height: 250px;
-    border-radius: 8px;
-    object-fit: cover;
-  }
-
 }
 
-.memorylist {
-  max-height: 95vh;
-  overflow-y: scroll;
-  padding: 10px;
-  scrollbar-width: none;
-  width: 100%; 
+@media screen and (max-width: 900px) {
+  .memorylist-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .memorylist-image {
+    width: 100%; 
+    height: auto;
+    max-height: 200px; 
+  }
 }
 
 @media screen and (max-width: 600px) {
   .memorylist-item {
-    width: 80%; 
+    max-width: 100%;
   }
-}
-
-@media screen and (max-width: 520px) {
-  .memorylist-item {
-    width: 60%; 
+  .memorylist-image {
+    max-height: 100px; 
   }
 }
 
 
-@media screen and (max-width: 400px) {
-  .memorylist-item {
-    width: 40%; 
-  }
-}
 
 
 
