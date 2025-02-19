@@ -1,5 +1,7 @@
 import "../styles/HomePage.css"
 import { Link } from "react-router-dom";
+import ScrollingInfoBlock from "../components/ScrollingInfoBlock";
+
 import "../styles/HomePage.css";
 
 
@@ -21,7 +23,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
+      <ScrollingInfoBlock />
       <div className="homePage-video-section">
         <video autoPlay muted loop className="homePage-video-half">
           <source src="video-homepage.mp4" type="video/mp4" />
