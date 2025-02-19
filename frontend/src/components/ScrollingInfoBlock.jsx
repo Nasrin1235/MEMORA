@@ -5,47 +5,12 @@ const ScrollingInfoBlock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const images = [
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Venice gondola ride.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Sunset reflections.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Historic bridge.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Night lights.",
-    },
-
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Gondolier at work.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Scenic view.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Misty morning.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "City lights reflection.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Venetian boat ride.",
-    },
-    {
-      src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600",
-      text: "Historic architecture.",
-    },
+    { src: "henry-co--5IYF4pmMdY-unsplash (1).jpg", text: "Venice gondola ride." },
+    { src: "alessio-soggetti-KQBsTXCvGwM-unsplash.jpg", text: "Sunset reflections." },
+    { src: "ed-leszczynskl-KXNTfIg6rVM-unsplash.jpg", text: "Historic bridge." },
+    { src: "matt-antonioli-jF6Jei40HkQ-unsplash.jpg", text: "Night lights." },
+    { src: "alessio-soggetti-KQBsTXCvGwM-unsplash.jpg", text: "Gondolier at work." },
+    { src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600", text: "Scenic view." },
   ];
 
   return (
@@ -60,21 +25,30 @@ const ScrollingInfoBlock = () => {
       </div>
 
       <div className="info-image-container">
-        <div className="scrollable-image">
-          {images.map((image, index) => (
+        {images.map((image, index) => (
+          <div key={index} className={`image-wrapper ${index % 2 === 0 ? "left" : "right"}`}>
             <img
-              key={index}
               src={image.src}
               alt={`Memory ${index + 1}`}
               className="grid-image"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
 export default ScrollingInfoBlock;
+
+
+
+
+
+
+
+
+
+
