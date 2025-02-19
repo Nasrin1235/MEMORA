@@ -239,5 +239,8 @@
   .addMemoryForm-modal button{
     padding: 8px 12px;
   }
+  .addMemoryForm-uploaded-image {
+    max-height: 50px;
+  }
 
 }
