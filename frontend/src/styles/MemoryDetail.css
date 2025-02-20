@@ -6,7 +6,7 @@
   width: 90vw;
   max-width: 800px;
   margin: 50px auto;
-  height: 85vh;
+  height: 90vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -194,7 +194,7 @@
 
 @media screen and (max-width: 1700px) {
   .memoryDetail {
-   min-height: 20vh;
+  height: 70vh;
    overflow-y: auto;
   }
   .memory-detail-container {
@@ -208,4 +208,10 @@
     align-items: center;
     overflow-y: auto;
   }
+}
+
+@media screen and (max-width: 500px) {
+  .memoryDetail {
+    height:70vh;
+    }
 }

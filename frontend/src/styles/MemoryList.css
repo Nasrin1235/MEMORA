@@ -88,10 +88,10 @@
 
 @media screen and (max-width: 600px) {
   .memorylist-item {
-    max-width: 60%;
+    max-width:60%;
   }
   .memorylist-image {
-    max-height: 100px; 
+    min-height: 200px; 
   }
 }
 
