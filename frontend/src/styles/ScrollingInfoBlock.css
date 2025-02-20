@@ -44,7 +44,7 @@
 
 
 .image-wrapper {
-  width:60%; 
+  width:100%; 
   display: flex;
   align-items: center;
   transition: transform 0.3s ease-in-out;
@@ -61,7 +61,7 @@
 
 
 .grid-image {
-  width: 30%; 
+  width: 60%; 
   height: auto;
   display: block;
   border-radius: 5px;
