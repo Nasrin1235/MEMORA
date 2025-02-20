@@ -74,8 +74,8 @@ const LoginPage = () => {
   return (
     <section className="login-page">
       <div className="login-image">
-        <img src="r-l.jpg" alt="Login Illustration" className="image" />
-        <div className="logo-text">MEMORA</div>
+        <img src="johnny-briggs-t4cZmkTdDyA-unsplash.jpg" alt="Login Illustration" className="image" />
+       
       </div>
       <div className="login-form">
         <h2 className="login-title">Welcome Back</h2>

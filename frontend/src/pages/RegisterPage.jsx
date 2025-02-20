@@ -51,7 +51,7 @@ const RegisterPage = () => {
   return (
     <section className="register-page">
       <div className="register-image">
-        <img src="r-l.jpg" alt="Register Illustration" className="image" />
+        <img src="johnny-briggs-t4cZmkTdDyA-unsplash.jpg" alt="Register Illustration" className="image" />
         <div className="logo-text">MEMORA</div>
       </div>
       <div className="register-form">
