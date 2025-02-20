@@ -30,6 +30,16 @@ const MainPage = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  
+  useEffect(() => {
+    if (selectedMemoryId && isSmallScreen) {
+      document.body.classList.add("hide-ui");
+    } else {
+      document.body.classList.remove("hide-ui");
+    }
+  }, [selectedMemoryId, isSmallScreen]);
+
+
   const {
     data: memories,
     error,

@@ -189,9 +189,12 @@
   color: red;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1700px) {
+ 
+  
   .memoryDetail {
-  height: 70vh;
+   width: 100vw;
+  height: 100vh;
    overflow-y: auto;
   }
   .memory-detail-container {
@@ -207,8 +210,13 @@
   }
 }
 
-@media screen and (max-width: 500px) {
-  .memoryDetail {
-    height:70vh;
-    }
+@media screen and (max-width: 750px) {
+  body.hide-ui .mobile-header {
+    display: none;
+  }
+  
+  body.hide-ui .sidebar {
+    display: none;
+  }
+  
 }
