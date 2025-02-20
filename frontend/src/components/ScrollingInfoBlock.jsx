@@ -16,18 +16,10 @@ const ScrollingInfoBlock = () => {
 
   return (
     <div className="scrolling-info-container">
-      <div className="info-text">
-        <h2>Stories That Stay With Us</h2>
-        <p>
-          {hoveredIndex !== null
-            ? images[hoveredIndex].text
-            : "Hover over an image to see its story."}
-        </p>
-      </div>
-
+      
       <div className="info-image-container">
         {images.map((image, index) => (
-          <div key={index} className={`image-wrapper ${index % 2 === 0 ? "left" : "right"}`}>
+          <div key={index} className={`image-wrapper ${index % 2 === 0 ? "right" : "left"}`}>
             <img
               src={image.src}
               alt={`Memory ${index + 1}`}
@@ -37,6 +29,11 @@ const ScrollingInfoBlock = () => {
             />
           </div>
         ))}
+      </div>
+
+      <div className="info-text">
+        <h2>Stories That Stay With Us</h2>
+        <p>{hoveredIndex !== null ? images[hoveredIndex].text : "Hover over an image to see its story."}</p>
       </div>
     </div>
   );

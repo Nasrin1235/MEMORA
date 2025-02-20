@@ -25,18 +25,18 @@ const HomePage = () => {
       </div>
       <ScrollingInfoBlock />
       <div className="homePage-video-section">
-        <video autoPlay muted loop className="homePage-video-half">
-          <source src="video-homepage.mp4" type="video/mp4" />
-          Ihr Browser unterstützt kein Video-Tag.
-        </video>
         <div className="video-text-container">
           <h2 className="video-title">lorem </h2>
           <p className="video-text">
            loerfdfghhj kjhlkjhjhkjhkjkk
           </p>
-          <Link to="/hana-bar-stool" className="explore-link">Explore all variants</Link>
         </div>
+        <video autoPlay muted loop className="homePage-video-half">
+          <source src="video-homepage.mp4" type="video/mp4" />
+          Ihr Browser unterstützt kein Video-Tag.
+        </video>
       </div>
+      
     </div>
   );
 };
