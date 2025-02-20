@@ -15,10 +15,10 @@ const HomePage = () => {
           <h2 className="slogan">Momente kommen und gehen, Erinnerungen bleiben.</h2>
           <div className="homePage-buttons">
             <Link to="/login">
-              <button className="btn homePage-login">Login</button>
+              <button className="btn-homePage homePage-login">Login</button>
             </Link>
             <Link to="/register">
-              <button className="btn homePage-register">Register</button>
+              <button className="btn-homePage homePage-register">Register</button>
             </Link>
           </div>
         </div>

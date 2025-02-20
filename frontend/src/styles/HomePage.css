@@ -12,16 +12,16 @@
     background-size: cover;
     background-position: center;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content:  flex-start;
+    align-items: flex-start;
     text-align: center;
     position: relative;
 }
 
 .homePage-titel {
-    width: 100%;
-    height: 100vh;
-    backdrop-filter: blur(2px);
+    width:50%;
+    height: 50vh;
+    background-color: #0e242100;
     padding: 2rem;
     border-radius: 10px;
     display: flex;
@@ -31,14 +31,15 @@
 }
 
 .h1-slogan {
-    font-size: 4rem;
+    font-size: 6rem;
     font-weight: bold;
     color: white;
+    letter-spacing: 0.1em;
 }
 
 .slogan {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 300;
     color: white;
     margin-bottom: 1.875rem;
 }
@@ -47,29 +48,36 @@
     display: flex;
     justify-content: center;
     gap: 1.25rem;
+    a {
+        text-decoration: none;
+    }
 }
 
-.btn {
-    padding: 0.75rem 1.5rem;
+.btn-homePage {
+    padding: 0.75rem ;
     font-size: 1rem;
-    border: none;
     cursor: pointer;
     border-radius: 0.3125rem;
     transition: 0.3s;
+    width: 8.5rem;
+    justify-content: center;
 }
 
 .homePage-login {
-    background-color: #f1e1d4;
-    color: #900c3f;
+    /* background-color: #550810; */
+    background-color: #0e2421;
+    color: #ffffff;
+    border: 2px solid #0e2421;
+   
 }
 
 .homePage-register {
-    background-color: #4b2f31;
+    border: 2px solid #0e2421;
     color: white;
 }
 
-.btn:hover {
-    opacity: 0.8;
+.btn-homePage:hover {
+    scale: 1.1;
 }
 
 
@@ -79,8 +87,8 @@
     justify-content: center;
     text-align: center;
     width: 100%;
-    height: 80vh;
-    background: #31130d;
+    height: 100vh;
+    background:  url("MEMORA (3).jpg");
     color: white;
     h2 {
         color: white;
@@ -89,9 +97,10 @@
 }
 
 .homePage-video-half{
-    width: 50%;
-    height: 100%;
+    width: 45%;
+    height: 90%;
     object-fit: cover;
+    border-radius: 20px;
 }
 
 .video-text-container {
@@ -111,7 +120,6 @@
 
 .explore-link {
     color: white;
-    text-decoration: underline;
     font-size: 1rem;
     cursor: pointer;
     transition: 0.3s;
@@ -143,15 +151,29 @@
 
 @media (max-width: 30rem) {
 
+    .homePage-titel {
+        width: 100%;
+    }
+    .homePage-header{
+        justify-content: center;
+        align-items: center;
+    }
+
     .h1-slogan {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
     .slogan {
         font-size: 1rem;
     }
 
-    .btn {
+    .btn-homePage{
         padding: 0.625rem 1.25rem;
+        width: 5rem;
+    }
+
+    .homePage-register{
+        background-color: #550810;
+        border: 2px solid #550810;
     }
 
     .video-overlay {

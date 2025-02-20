@@ -5,12 +5,13 @@ const ScrollingInfoBlock = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const images = [
-    { src: "henry-co--5IYF4pmMdY-unsplash (1).jpg", text: "Venice gondola ride." },
-    { src: "alessio-soggetti-KQBsTXCvGwM-unsplash.jpg", text: "Sunset reflections." },
-    { src: "ed-leszczynskl-KXNTfIg6rVM-unsplash.jpg", text: "Historic bridge." },
-    { src: "matt-antonioli-jF6Jei40HkQ-unsplash.jpg", text: "Night lights." },
-    { src: "alessio-soggetti-KQBsTXCvGwM-unsplash.jpg", text: "Gondolier at work." },
-    { src: "https://images.pexels.com/photos/417123/pexels-photo-417123.jpeg?auto=compress&cs=tinysrgb&w=600", text: "Scenic view." },
+    { src: "henry-co--5IYF4pmMdY-unsplash (1).jpg"},
+    { src: "joanna-kosinska-spAkZnUleVw-unsplash.jpg"},
+    { src: "alessio-soggetti-KQBsTXCvGwM-unsplash.jpg" },
+    { src: "debby-hudson-1tCQcTjLoRQ-unsplash.jpg" },
+    { src: "onur-kayaci-BQbFBjEwK04-unsplash.jpg" },
+    { src: "sebastian-pichler-MDGpwpMY2Ws-unsplash.jpg" },
+    
   ];
 
   return (
