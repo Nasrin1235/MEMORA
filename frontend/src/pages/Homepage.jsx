@@ -31,7 +31,7 @@ const HomePage = () => {
            loerfdfghhj kjhlkjhjhkjhkjkk
           </p>
         </div>
-        <video autoPlay muted loop className="homePage-video-half">
+        <video autoPlay muted loop playsInline className="homePage-video-half">
           <source src="video-homepage.mp4" type="video/mp4" />
           Ihr Browser unterstützt kein Video-Tag.
         </video>
