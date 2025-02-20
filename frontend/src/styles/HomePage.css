@@ -100,7 +100,7 @@
     width: 45%;
     height: 90%;
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 5px;
 }
 
 .video-text-container {
@@ -144,8 +144,22 @@
         font-size: 1.2rem;
     }
 
-    .video-overlay {
-        width: 80%;
+    .homePage-video-section {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        height: auto;
+        padding: 2rem 0;
+    }
+
+    .homePage-video-half {
+        width: 90%; 
+        height: auto;
+    }
+
+    .video-text-container {
+        width: 90%;
+        padding: 1rem;
     }
 }
 
@@ -174,11 +188,6 @@
     .homePage-register{
         background-color: #550810;
         border: 2px solid #550810;
-    }
-
-    .video-overlay {
-        width: 90%;
-        font-size: 1rem;
     }
 }
 

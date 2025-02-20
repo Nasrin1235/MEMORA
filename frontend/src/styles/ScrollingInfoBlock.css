@@ -37,12 +37,6 @@
   width: 5px;
 }
 
-.info-image-container::-webkit-scrollbar-thumb {
-  background: rgb(243, 243, 243);
-  border-radius: 10px;
-}
-
-
 .image-wrapper {
   width:100%; 
   display: flex;
