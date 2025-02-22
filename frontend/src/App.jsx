@@ -10,6 +10,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import { AuthProvider } from "./context/AuthContext";
 import MediaPage from "./pages/MediaPage";
 import MobileHeader from "./components/MobileHeader";
+import MemoryDetailPage from "./pages/MemoryDetailPage";
 
 
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/atlas" element={<AtlasPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/media" element={<MediaPage />} />
+        <Route path="/memory/:id" element={<MemoryDetailPage />} />
       </Routes>
     </AuthProvider>
   );

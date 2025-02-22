@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Sidebar from "../components/Sidebar";
 import MemoryList from "../components/MemoryList";
-import MemoryDetail from "../components/MemoryDetail";
 import "../styles/MainPage.css";
 
 const fetchMemories = async () => {
@@ -16,10 +15,10 @@ const fetchMemories = async () => {
 };
 
 const MainPage = () => {
-  const [selectedMemoryId, setSelectedMemoryId] = useState(null);
-  const [showForm, setShowForm] = useState(false); 
+  const [showForm, setShowForm] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [ isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1700);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1700);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,16 +28,6 @@ const MainPage = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  
-  useEffect(() => {
-    if (selectedMemoryId && isSmallScreen) {
-      document.body.classList.add("hide-ui");
-    } else {
-      document.body.classList.remove("hide-ui");
-    }
-  }, [selectedMemoryId, isSmallScreen]);
-
 
   const {
     data: memories,
@@ -52,45 +41,39 @@ const MainPage = () => {
 
   const filteredMemories = searchParams.get("filter")
     ? memories?.filter((memory) =>
-        memory.title.toLowerCase().includes(searchParams.get("filter").toLowerCase())
+        memory.title
+          .toLowerCase()
+          .includes(searchParams.get("filter").toLowerCase())
       )
     : memories;
 
-    return (
-      <div className="main-page">
-        <Sidebar
-          setFilteredMemories={(filter) => setSearchParams(filter ? { filter } : {})}
-          setSelectedMemoryId={setSelectedMemoryId}
-          setShowForm={setShowForm}
-        />
-  
-        <div className={`memory-list-container ${isSmallScreen && selectedMemoryId ? "hidden" : ""}`}>
-          {isLoading && <p>Loading memories...</p>}
-          {error && <p>{error.message}</p>}
-          {filteredMemories ? (
-            <MemoryList
-              memories={filteredMemories}
-              onMemorySelect={(memory) => {
-                if (!showForm) {
-                  setSelectedMemoryId(memory._id);
-                }
-              }}
-            />
-          ) : (
-            <p>No memories available.</p>
-          )}
-        </div>
-  
-        {selectedMemoryId && (
-          <div className="memory-detail-container">
-            <MemoryDetail 
-              memoryId={selectedMemoryId}
-              onClose={() => setSelectedMemoryId(null)}
-            />
-          </div>
+  return (
+    <div className="main-page">
+      <Sidebar
+        setFilteredMemories={(filter) =>
+          setSearchParams(filter ? { filter } : {})
+        }
+        setShowForm={setShowForm}
+      />
+
+      <div className="memory-list-container">
+        {isLoading && <p>Loading memories...</p>}
+        {error && <p>{error.message}</p>}
+        {filteredMemories ? (
+          <MemoryList
+            memories={filteredMemories}
+            onMemorySelect={(memory) => {
+              if (!showForm) {
+                navigate(`/memory/${memory._id}`);
+              }
+            }}
+          />
+        ) : (
+          <p>No memories available.</p>
         )}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default MainPage;
