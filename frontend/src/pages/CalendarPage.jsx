@@ -30,7 +30,7 @@ const CalendarPage = () => {
           extendedProps: {
             description: memory.memorie,
             location: memory.visitedLocation,
-            cityName: memory.cityName, 
+            cityName: memory.cityName,
             imageUrl: memory.imageUrl,
           },
         }));
@@ -60,7 +60,6 @@ const CalendarPage = () => {
     <div className="calendar-layout">
       <Sidebar />
       <div className="calendar-container">
-       
         {events.length === 0 ? (
           <p>Loading events...</p>
         ) : (
@@ -85,7 +84,13 @@ const CalendarPage = () => {
             eventClick={handleEventClick}
             editable={false}
             selectable={false}
-            height="100%" 
+            height="100%"
+            
+            headerToolbar={{
+              left: "prevYear,prev,next,nextYear today",
+              center: "title",
+              right: "dayGridMonth,dayGridWeek,dayGridDay",
+            }}
           />
         )}
       </div>
@@ -93,7 +98,7 @@ const CalendarPage = () => {
       {selectedMemory && (
         <div className="calendar-modal-overlay" onClick={() => setSelectedMemory(null)}>
           <div className="calendar-modal" onClick={(e) => e.stopPropagation()}>
-          <button
+            <button
               onClick={() => setSelectedMemory(null)}
               className="calendar-cancel-btn">
               <X size={24} />
@@ -115,7 +120,6 @@ const CalendarPage = () => {
               {selectedMemory.cityName || "Unknown"}
             </p>
             <p className="parag">{selectedMemory.description}</p>
-           
           </div>
         </div>
       )}
