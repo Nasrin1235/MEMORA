@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { MemoryContext } from "../context/MemoryContext";
 import "../styles/AddMemoryForm.css";
@@ -16,8 +16,70 @@ const AddMemoryForm = ({ onClose }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [lastQuery, setLastQuery] = useState("");
 
-  // Function to fetch coordinates from Nominatim API
+  useEffect(() => {
+    if (visitedLocation.length < 3) {
+      setSuggestions([]);
+      return;
+    }
+
+    if (visitedLocation === lastQuery) return; // don't send the same request again
+    setLastQuery(visitedLocation);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    // use a delay to avoid sending too many requests
+    const delayFetch = setTimeout(() => {
+      fetchCitySuggestions(visitedLocation, signal);
+    }, 800);
+
+    return () => {
+      clearTimeout(delayFetch);
+      controller.abort();
+    };
+  }, [visitedLocation]);
+
+  const fetchCitySuggestions = async (query, signal) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(
+          query
+        )}`,
+        { headers: { "Accept-Language": "en" }, signal }
+      );
+
+      if (!response.ok) throw new Error("Request error");
+
+      const data = await response.json();
+
+      const citySuggestions = data
+        .map((item) => {
+          const city =
+            item.address.city ||
+            item.address.town ||
+            item.address.village ||
+            item.address.municipality;
+          const country = item.address.country;
+          return city && country ? { name: `${city}, ${country}` } : null;
+        })
+        .filter(Boolean);
+
+      const uniqueCities = Array.from(
+        new Set(citySuggestions.map((s) => s.name))
+      ).map((name) => citySuggestions.find((s) => s.name === name));
+
+      setSuggestions(uniqueCities);
+    } catch (error) {
+      if (error.name === "AbortError") {
+        console.log("Request aborted:", query);
+      } else {
+        console.error("Error fetching cities:", error);
+      }
+    }
+  };
+
   const fetchCoordinates = async (location) => {
     try {
       const response = await fetch(
@@ -34,52 +96,6 @@ const AddMemoryForm = ({ onClose }) => {
     } catch (error) {
       console.error("Error fetching coordinates:", error);
       return null;
-    }
-  };
-
-  // Function to fetch city name suggestions
-  const fetchCitySuggestions = async (query) => {
-    if (query.length < 2) {
-      setSuggestions([]);
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(
-          query
-        )}`,
-        {
-          headers: {
-            "Accept-Language": "en",
-          },
-        }
-      );
-      const data = await response.json();
-
-      const citySuggestions = data
-        .map((item) => {
-          const city =
-            item.address.city ||
-            item.address.town ||
-            item.address.village ||
-            item.address.municipality;
-          const country = item.address.country;
-
-          if (city && country) {
-            return {
-              name: `${city}, ${country}`,
-              lat: item.lat,
-              lon: item.lon,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      setSuggestions(citySuggestions);
-    } catch (error) {
-      console.error("Error fetching city suggestions:", error);
     }
   };
 
@@ -118,8 +134,8 @@ const AddMemoryForm = ({ onClose }) => {
       await addMemory.mutateAsync({
         title,
         memorie: memory,
-        cityName: visitedLocation, // Save city name
-        visitedLocation: coordinates, // Save coordinates
+        cityName: visitedLocation,
+        visitedLocation: coordinates,
         visitedDate,
         imageUrl: uploadedImageUrl,
       });
@@ -132,7 +148,6 @@ const AddMemoryForm = ({ onClose }) => {
     }
   };
 
-  // Function to get user's current location
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -140,7 +155,6 @@ const AddMemoryForm = ({ onClose }) => {
           const { latitude, longitude } = position.coords;
 
           try {
-            // Reverse geocoding request to Nominatim API
             const response = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
             );
@@ -193,16 +207,12 @@ const AddMemoryForm = ({ onClose }) => {
             onChange={(e) => setMemory(e.target.value)}
             required
           />
-
           <input
             type="text"
             className="location-input-city"
             placeholder="Enter City (e.g. Paris, France)"
             value={visitedLocation}
-            onChange={(e) => {
-              setVisitedLocation(e.target.value);
-              fetchCitySuggestions(e.target.value);
-            }}
+            onChange={(e) => setVisitedLocation(e.target.value)}
             required
           />
           {suggestions.length > 0 && (
@@ -212,7 +222,7 @@ const AddMemoryForm = ({ onClose }) => {
                   key={index}
                   onClick={() => {
                     setVisitedLocation(suggestion.name);
-                    setSuggestions([]); 
+                    setSuggestions([]);
                   }}
                   className="addMemoryForm-suggestion-item"
                 >
@@ -228,15 +238,12 @@ const AddMemoryForm = ({ onClose }) => {
           >
             Use Current Location
           </button>
-         
-
           <input
             type="date"
             value={visitedDate}
             onChange={(e) => setVisitedDate(e.target.value)}
             required
           />
-
           <label className="custom-file-upload">
             <input
               type="file"
@@ -246,7 +253,6 @@ const AddMemoryForm = ({ onClose }) => {
             />
             <span className="upload-icon">📂</span> Upload Image
           </label>
-
           {image && (
             <img
               src={image}
