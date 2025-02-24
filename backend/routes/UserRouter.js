@@ -29,25 +29,30 @@ const uploadAvatar = multer({ storage: avatarStorage });
 // Registriere einen neuen Benutzer
 userRouter.post("/register", async (req, res) => {
   try {
-    console.log("Received request data:", req.body);
     const { username, email, password, imageUrl } = req.body;
 
     // Если imageUrl не передан, устанавливаем случайный аватар
     const defaultAvatars = [
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=random1",
-  "https://api.dicebear.com/7.x/avataaars/svg?seed=random2",
-  "https://api.dicebear.com/7.x/avataaars/svg?seed=random3",
-  "https://api.dicebear.com/7.x/avataaars/svg?seed=random4",
-  "https://api.dicebear.com/7.x/avataaars/svg?seed=random5",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=random1",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=random2",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=random3",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=random4",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=random5",
     ];
-    const randomAvatar = imageUrl || defaultAvatars[Math.floor(Math.random() * defaultAvatars.length)];
+    const randomAvatar =
+      imageUrl ||
+      defaultAvatars[Math.floor(Math.random() * defaultAvatars.length)];
 
     // Создаем пользователя
-    const user = await User.create({ username, email, password, imageUrl: randomAvatar });
+    const user = await User.create({
+      username,
+      email,
+      password,
+      imageUrl: randomAvatar,
+    });
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
-    console.log(error.message);
     res.status(400).json({ error: error.message });
   }
 });
@@ -98,7 +103,7 @@ userRouter.get("/profile", isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(401).json({ message: "Unauthorized" }); 
+      return res.status(401).json({ message: "Unauthorized" });
     }
     res.status(200).json({
       username: user.username,
@@ -156,21 +161,24 @@ userRouter.delete("/delete-background", isAuthenticated, async (req, res) => {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    if (user.backgroundImage && user.backgroundImage.includes("/uploads/backgrounds/")) {
-      // Формируем корректный путь к файлу
-      const filePath = path.join(__dirname, "..", "uploads", "backgrounds", path.basename(user.backgroundImage));
-      
-      console.log("Attempting to delete:", filePath);
+    if (
+      user.backgroundImage &&
+      user.backgroundImage.includes("/uploads/backgrounds/")
+    ) {
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "uploads",
+        "backgrounds",
+        path.basename(user.backgroundImage)
+      );
 
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
-        console.log("Background image deleted successfully.");
       } else {
         console.warn("File not found:", filePath);
       }
     }
-
-    // Удаляем URL из базы данных
     user.backgroundImage = "";
     await user.save();
 
@@ -180,7 +188,6 @@ userRouter.delete("/delete-background", isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Failed to delete background" });
   }
 });
-
 
 userRouter.post(
   "/upload-image",
@@ -210,7 +217,6 @@ userRouter.post(
 );
 userRouter.put("/update", isAuthenticated, async (req, res) => {
   try {
-    console.log("Received update request:", req.body);
     const { username, email, imageUrl } = req.body;
 
     const user = await User.findById(req.user.id);
@@ -228,8 +234,6 @@ userRouter.put("/update", isAuthenticated, async (req, res) => {
     }
 
     await user.save();
-    console.log("User updated successfully:", user);
-
     res.status(200).json({
       message: "User profile updated successfully",
       user: {

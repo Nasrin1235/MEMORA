@@ -76,7 +76,7 @@ const AddMemoryForm = ({ onClose }) => {
       setSuggestions(uniqueCities);
     } catch (error) {
       if (error.name === "AbortError") {
-        console.log("Request aborted:", query);
+        console.log("Request aborted");
       } else {
         console.error("Error fetching cities:", error);
       }
