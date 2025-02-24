@@ -1,6 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { MemoryContext } from "../context/MemoryContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Calendar } from "lucide-react";
 import "../styles/AddMemoryForm.css";
 
 const AddMemoryForm = ({ onClose }) => {
@@ -238,12 +241,15 @@ const AddMemoryForm = ({ onClose }) => {
           >
             Use Current Location
           </button>
-          <input
-            type="date"
-            value={visitedDate}
-            onChange={(e) => setVisitedDate(e.target.value)}
-            required
-          />
+          <div className="date-picker-container">
+            <DatePicker
+              selected={visitedDate ? new Date(visitedDate) : null}
+              onChange={(date) => setVisitedDate(date)}
+              dateFormat="dd.MM.yyyy"
+              className="custom-date-input"
+            />
+            <Calendar className="calendar-icon" size={20} />
+          </div>
           <label className="custom-file-upload">
             <input
               type="file"
@@ -262,7 +268,7 @@ const AddMemoryForm = ({ onClose }) => {
           )}
           <div className="button-group">
             <button type="submit">Add Memory</button>
-            <button type="button" onClick={onClose} className="cancel-btn">
+            <button type="button" onClick={onClose} className="add-cancel-btn">
               Cancel
             </button>
           </div>

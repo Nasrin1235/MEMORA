@@ -10,7 +10,6 @@
   align-items: center;
   z-index: 9999 !important;
   padding: 15px;
-  
 }
 
 .user-settings-modal {
@@ -29,7 +28,6 @@ h2 {
   margin-bottom: 15px;
   color: #333;
 }
-
 
 .user-input-label {
   display: block;
@@ -55,7 +53,6 @@ h2 {
   outline: none;
 }
 
-
 .profile-preview {
   width: 150px;
   height: 150px;
@@ -68,7 +65,7 @@ h2 {
 
 .reset-btn,
 .delete-btn,
-.save-btn{
+.save-btn {
   display: inline-block;
   padding: 10px 15px;
   border-radius: 4px;
@@ -120,14 +117,14 @@ h2 {
 
 .upload-btn {
   display: inline-block;
-   
-    color: white;
-    padding: 10px 15px;
-    border-radius: 2px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease-in-out;
-    background:#a89f78;;
+
+  color: white;
+  padding: 10px 15px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+  background: #a89f78;
 }
 
 .upload-btn:hover {
@@ -135,22 +132,19 @@ h2 {
 }
 
 .file-input {
-  display: none; 
+  display: none;
 }
 
-
 .upload-image-btn {
- 
-    display: inline-block;
-   
-    color: white;
-    padding: 10px 15px;
-    border-radius: 2px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease-in-out;
-    background:#a89f78;;
- 
+  display: inline-block;
+
+  color: white;
+  padding: 10px 15px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+  background: #a89f78;
 }
 .upload-image-btn:hover {
   background: #777155;
@@ -165,8 +159,6 @@ h2 {
   border-radius: 10px;
   margin-top: 10px;
 }
-
-
 
 @keyframes fadeIn {
   from {
@@ -195,11 +187,9 @@ h2 {
   .reset-btn,
   .delete-btn,
   .save-btn {
-    width: 45%; 
+    width: 45%;
   }
 }
-
-
 
 @media screen and (max-width: 600px) {
   .user-settings-modal {
@@ -232,7 +222,5 @@ h2 {
   .settings-preview-image {
     width: 100%;
     max-height: 110px;
-    
   }
-  
 }

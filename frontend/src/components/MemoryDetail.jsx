@@ -18,10 +18,12 @@ const MemoryDetail = ({ memoryId, onClose }) => {
   const [newImage, setNewImage] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
-const fetchCoordinates = async (location) => {
+  const fetchCoordinates = async (location) => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          location
+        )}`
       );
       const data = await response.json();
       if (data.length > 0) {
@@ -34,7 +36,6 @@ const fetchCoordinates = async (location) => {
       return null;
     }
   };
-  
 
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -53,12 +54,9 @@ const fetchCoordinates = async (location) => {
     queryKey: ["memory", memoryId],
     queryFn: async () => {
       if (!memoryId) throw new Error("No memoryId provided");
-      const response = await fetch(
-       `/api/memory/${memoryId}`,
-        {
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`/api/memory/${memoryId}`, {
+        credentials: "include",
+      });
       if (!response.ok) throw new Error("Failed to load memory");
       return response.json();
     },
@@ -68,13 +66,10 @@ const fetchCoordinates = async (location) => {
 
   const deleteMemoryMutation = useMutation({
     mutationFn: async (id) => {
-      const response = await fetch(
-       `/api/memory/delete/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`/api/memory/delete/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (!response.ok) throw new Error("Failed to delete memory");
       return response.json();
     },
@@ -112,13 +107,12 @@ const fetchCoordinates = async (location) => {
 
   const handleSave = async () => {
     let imageUrl = editedMemory.imageUrl;
-    let newCoordinates = memory.visitedLocation; 
-  
-  
+    let newCoordinates = memory.visitedLocation;
+
     if (newImage) {
       const formData = new FormData();
       formData.append("image", newImage);
-  
+
       try {
         const response = await uploadImage.mutateAsync(formData);
         imageUrl = response.imageUrl;
@@ -127,8 +121,7 @@ const fetchCoordinates = async (location) => {
         return;
       }
     }
-  
-  
+
     if (editedMemory.visitedLocation !== memory.cityName) {
       try {
         newCoordinates = await fetchCoordinates(editedMemory.visitedLocation);
@@ -141,30 +134,26 @@ const fetchCoordinates = async (location) => {
         return;
       }
     }
-  
-    
+
     try {
       await updateMemory.mutateAsync({
         id: memory._id,
-        updatedMemory: { 
-          ...editedMemory, 
-          imageUrl, 
+        updatedMemory: {
+          ...editedMemory,
+          imageUrl,
           cityName: editedMemory.visitedLocation,
-          visitedLocation: newCoordinates, 
+          visitedLocation: newCoordinates,
         },
       });
-  
-   
+
       await queryClient.invalidateQueries(["memory", memoryId]);
       await queryClient.invalidateQueries(["memories"]);
-  
+
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating memory:", error);
     }
   };
-  
-  
 
   const confirmDelete = () => {
     setIsDeleting(true);
@@ -177,9 +166,8 @@ const fetchCoordinates = async (location) => {
 
   return (
     <div className="memoryDetail">
-
-       {/* Close Button */}
-       <button className="memoryDetail-close-btn" onClick={onClose}>
+      {/* Close Button */}
+      <button className="memoryDetail-close-btn" onClick={onClose}>
         <X size={24} />
       </button>
       <h2 className="memoryDetail-title">{memory.title}</h2>
@@ -202,26 +190,31 @@ const fetchCoordinates = async (location) => {
           ? new Date(memory.visitedDate).toLocaleDateString()
           : "Not specified"}
       </p>
-      <p><strong>📍 Location:</strong> {memory.cityName || "Unknown"}</p>
+      <p>
+        <strong>📍 Location:</strong> {memory.cityName || "Unknown"}
+      </p>
       <p className="memoryDetail-text">{memory.memorie}</p>
 
       <nav className="memoryDetail-bottom-nav">
         <button onClick={toggleFavorite} className="nav-btn">
           {isFavorite ? <Star color="gold" /> : <Star />}
-          {isFavorite ?  <span>Remove from Favorites</span>: <span>Add to Favorites</span> }
-          
-          
-
+          {isFavorite ? (
+            <span>Remove from Favorites</span>
+          ) : (
+            <span>Add to Favorites</span>
+          )}
         </button>
 
         <button onClick={handleEdit} className="nav-btn">
-          <Edit /><span>Edit</span>
+          <Edit />
+          <span>Edit</span>
         </button>
         <button onClick={confirmDelete} className="nav-btn delete">
           <Trash2 /> <span>Delete </span>
         </button>
         <button onClick={() => navigate("/calendar")} className="nav-btn">
-          <Calendar /><span>Calendar </span>
+          <Calendar />
+          <span>Calendar </span>
         </button>
       </nav>
 
@@ -258,22 +251,26 @@ const fetchCoordinates = async (location) => {
               }
               placeholder="Visited Location"
             />
-          <div className="date-picker-container">
-  <DatePicker
-    selected={editedMemory.visitedDate}
-    onChange={(date) => setEditedMemory({ ...editedMemory, visitedDate: date })}
-    dateFormat="dd.MM.yyyy"
-    className="custom-date-input"
-  />
-  <Calendar className="calendar-icon" size={20} />
-</div>
+            <div className="date-picker-container">
+              <DatePicker
+                selected={editedMemory.visitedDate}
+                onChange={(date) =>
+                  setEditedMemory({ ...editedMemory, visitedDate: date })
+                }
+                dateFormat="dd.MM.yyyy"
+                className="custom-date-input"
+              />
+              <Calendar className="calendar-icon" size={20} />
+            </div>
 
             <input
               type="file"
               accept="image/*"
               onChange={(e) => setNewImage(e.target.files[0])}
             />
-            <button onClick={handleSave} className="save-changes">Save Changes</button>
+            <button onClick={handleSave} className="save-changes">
+              Save Changes
+            </button>
             <button onClick={() => setIsEditing(false)} className="cancel-btn">
               Cancel
             </button>
