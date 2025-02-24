@@ -77,16 +77,17 @@ h2 {
   transition: all 0.3s ease-in-out;
   margin: 10px 5px;
   width: 30%;
-  background: hwb(351 66% 31%);
+  background: #a89f78;
   color: white;
   border: none;
 }
-
+.delete-btn {
+  background: #900c3f;
+}
 
 .reset-btn:hover,
-.delete-btn:hover,
 .save-btn:hover {
-  background: #302823;
+  background: #777155;
 }
 
 .settings-close-btn {
@@ -126,11 +127,11 @@ h2 {
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s ease-in-out;
-    background:hwb(0 27% 73%);
+    background:#a89f78;;
 }
 
 .upload-btn:hover {
-  background: #30373f;
+  background: #777155;
 }
 
 .file-input {
@@ -148,8 +149,11 @@ h2 {
     cursor: pointer;
     font-size: 16px;
     transition: background 0.3s ease-in-out;
-    background:hwb(0 27% 73%);
+    background:#a89f78;;
  
+}
+.upload-image-btn:hover {
+  background: #777155;
 }
 .settings-image-input {
   display: none;

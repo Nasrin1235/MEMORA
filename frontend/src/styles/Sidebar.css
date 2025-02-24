@@ -75,10 +75,11 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
+  justify-content: center;
 }
 
 .sidebar-add-story-btn:hover {
-  background: #00095a;
+  background: #777155;
 }
 
 .sidebar-user-info {
@@ -122,10 +123,11 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
+  justify-content: center;
 }
 
 .sidebar-logout-btn:hover {
-  background: #444444;
+  background: #777155;
 }
 
 .search-memory {
