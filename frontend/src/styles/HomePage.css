@@ -22,12 +22,13 @@
     width:50%;
     height: 50vh;
     background-color: #0e242100;
-    padding: 2rem;
+    padding: 4rem;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 10px;
 }
 
 .h1-slogan {
@@ -102,7 +103,7 @@
     object-fit: cover;
     border-radius: 5px;
 }
--m ""
+
 .video-text-container {
     width: 50%;
     padding: 2rem;
@@ -118,19 +119,17 @@
     margin-bottom: 1rem;
 }
 
-.explore-link {
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.explore-link:hover {
-    opacity: 0.7;
-}
 
 
-@media (max-width: 48rem) {
+@media (max-width: 55rem) {
+    .homePage-titel {
+        width: 100%;
+    }
+    .homePage-header{
+        justify-content: center;
+        align-items: center;
+    }
+    
     .buttons {
         flex-direction: column;
         gap: 0.625rem;
@@ -165,13 +164,7 @@
 
 @media (max-width: 30rem) {
 
-    .homePage-titel {
-        width: 100%;
-    }
-    .homePage-header{
-        justify-content: center;
-        align-items: center;
-    }
+  
 
     .h1-slogan {
         font-size: 3rem;
@@ -188,6 +181,16 @@
     .homePage-register{
         background-color: #550810;
         border: 2px solid #550810;
+    }
+
+    .video-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .video-text {
+        font-size: 0.7rem;
+        margin-bottom: 1rem;
     }
 }
 
