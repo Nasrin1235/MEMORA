@@ -10,12 +10,11 @@ const MobileHeader = ({ onSearch }) => {
   const [searchText, setSearchText] = useState("");
 
   const location = useLocation();
-  const hiddenHeaderPaths = ["/login", "/register", "/"];
+  const hiddenHeaderPaths = ["/login", "/register", "/", "/memory/:id"];
 
-  if (hiddenHeaderPaths.includes(location.pathname)) {
+  if (hiddenHeaderPaths.includes(location.pathname) || location.pathname.startsWith("/memory/")) {
     return null;
   }
-
   return (
     <div className="mobile-header">
       <button
