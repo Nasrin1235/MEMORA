@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "../styles/MemoryDetail.css";
 import { Star, Edit, Trash2, Calendar, X } from "lucide-react";
 import { MemoryContext } from "../context/MemoryContext.jsx";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const MemoryDetail = ({ memoryId, onClose }) => {
   const queryClient = useQueryClient();
@@ -102,7 +104,7 @@ const fetchCoordinates = async (location) => {
       title: memory.title,
       memorie: memory.memorie,
       visitedLocation: memory.cityName,
-      visitedDate: memory.visitedDate,
+      visitedDate: memory.visitedDate ? new Date(memory.visitedDate) : null,
       imageUrl: memory.imageUrl,
     });
     setIsEditing(true);
@@ -256,17 +258,15 @@ const fetchCoordinates = async (location) => {
               }
               placeholder="Visited Location"
             />
-            <input
-              type="date"
-              name="visitedDate"
-              value={editedMemory.visitedDate}
-              onChange={(e) =>
-                setEditedMemory({
-                  ...editedMemory,
-                  visitedDate: e.target.value,
-                })
-              }
-            />
+          <div className="date-picker-container">
+  <DatePicker
+    selected={editedMemory.visitedDate}
+    onChange={(date) => setEditedMemory({ ...editedMemory, visitedDate: date })}
+    dateFormat="dd.MM.yyyy"
+    className="custom-date-input"
+  />
+  <Calendar className="calendar-icon" size={20} />
+</div>
 
             <input
               type="file"

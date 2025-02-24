@@ -203,6 +203,14 @@
   color: red;
 }
 
+.date-picker-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+
 @media screen and (max-width: 1700px) {
  
   

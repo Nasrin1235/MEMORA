@@ -81,10 +81,11 @@ h2 {
   color: white;
   border: none;
 }
-
+.delete-btn {
+  background: #900c3f;
+}
 
 .reset-btn:hover,
-.delete-btn:hover,
 .save-btn:hover {
   background: #777155;
 }
