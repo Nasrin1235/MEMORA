@@ -273,7 +273,7 @@ const fetchCoordinates = async (location) => {
               accept="image/*"
               onChange={(e) => setNewImage(e.target.files[0])}
             />
-            <button onClick={handleSave}>Save Changes</button>
+            <button onClick={handleSave} className="save-changes">Save Changes</button>
             <button onClick={() => setIsEditing(false)} className="cancel-btn">
               Cancel
             </button>
