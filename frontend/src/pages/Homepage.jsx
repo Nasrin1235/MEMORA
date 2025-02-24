@@ -26,9 +26,9 @@ const HomePage = () => {
       <ScrollingInfoBlock />
       <div className="homePage-video-section">
         <div className="video-text-container">
-          <h2 className="video-title">lorem </h2>
+          <h2 className="video-title">Write.Remember.Relive </h2>
           <p className="video-text">
-           loerfdfghhj kjhlkjhjhkjhkjkk
+          Create and cherish your memories – write, add photos, and relive your favorite moments.
           </p>
         </div>
         <video autoPlay muted loop playsInline className="homePage-video-half">
