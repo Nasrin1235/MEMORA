@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 export const isAuthenticated = (req, res, next) => {
   const token = req.cookies.token;
-  console.log("Token:", token);
 
   if (!token) {
     return res
@@ -13,7 +12,7 @@ export const isAuthenticated = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
-    console.log("Decoded User:", decoded);
+
     next();
   } catch (error) {
     console.error("Token verification failed:", error.message);
