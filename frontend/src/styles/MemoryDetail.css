@@ -4,7 +4,7 @@
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   width: 90vw;
-  max-width: 800px;
+  max-width: 900px;
   margin: 50px auto;
   height: 90vh;
   overflow-y: auto;
@@ -194,8 +194,9 @@
   
   .memoryDetail {
    width: 100vw;
-  height: 100vh;
+  height: 90vh;
    overflow-y: auto;
+   border-radius: 2px;
   }
   .memory-detail-container {
     position: fixed;
@@ -210,13 +211,4 @@
   }
 }
 
-@media screen and (max-width: 750px) {
-  body.hide-ui .mobile-header {
-    display: none;
-  }
-  
-  body.hide-ui .sidebar {
-    display: none;
-  }
-  
-}
+
