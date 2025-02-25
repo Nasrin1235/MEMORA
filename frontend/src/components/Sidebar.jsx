@@ -75,7 +75,7 @@ const Sidebar = ({ setFilteredMemories, setSelectedMemoryId }) => {
           </button>
         </div>
 
-        {/* Передаем dialogRef в AddMemoryForm */}
+ 
         <AddMemoryForm dialogRef={dialogRef} onClose={() => dialogRef.current?.close()} />
 
         {showSettings && <UserSettings onClose={() => setShowSettings(false)} />}

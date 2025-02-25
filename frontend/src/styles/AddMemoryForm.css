@@ -107,7 +107,6 @@ textarea {
   background: #750832;
 }
 
-/* === КНОПКА ЗАГРУЗКИ ФАЙЛОВ === */
 .custom-file-upload {
   display: flex;
   align-items: center;
@@ -132,7 +131,7 @@ textarea {
   font-size: 20px;
 }
 
-/* === ПРЕДПРОСМОТР ИЗОБРАЖЕНИЙ === */
+
 .addMemoryForm-uploaded-image {
   max-width: 100%;
   max-height: 200px;
@@ -143,16 +142,16 @@ textarea {
   overflow: hidden;
 }
 
-/* === АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ === */
+
 @media screen and (max-width: 600px) {
-  /* Центрирование модального окна */
+
   .addMemoryForm-dialog {
     width: 95%;
     max-width: 400px;
     padding: 15px;
   }
 
-  /* Уменьшенный отступ для элементов формы */
+ 
   input,
   textarea {
     padding: 10px;
@@ -164,12 +163,11 @@ textarea {
     min-height: 80px;
   }
 
-  /* Уменьшенное изображение */
   .addMemoryForm-uploaded-image {
     max-height: 120px;
   }
 
-  /* Увеличенные кнопки для удобного нажатия пальцем */
+
   button {
     font-size: 14px;
     padding: 14px;
