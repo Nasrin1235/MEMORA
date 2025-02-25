@@ -159,6 +159,11 @@ h2 {
   border-radius: 10px;
   margin-top: 10px;
 }
+.success-message {
+  color: rgb(32, 32, 32);
+  font-weight: bold;
+  margin-top: 10px;
+}
 
 @keyframes fadeIn {
   from {

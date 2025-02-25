@@ -22,6 +22,7 @@ const UserSettings = ({ onClose }) => {
   const [bgInput, setBgInput] = useState("");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -123,31 +124,33 @@ const UserSettings = ({ onClose }) => {
     if (bgInput.trim()) {
       updateBackground(bgInput);
       localStorage.setItem("backgroundImage", bgInput);
+      setSuccessMessage("Background successfully applied!");
     } else if (file) {
       const formData = new FormData();
       formData.append("image", file);
-
+  
       try {
-        const response = await fetch(
-          "/api/upload-background",
-          {
-            method: "POST",
-            body: formData,
-            credentials: "include",
-          }
-        );
-
+        const response = await fetch("/api/upload-background", {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        });
+  
         if (!response.ok) {
           throw new Error("Failed to upload background image");
         }
-
+  
         const data = await response.json();
         localStorage.setItem("backgroundImage", data.backgroundImage);
         updateBackground(data.backgroundImage);
+        setSuccessMessage("Background successfully applied!");
       } catch (error) {
         console.error("Error uploading background:", error);
       }
     }
+  
+    // Автоочистка сообщения через 3 секунды
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
   useEffect(() => {
     const savedBg = localStorage.getItem("backgroundImage");
@@ -243,6 +246,12 @@ const UserSettings = ({ onClose }) => {
             className="user-text-input"
           />
         </label>
+        <button onClick={handleSave} disabled={loading} className="save-btn">
+          {loading ? "Saving..." : "Save"}
+        </button>
+        <button onClick={() => setShowDeleteModal(true)} className="delete-btn">
+          Delete Account
+        </button>
 
         <label className="user-input-label">
           Background Image URL:
@@ -263,6 +272,7 @@ const UserSettings = ({ onClose }) => {
             className="settings-image-input"
           />
         </label>
+        {successMessage && <p className="success-message">{successMessage}</p>}
         {preview && (
           <img
             src={preview}
@@ -277,14 +287,9 @@ const UserSettings = ({ onClose }) => {
           Reset Background
         </button>
 
-        <button onClick={handleSave} disabled={loading} className="save-btn">
-          {loading ? "Saving..." : "Save"}
-        </button>
+       
 
-        <button onClick={() => setShowDeleteModal(true)} className="delete-btn">
-          Delete Account
-        </button>
-
+        
         {showDeleteModal && (
           <div
             className="settings-modal-overlay"
