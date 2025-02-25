@@ -10,7 +10,6 @@ const UserSettings = ({ onClose }) => {
     setUsername,
     imageUrl,
     setImageUrl,
-    updateProfile,
     logout,
   } = useContext(AuthContext);
   const [email, setEmail] = useState("");
@@ -33,7 +32,7 @@ const UserSettings = ({ onClose }) => {
         });
         const data = await response.json();
         setEmail(data.email);
-        setImageUrl(data.imageUrl || "/default-avatar.png");
+        setImageUrl(data.imageUrl ? `${data.imageUrl}?t=${Date.now()}` : "/default-avatar.png"); 
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -48,35 +47,40 @@ const UserSettings = ({ onClose }) => {
       setImage(URL.createObjectURL(file));
     }
   };
+  
 
   const handleSave = async () => {
     setLoading(true);
     let uploadedImageUrl = imageUrl;
-
     if (newImage) {
       const formData = new FormData();
       formData.append("image", newImage);
-
+  
+ 
+      const previewUrl = URL.createObjectURL(newImage);
+      setImageUrl(previewUrl);
+  
       try {
-        const response = await fetch("/api/upload-image", {
+        const response = await fetch("/api/upload-avatar", {
           method: "POST",
           body: formData,
           credentials: "include",
         });
-
+  
         if (!response.ok) {
           throw new Error("Failed to upload image");
         }
-
+  
         const data = await response.json();
         uploadedImageUrl = data.imageUrl;
+        setImageUrl(uploadedImageUrl);
       } catch (error) {
         console.error("Upload error:", error);
         setLoading(false);
         return;
       }
     }
-
+  
     try {
       const response = await fetch("/api/update", {
         method: "PUT",
@@ -91,9 +95,8 @@ const UserSettings = ({ onClose }) => {
 
       const data = await response.json();
       setUsername(data.user.username);
-      setImageUrl(data.user.imageUrl);
-      updateProfile(data.user.username, data.user.imageUrl);
-
+      setImageUrl(data.user.imageUrl); 
+  
       setLoading(false);
       onClose && onClose();
     } catch (error) {
@@ -148,8 +151,7 @@ const UserSettings = ({ onClose }) => {
         console.error("Error uploading background:", error);
       }
     }
-  
-    // Автоочистка сообщения через 3 секунды
+ 
     setTimeout(() => setSuccessMessage(""), 3000);
   };
   useEffect(() => {
