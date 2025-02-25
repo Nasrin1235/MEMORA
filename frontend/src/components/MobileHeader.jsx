@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useRef} from "react";
 import { Search, Plus } from "lucide-react";
 import AddMemoryForm from "./AddMemoryForm";
 import { useLocation } from "react-router-dom";
@@ -6,8 +6,9 @@ import "../styles/MobileHeader.css";
 
 const MobileHeader = ({ onSearch }) => {
   const [searchVisible, setSearchVisible] = useState(false);
-  const [showForm, setShowForm] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const dialogRef = useRef(null);
 
   const location = useLocation();
   const hiddenHeaderPaths = ["/login", "/register", "/", "/memory/:id"];
@@ -15,6 +16,13 @@ const MobileHeader = ({ onSearch }) => {
   if (hiddenHeaderPaths.includes(location.pathname) || location.pathname.startsWith("/memory/")) {
     return null;
   }
+
+  const handleOpenForm = () => {
+    if (dialogRef.current) {
+      dialogRef.current.showModal();
+    }
+  };
+
   return (
     <div className="mobile-header">
       <button
@@ -38,12 +46,11 @@ const MobileHeader = ({ onSearch }) => {
       )}
       <button
         className="mobile-add-story-btn"
-        onClick={() => setShowForm(true)}
+        onClick={handleOpenForm}
       >
         <Plus size={24} />
       </button>
-
-      {showForm && <AddMemoryForm onClose={() => setShowForm(false)} />}
+      <AddMemoryForm dialogRef={dialogRef} onClose={() => dialogRef.current?.close()} />
     </div>
   );
 };

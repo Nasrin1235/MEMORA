@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "lucide-react";
 import "../styles/AddMemoryForm.css";
 
-const AddMemoryForm = ({ onClose }) => {
+const AddMemoryForm = ({ dialogRef, onClose }) => {
   const { addMemory, uploadImage } = useContext(MemoryContext);
   const queryClient = useQueryClient();
 
@@ -20,31 +20,22 @@ const AddMemoryForm = ({ onClose }) => {
   const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [lastQuery, setLastQuery] = useState("");
+ 
 
-  useEffect(() => {
-    if (visitedLocation.length < 3) {
-      setSuggestions([]);
-      return;
-    }
 
-    if (visitedLocation === lastQuery) return; // don't send the same request again
-    setLastQuery(visitedLocation);
+  const resetForm = () => {
+    setTitle("");
+    setMemory("");
+    setVisitedLocation("");
+    setCoordinates(null);
+    setVisitedDate("");
+    setImage(null);
+    setImageUrl("");
+    setError("");
+    setSuggestions([]);
+  };
 
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    // use a delay to avoid sending too many requests
-    const delayFetch = setTimeout(() => {
-      fetchCitySuggestions(visitedLocation, signal);
-    }, 800);
-
-    return () => {
-      clearTimeout(delayFetch);
-      controller.abort();
-    };
-  }, [visitedLocation]);
-
-  const fetchCitySuggestions = async (query, signal) => {
+  const fetchLocationData = async (query, signal) => {
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&q=${encodeURIComponent(
@@ -57,7 +48,7 @@ const AddMemoryForm = ({ onClose }) => {
 
       const data = await response.json();
 
-      const citySuggestions = data
+      const locationResults = data
         .map((item) => {
           const city =
             item.address.city ||
@@ -65,65 +56,79 @@ const AddMemoryForm = ({ onClose }) => {
             item.address.village ||
             item.address.municipality;
           const country = item.address.country;
-          return city && country ? { name: `${city}, ${country}` } : null;
+          return city && country
+            ? {
+                name: `${city}, ${country}`,
+                lat: parseFloat(item.lat),
+                lon: parseFloat(item.lon),
+              }
+            : null;
         })
         .filter(Boolean);
 
-      const uniqueCities = Array.from(
-        new Set(citySuggestions.map((s) => s.name))
-      ).map((name) => citySuggestions.find((s) => s.name === name));
+      const uniqueLocations = Array.from(
+        new Set(locationResults.map((s) => s.name))
+      ).map((name) => locationResults.find((s) => s.name === name));
 
-      setSuggestions(uniqueCities);
+      setSuggestions(uniqueLocations);
     } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("Request aborted");
-      } else {
-        console.error("Error fetching cities:", error);
+      if (error.name !== "AbortError") {
+        console.error("Error fetching location data:", error);
       }
     }
   };
 
-  const fetchCoordinates = async (location) => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          location
-        )}`
-      );
-      const data = await response.json();
-      if (data.length > 0) {
-        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error("Error fetching coordinates:", error);
-      return null;
+  useEffect(() => {
+    if (visitedLocation.length < 3) {
+      setSuggestions([]);
+      return;
     }
-  };
+
+    if (visitedLocation === lastQuery) return;
+    setLastQuery(visitedLocation);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const delayFetch = setTimeout(() => {
+      fetchLocationData(visitedLocation, signal);
+    }, 800);
+
+    return () => {
+      clearTimeout(delayFetch);
+      controller.abort();
+    };
+  }, [visitedLocation]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const objectURL = URL.createObjectURL(file);
-      setImage(objectURL);
-      setImageUrl(file);
+
+    if (!file) return;
+
+    const validTypes = ["image/jpeg", "image/png", "image/gif"];
+    if (!validTypes.includes(file.type)) {
+      setError("Invalid file type. Only JPEG, PNG, and GIF are allowed.");
+      return;
     }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size too large. Maximum allowed is 5MB.");
+      return;
+    }
+
+    const objectURL = URL.createObjectURL(file);
+    setImage(objectURL);
+    setImageUrl(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     if (!title || !memory || !visitedLocation || !visitedDate) {
       setError("All fields are required.");
       return;
     }
-
-    const coordinates = await fetchCoordinates(visitedLocation);
-    if (!coordinates) {
-      setError("Could not find coordinates for this location.");
-      return;
-    }
-    setCoordinates(coordinates);
 
     try {
       let uploadedImageUrl = "";
@@ -144,7 +149,9 @@ const AddMemoryForm = ({ onClose }) => {
       });
 
       queryClient.invalidateQueries(["memories"]);
-      onClose();
+
+      resetForm();
+      handleClose();
     } catch (error) {
       console.error("Error adding memory:", error);
       setError("Failed to add memory.");
@@ -171,6 +178,7 @@ const AddMemoryForm = ({ onClose }) => {
                 "Unknown City";
               const country = data.address.country || "Unknown Country";
               setVisitedLocation(`${city}, ${country}`);
+              setCoordinates([latitude, longitude]);
             } else {
               setError("Could not determine your location.");
             }
@@ -191,9 +199,17 @@ const AddMemoryForm = ({ onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    resetForm();
+    if (dialogRef.current) {
+      dialogRef.current.close();
+    }
+    onClose();
+  };
+
   return (
-    <div className="addMemoryForm-modal-overlay">
-      <div className="addMemoryForm-modal">
+    <dialog ref={dialogRef} className="addMemoryForm-dialog">
+     
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <h2 className="addForm-h2">Adding memory</h2>
@@ -218,6 +234,7 @@ const AddMemoryForm = ({ onClose }) => {
             onChange={(e) => setVisitedLocation(e.target.value)}
             required
           />
+
           {suggestions.length > 0 && (
             <ul className="addMemoryForm-suggestions-list">
               {suggestions.map((suggestion, index) => (
@@ -225,6 +242,7 @@ const AddMemoryForm = ({ onClose }) => {
                   key={index}
                   onClick={() => {
                     setVisitedLocation(suggestion.name);
+                    setCoordinates([suggestion.lat, suggestion.lon]);
                     setSuggestions([]);
                   }}
                   className="addMemoryForm-suggestion-item"
@@ -234,6 +252,7 @@ const AddMemoryForm = ({ onClose }) => {
               ))}
             </ul>
           )}
+
           <button
             type="button"
             className="location-button"
@@ -241,15 +260,14 @@ const AddMemoryForm = ({ onClose }) => {
           >
             Use Current Location
           </button>
-          <div className="date-picker-container">
-            <DatePicker
-              selected={visitedDate ? new Date(visitedDate) : null}
-              onChange={(date) => setVisitedDate(date)}
-              dateFormat="dd.MM.yyyy"
-              className="custom-date-input"
-            />
-            <Calendar className="calendar-icon" size={20} />
-          </div>
+
+          <DatePicker
+            selected={visitedDate ? new Date(visitedDate) : null}
+            onChange={(date) => setVisitedDate(date)}
+            dateFormat="dd.MM.yyyy"
+            className="custom-date-input"
+          />
+          <Calendar className="calendar-icon" size={20} />
           <label className="custom-file-upload">
             <input
               type="file"
@@ -266,15 +284,13 @@ const AddMemoryForm = ({ onClose }) => {
               className="addMemoryForm-uploaded-image"
             />
           )}
-          <div className="button-group">
-            <button type="submit">Add Memory</button>
-            <button type="button" onClick={onClose} className="add-cancel-btn">
-              Cancel
-            </button>
-          </div>
+          <button type="submit" className="add-memory">Add Memory</button>
+          <button type="button" onClick={handleClose} className="cancel-add">
+            Cancel
+          </button>
         </form>
-      </div>
-    </div>
+
+    </dialog>
   );
 };
 

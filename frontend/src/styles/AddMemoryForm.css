@@ -1,142 +1,113 @@
-.addMemoryForm-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1002;
-  pointer-events: auto;
-}
 
-.addMemoryForm-modal {
+.addMemoryForm-dialog {
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
   background: white;
-  padding: 30px;
-  border-radius: 3px;
-  width: 70%;
-  max-width: 800px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  animation: fadeIn 0.3s ease-in-out;
-  position: relative;
-  z-index: 1003;
-  pointer-events: auto;
-}
-.addForm-h2 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 600px;
+  position: fixed;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Затемнение фона */
+.addMemoryForm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.addMemoryForm-modal input,
-.addMemoryForm-modal textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  transition: border 0.3s;
-}
-.location-input-city[type="text"] {
-  margin-bottom: 0;
-}
-
-.addMemoryForm-modal input:focus,
-.addMemoryForm-modal textarea:focus {
-  border: 2px solid #8c8e91;
-  outline: none;
-}
-
-.addMemoryForm-modal input[type="file"] {
-  padding: 10px;
-  border: none;
-  background: #f8f8f8;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.button-group {
+/* Содержимое формы */
+.addMemoryForm-content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
 }
 
-.addMemoryForm-modal button {
-  flex: 1;
-  padding: 10px 15px;
+/* === ВВОД ТЕКСТА === */
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   font-size: 16px;
+  margin: 12px 0;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* === СПИСОК ПОДСКАЗОК === */
+.addMemoryForm-suggestions-list {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 5px;
+  position: absolute;
+  width: calc(100% - 22px);
+  z-index: 100;
+}
+
+.add-memory {
+  background: #a89f78;
+  color: white;
+  padding: 12px;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s;
-  background-color: #a89f78 ;
-  color: white;
+  font-size: 16px;
+  width: 100%;
+  margin: 10px 0;
   justify-content: center;
+  transition: all 0.2s ease-in-out;
 }
 
-.addMemoryForm-modal .add-cancel-btn {
-  background: #900c3f;
-  color: white;
-}
-
-.addMemoryForm-modal .add-cancel-btn:hover {
-  background: #72092e;
+.add-memory:hover {
+  background: #777155;
 }
 
 .location-button {
-  margin: 10px 5px;
-}
-
-.addMemoryForm-uploaded-image {
-  max-width: 100%;
-  max-height: 200px;
-  display: block;
-  margin: 10px auto;
-  border-radius: 8px;
-  object-fit: cover;
-  overflow: hidden;
-}
-.addMemoryForm-suggestions-list {
-  position: absolute;
-  width: 80%;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  list-style: none;
-  padding: 0;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.addMemoryForm-suggestion-item {
-  padding: 10px;
+  background: #a89f78;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background 0.2s ease-in-out;
+  width: 100%;
+  margin: 10px 0;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
 }
 
-.addMemoryForm-suggestion-item:hover {
-  background: #f1f1f1;
+.location-button:hover {
+  background: #777155;
 }
+
+.cancel-add {
+  background: #900c3f;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin: 10px 0;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.cancel-add:hover {
+  background: #750832;
+}
+
+/* === КНОПКА ЗАГРУЗКИ ФАЙЛОВ === */
 .custom-file-upload {
   display: flex;
   align-items: center;
@@ -161,45 +132,51 @@
   font-size: 20px;
 }
 
-
-
-
-@media screen and (max-width: 900px) {
-  .addMemoryForm-modal {
-    width: 80%;
-    padding: 20px;
-  }
+/* === ПРЕДПРОСМОТР ИЗОБРАЖЕНИЙ === */
+.addMemoryForm-uploaded-image {
+  max-width: 100%;
+  max-height: 200px;
+  display: block;
+  margin: 10px auto;
+  border-radius: 8px;
+  object-fit: cover;
+  overflow: hidden;
 }
 
+/* === АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ === */
 @media screen and (max-width: 600px) {
-  .addMemoryForm-modal {
-    width: 90%;
-    padding: 20px;
-  }
-  .addForm-h2 {
-    font-size: 18px;
-  }
-  .addMemoryForm-modal input,
-  .addMemoryForm-modal textarea {
-    font-size: 14px;
-    padding: 4px;
-  }
-  .addMemoryForm-modal button {
-    font-size: 16px;
-  }
-  .custom-file-upload {
-    padding: 10px 15px;
-    font-size: 14px;
+  /* Центрирование модального окна */
+  .addMemoryForm-dialog {
+    width: 95%;
+    max-width: 400px;
+    padding: 15px;
   }
 
-  .addMemoryForm-modal input[type="date"] {
-    font-size: 13px;
-    padding: 4px;
+  /* Уменьшенный отступ для элементов формы */
+  input,
+  textarea {
+    padding: 10px;
+    font-size: 14px;
+    margin: 8px 0;
   }
-  .addMemoryForm-modal button {
-    padding: 8px 12px;
+
+  textarea {
+    min-height: 80px;
   }
+
+  /* Уменьшенное изображение */
   .addMemoryForm-uploaded-image {
-    max-height: 50px;
+    max-height: 120px;
+  }
+
+  /* Увеличенные кнопки для удобного нажатия пальцем */
+  button {
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  .custom-file-upload {
+    font-size: 14px;
+    padding: 10px 16px;
   }
 }
