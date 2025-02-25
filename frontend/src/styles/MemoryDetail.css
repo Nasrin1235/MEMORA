@@ -245,8 +245,8 @@
 
 @media screen and (max-width: 500px) {
   .memoryDetail {
-    margin: 20px 0;
-    height: 100vh;
+  margin: 0;
+    height: 100svh;
   }
 }
 

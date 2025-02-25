@@ -1,9 +1,7 @@
 import express from "express";
 import { Memories } from "../models/memories.js";
 import { isAuthenticated } from "../middleware/auth.js";
-import upload from "../middleware/multer.js";
-import fs from "fs";
-import path from "path";
+import upload from "../middleware/multer.js"; 
 import mongoose from "mongoose";
 
 const memoriesRouter = express.Router();
@@ -17,7 +15,7 @@ memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
   try {
     res.status(200).json({
       message: "Image uploaded successfully",
-      imageUrl: `/uploads/${req.file.filename}`, // Link to the uploaded image
+      imageUrl: req.file.path, 
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -74,30 +72,7 @@ memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
   }
 });
 
-// Delete image
-memoriesRouter.delete("/delete-image", (req, res) => {
-  const { imageUrl } = req.body;
 
-  if (!imageUrl) {
-    return res.status(400).json({ error: "Image URL is required" });
-  }
-
-  // Extract file name from URL
-  const fileName = path.basename(imageUrl);
-
-  // Create file path
-  const filePath = path.join(process.cwd(), "uploads", fileName);
-
-  // Check if the file exists
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      return res.status(500).json({ error: "Failed to delete the image" });
-    }
-    res.status(200).json({ message: "Image deleted successfully" });
-  });
-});
-
-// Get a specific memories story by ID
 memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
   let memoryId = req.params.id.trim();
 
@@ -149,32 +124,26 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
     const memories = await Memories.findById(memoryId);
 
     if (!memories) {
-      return res.status(404).json({ error: "memories story not found" });
+      return res.status(404).json({ error: "Memories story not found" });
     }
 
     // Ensure that the memories story belongs to the authenticated user
     if (memories.userId.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({ error: "You are not authorized to edit this story" });
+      return res.status(403).json({ error: "Unauthorized" });
     }
-
-    // Use a placeholder image if no new image is provided
-    const finalImageUrl = imageUrl || `http://localhost:3001/`;
 
     memories.title = title || memories.title;
     memories.memorie = memorie || memories.memorie;
     memories.cityName = cityName || memories.cityName;
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
-    memories.isFavorite =
-      isFavorite !== undefined ? isFavorite : memories.isFavorite;
-    memories.imageUrl = finalImageUrl;
+    memories.isFavorite = isFavorite !== undefined ? isFavorite : memories.isFavorite;
+    memories.imageUrl = imageUrl || memories.imageUrl;
     memories.visitedDate = formattedVisitedDate || memories.visitedDate;
 
     await memories.save();
 
     res.status(200).json({
-      message: "memories story updated successfully",
+      message: "Memories story updated successfully",
       updatedMemories: memories,
     });
   } catch (error) {
@@ -217,10 +186,10 @@ memoriesRouter.delete("/delete/:id", isAuthenticated, async (req, res) => {
   try {
     const deletedMemories = await Memories.findByIdAndDelete(req.params.id);
     if (!deletedMemories) {
-      return res.status(404).json({ error: "memories story not found" });
+      return res.status(404).json({ error: "Memories story not found" });
     }
 
-    res.status(200).json({ message: "memories story deleted successfully" });
+    res.status(200).json({ message: "Memories story deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete memories story" });
   }
