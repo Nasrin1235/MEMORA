@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 import MediaPage from "./pages/MediaPage";
 import MobileHeader from "./components/MobileHeader";
 import MemoryDetailPage from "./pages/MemoryDetailPage";
+import AboutUs  from "./pages/AboutUs";
 
 
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/media" element={<MediaPage />} />
         <Route path="/memory/:id" element={<MemoryDetailPage />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
     </AuthProvider>
   );
