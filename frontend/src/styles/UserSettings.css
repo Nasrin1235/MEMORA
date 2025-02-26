@@ -55,8 +55,8 @@
 }
 
 .profile-preview {
-  width: 150px;
-  height: 150px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   margin: 5px auto;
   display: block;
@@ -208,8 +208,8 @@
     font-size: 18px;
   }
   .profile-preview {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
   }
   .user-text-input {
     font-size: 13px;
@@ -228,7 +228,7 @@
     font-size: 13px;
   }
   .settings-preview-image {
-    width: 100%;
+    width: 50%;
     max-height: 110px;
   }
 }
