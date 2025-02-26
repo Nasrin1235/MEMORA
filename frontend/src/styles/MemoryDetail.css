@@ -134,10 +134,10 @@
 .memoryDetail-modal {
   background: white;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 2px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   width: 100%;
-  height: 90vh;
+  height: 100svh;
   max-width: 900px;
   z-index: 1;
   display: flex;
@@ -151,7 +151,7 @@
 .memoryDetail-modal input,
 .memoryDetail-modal textarea {
   max-width: 100%;
-  max-height: 400px;
+ 
   padding: 10px;
   margin-top: 10px;
   border: 1px solid #ccc;
@@ -159,7 +159,7 @@
   font-size: 16px;
 }
 .memoryDetail-modal textarea{
-  min-height: 200px;
+  min-height: 150px;
 }
 
 .save-changes  {
@@ -247,6 +247,12 @@
   .memoryDetail {
   margin: 0;
     height: 100svh;
+  }
+
+  .memoryDetail-bottom-nav {
+    span {
+      display: none;
+    }
   }
 }
 
