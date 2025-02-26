@@ -212,7 +212,7 @@ const MemoryDetail = ({ memoryId, onClose }) => {
         <button onClick={confirmDelete} className="nav-btn delete">
           <Trash2 /> <span>Delete </span>
         </button>
-        <button onClick={() => navigate("/calendar")} className="nav-btn">
+        <button onClick={() => navigate(`/calendar?date=${memory.visitedDate}`)} className="nav-btn">
           <Calendar />
           <span>Calendar </span>
         </button>

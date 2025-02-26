@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -18,6 +19,9 @@ const fetchMemories = async () => {
 const CalendarPage = () => {
   const [events, setEvents] = useState([]);
   const [selectedMemory, setSelectedMemory] = useState(null);
+  const [searchParams] = useSearchParams();
+  const selectedDate = searchParams.get("date"); // Gereftan tarikh az URL
+  const initialDate = selectedDate ? new Date(selectedDate) : new Date(); // Agar tarikh vojod dasht, az an estefade shavad
 
   useEffect(() => {
     const loadMemories = async () => {
@@ -66,6 +70,7 @@ const CalendarPage = () => {
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
+            initialDate={initialDate} 
             events={events}
             dayMaxEventRows={3}
             moreLinkText="More"
@@ -85,7 +90,6 @@ const CalendarPage = () => {
             editable={false}
             selectable={false}
             height="100%"
-            
             headerToolbar={{
               left: "prevYear,prev,next,nextYear today",
               center: "title",
