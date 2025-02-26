@@ -203,11 +203,12 @@ span {
     display: flex;
     align-items: center;
     justify-content: center;
+    span {
+      display: none;
+    }
   }
-  .sidebar-menu-item,
-  span {
-    display: none;
-  }
+ 
+ 
   .sidebar-user-info {
     border: none;
     flex-direction: row;
