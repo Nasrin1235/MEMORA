@@ -30,11 +30,82 @@
   border-radius: 5px;
   margin-top: 5px;
 }
+
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.atlas-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.atlas-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1001;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.atlas-modal h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.atlas-modal-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.atlas-modal-description {
+  font-size: 16px;
+  margin: 5px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: justify;
+}
+
+.atlas-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.atlas-close-btn:hover {
+  color: red;
+  transform: scale(1.2);
 }
 
  @media screen and (max-width: 900px) {

@@ -146,30 +146,19 @@ const UserSettings = ({ onClose }) => {
         setSuccessMessage("Background successfully applied!");
       } catch (error) {
         console.error("Error uploading background:", error);
+        return; 
       }
     }
-
-    setTimeout(() => setSuccessMessage(""), 3000);
+  
+   
+    setTimeout(() => {
+      setSuccessMessage("");
+      if (onClose) {
+        onClose(); 
+      }
+    }, 1000); 
   };
-  useEffect(() => {
-    const savedBg = localStorage.getItem("backgroundImage");
-    if (savedBg) {
-      updateBackground(savedBg);
-      setPreview(savedBg);
-    } else {
-      fetch("/api/profile", {
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.backgroundImage && data.backgroundImage !== "") {
-            localStorage.setItem("backgroundImage", data.backgroundImage);
-            updateBackground(data.backgroundImage);
-          }
-        })
-        .catch((error) => console.error("Error fetching background:", error));
-    }
-  }, []);
+  
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];

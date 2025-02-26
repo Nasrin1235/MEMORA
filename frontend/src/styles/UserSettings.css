@@ -21,20 +21,21 @@
   position: relative;
   text-align: center;
   animation: slideIn 0.4s ease-in-out;
+  h2 {
+    font-size: 22px;
+    margin-bottom: 1px;
+    color: #333;
+  }
 }
 
-h2 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  color: #333;
-}
+
 
 .user-input-label {
   display: block;
   font-size: 16px;
   font-weight: bold;
   text-align: left;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   color: #666;
 }
 
@@ -44,7 +45,7 @@ h2 {
   border: 2px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   transition: border 0.3s ease-in-out;
 }
 
@@ -54,10 +55,10 @@ h2 {
 }
 
 .profile-preview {
-  width: 150px;
-  height: 150px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  margin: 15px auto;
+  margin: 5px auto;
   display: block;
   border: 3px solid #858b92;
   background: white;
@@ -72,7 +73,7 @@ h2 {
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  margin: 10px 5px;
+  margin: 5px 5px;
   width: 30%;
   background: #a89f78;
   color: white;
@@ -112,14 +113,14 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .upload-btn {
   display: inline-block;
 
   color: white;
-  padding: 10px 15px;
+  padding: 5px 15px;
   border-radius: 2px;
   cursor: pointer;
   font-size: 16px;
@@ -153,16 +154,18 @@ h2 {
   display: none;
 }
 .settings-preview-image {
-  width: 100%;
-  max-height: 160px;
+  width: 20%;
+  max-height: 80px;
   object-fit: cover;
   border-radius: 10px;
-  margin-top: 10px;
+  margin-top: 2px;
+  display: block;
+  margin: 0 auto;
 }
 .success-message {
   color: rgb(32, 32, 32);
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 @keyframes fadeIn {
@@ -205,8 +208,8 @@ h2 {
     font-size: 18px;
   }
   .profile-preview {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
   }
   .user-text-input {
     font-size: 13px;
@@ -225,7 +228,7 @@ h2 {
     font-size: 13px;
   }
   .settings-preview-image {
-    width: 100%;
+    width: 50%;
     max-height: 110px;
   }
 }

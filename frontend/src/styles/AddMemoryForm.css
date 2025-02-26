@@ -141,7 +141,15 @@ textarea {
   object-fit: cover;
   overflow: hidden;
 }
+@media screen and (max-width: 768px) {
+  .sidebar-menu-item {
+      display: none;
+  }
 
+  span {
+      display: inline !important;
+  }
+}
 
 @media screen and (max-width: 600px) {
 
@@ -151,7 +159,6 @@ textarea {
     padding: 15px;
   }
 
- 
   input,
   textarea {
     padding: 10px;
@@ -165,12 +172,6 @@ textarea {
 
   .addMemoryForm-uploaded-image {
     max-height: 120px;
-  }
-
-
-  button {
-    font-size: 14px;
-    padding: 14px;
   }
 
   .custom-file-upload {
