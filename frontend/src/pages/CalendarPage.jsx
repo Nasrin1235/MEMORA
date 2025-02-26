@@ -35,7 +35,6 @@ const CalendarPage = () => {
           },
         }));
 
-        console.log("Formatted Events:", formattedEvents);
         setEvents(formattedEvents);
       } catch (error) {
         console.error("Error loading memories:", error);

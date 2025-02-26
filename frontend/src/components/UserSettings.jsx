@@ -5,13 +5,8 @@ import { X } from "lucide-react";
 import "../styles/UserSettings.css";
 
 const UserSettings = ({ onClose }) => {
-  const {
-    username,
-    setUsername,
-    imageUrl,
-    setImageUrl,
-    logout,
-  } = useContext(AuthContext);
+  const { username, setUsername, imageUrl, setImageUrl, logout } =
+    useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
@@ -32,7 +27,11 @@ const UserSettings = ({ onClose }) => {
         });
         const data = await response.json();
         setEmail(data.email);
-        setImageUrl(data.imageUrl ? `${data.imageUrl}?t=${Date.now()}` : "/default-avatar.png"); 
+        setImageUrl(
+          data.imageUrl
+            ? `${data.imageUrl}?t=${Date.now()}`
+            : "/default-avatar.png"
+        );
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -47,7 +46,6 @@ const UserSettings = ({ onClose }) => {
       setImage(URL.createObjectURL(file));
     }
   };
-  
 
   const handleSave = async () => {
     setLoading(true);
@@ -55,22 +53,21 @@ const UserSettings = ({ onClose }) => {
     if (newImage) {
       const formData = new FormData();
       formData.append("image", newImage);
-  
- 
+
       const previewUrl = URL.createObjectURL(newImage);
       setImageUrl(previewUrl);
-  
+
       try {
         const response = await fetch("/api/upload-avatar", {
           method: "POST",
           body: formData,
           credentials: "include",
         });
-  
+
         if (!response.ok) {
           throw new Error("Failed to upload image");
         }
-  
+
         const data = await response.json();
         uploadedImageUrl = data.imageUrl;
         setImageUrl(uploadedImageUrl);
@@ -80,7 +77,7 @@ const UserSettings = ({ onClose }) => {
         return;
       }
     }
-  
+
     try {
       const response = await fetch("/api/update", {
         method: "PUT",
@@ -95,8 +92,8 @@ const UserSettings = ({ onClose }) => {
 
       const data = await response.json();
       setUsername(data.user.username);
-      setImageUrl(data.user.imageUrl); 
-  
+      setImageUrl(data.user.imageUrl);
+
       setLoading(false);
       onClose && onClose();
     } catch (error) {
@@ -131,18 +128,18 @@ const UserSettings = ({ onClose }) => {
     } else if (file) {
       const formData = new FormData();
       formData.append("image", file);
-  
+
       try {
         const response = await fetch("/api/upload-background", {
           method: "POST",
           body: formData,
           credentials: "include",
         });
-  
+
         if (!response.ok) {
           throw new Error("Failed to upload background image");
         }
-  
+
         const data = await response.json();
         localStorage.setItem("backgroundImage", data.backgroundImage);
         updateBackground(data.backgroundImage);
@@ -151,7 +148,7 @@ const UserSettings = ({ onClose }) => {
         console.error("Error uploading background:", error);
       }
     }
- 
+
     setTimeout(() => setSuccessMessage(""), 3000);
   };
   useEffect(() => {
@@ -289,9 +286,6 @@ const UserSettings = ({ onClose }) => {
           Reset Background
         </button>
 
-       
-
-        
         {showDeleteModal && (
           <div
             className="settings-modal-overlay"

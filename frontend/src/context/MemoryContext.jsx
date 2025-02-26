@@ -12,7 +12,6 @@ const fetchMemories = async () => {
   if (!response.ok) throw new Error("Failed to fetch memories");
 
   const data = await response.json();
-  console.log("Loaded from API:", data);
   return data;
 };
 

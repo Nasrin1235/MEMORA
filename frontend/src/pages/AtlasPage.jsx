@@ -19,7 +19,7 @@ const customIcon = new L.Icon({
 
 const AtlasPage = () => {
   const { memories } = useContext(MemoryContext) || { memories: [] };
-  console.log("Loaded memories:", memories);
+
 
   return (
     <div className="atlas-page">

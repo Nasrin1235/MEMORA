@@ -76,12 +76,12 @@
   display: none;
 }
 
-/* Firefox */
+
 .calendar-modal {
   scrollbar-width: none;
 }
 
-/* Internet Explorer и Edge */
+
 .calendar-modal {
   -ms-overflow-style: none;
 }

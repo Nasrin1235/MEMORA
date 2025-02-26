@@ -64,7 +64,6 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const updateBackground = (newBg) => {
-    console.log("Setting background to:", newBg);
     setBackgroundImage(newBg);
     if (newBg) {
     localStorage.setItem("backgroundImage", newBg);
