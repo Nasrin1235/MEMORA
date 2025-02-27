@@ -8,7 +8,7 @@
 .homePage-header {
     width: auto;
     height: 100vh;
-    background-image: url("HomePage.webp");
+    background-image: url("/HomePage.webp");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -90,7 +90,7 @@
     text-align: center;
     width: 100%;
     height: 100vh;
-    background:  url("MEMORA (3).webp");
+    background:  url("/MEMORA (3).webp");
     color: white;
     h2 {
         color: white;
