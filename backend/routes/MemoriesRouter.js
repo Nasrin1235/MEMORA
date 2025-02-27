@@ -25,19 +25,17 @@ memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
 // Create a new memories story
 memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
   try {
-    const {
-      title,
-      memorie,
-      cityName,
-      visitedLocation,
-      isFavorite,
-      imageUrl,
-      visitedDate,
-    } = req.body;
+    const { title, memorie, cityName, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
 
     // Validate required fields
     if (!title || !memorie || !visitedLocation || !visitedDate || !cityName) {
-      return res.status(400).json({ error: "All fields are required" });
+      return res.status(400).json({ error: "All fields are required. Please provide a title, description, location, and date." });
+    }
+
+    // Limit title to a maximum of 10 words
+    const wordCount = title.trim().split(/\s+/).length;
+    if (wordCount > 10) {
+      return res.status(400).json({ error: "Title cannot exceed 10 words. Please shorten it." });
     }
 
     const memories = new Memories({
@@ -52,17 +50,13 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
     });
 
     await memories.save();
+    res.status(201).json({ message: "Memory story successfully created", memories });
 
-    res.status(201).json({
-      message: "memories story created successfully",
-      memories,
-    });
   } catch (error) {
-    
-    res.status(500).json({ error: error.message });
+    console.error("Error creating memory:", error.message);
+    res.status(500).json({ error: "Internal server error. Please try again later." });
   }
 });
-
 memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
   try {
     const memories = await Memories.find({ userId: req.user.id });

@@ -26,18 +26,29 @@ const MemoryProvider = ({ children }) => {
 
   const addMemory = useMutation({
     mutationFn: async (newMemory) => {
-  
       const response = await fetch("/api/memory/add-memories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newMemory),
         credentials: "include",
       });
-      if (!response.ok) throw new Error("Failed to add memory");
-      return response.json();
+  
+      const data = await response.json(); // Get the JSON response with the error message
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to add memory.");
+      }
+  
+      return data;
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["memories"] }),
+    onError: (error) => {
+      console.error("❌ Error adding memory:", error.message);
+      alert(error.message); // Show the error message to the user
+    }
   });
+  
+  
 
   const updateMemory = useMutation({
     mutationFn: async ({ id, updatedMemory }) => {
