@@ -21,6 +21,7 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [lastQuery, setLastQuery] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userSelected, setUserSelected] = useState(false);
 
   const resetForm = () => {
     setTitle("");
@@ -78,6 +79,11 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
   };
 
   useEffect(() => {
+    if (userSelected) {
+      setUserSelected(false);
+      return;
+    }
+
     if (visitedLocation.length < 3) {
       setSuggestions([]);
       return;
@@ -98,6 +104,13 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
       controller.abort();
     };
   }, [visitedLocation]);
+
+  const handleSelectSuggestion = (suggestion) => {
+    setUserSelected(true);
+    setVisitedLocation(suggestion.name);
+    setCoordinates([suggestion.lat, suggestion.lon]);
+    setSuggestions([]); 
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -237,20 +250,18 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
           className="location-input-city"
           placeholder="Enter City (e.g. Paris, France)"
           value={visitedLocation}
-          onChange={(e) => setVisitedLocation(e.target.value)}
+          onChange={(e) => {
+            setUserSelected(false);
+            setVisitedLocation(e.target.value);
+          }}
           required
         />
-
         {suggestions.length > 0 && (
           <ul className="addMemoryForm-suggestions-list">
             {suggestions.map((suggestion, index) => (
               <li
                 key={index}
-                onClick={() => {
-                  setVisitedLocation(suggestion.name);
-                  setCoordinates([suggestion.lat, suggestion.lon]);
-                  setSuggestions([]);
-                }}
+                onClick={() => handleSelectSuggestion(suggestion)}
                 className="addMemoryForm-suggestion-item"
               >
                 {suggestion.name}
