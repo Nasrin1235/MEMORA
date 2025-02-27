@@ -1,7 +1,7 @@
 import express from "express";
 import { Memories } from "../models/memories.js";
 import { isAuthenticated } from "../middleware/auth.js";
-import upload from "../middleware/multer.js"; 
+import upload from "../middleware/multer.js";
 import mongoose from "mongoose";
 
 const memoriesRouter = express.Router();
@@ -15,7 +15,7 @@ memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
   try {
     res.status(200).json({
       message: "Image uploaded successfully",
-      imageUrl: req.file.path, 
+      imageUrl: req.file.path,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -25,28 +25,44 @@ memoriesRouter.post("/upload-image", upload.single("image"), (req, res) => {
 // Create a new memories story
 memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
   try {
-    const { title, memorie, cityName, visitedLocation, isFavorite, imageUrl, visitedDate } = req.body;
+    const {
+      title,
+      memorie,
+      cityName,
+      visitedLocation,
+      isFavorite,
+      imageUrl,
+      visitedDate,
+    } = req.body;
 
     // Validate required fields
     if (!title || !memorie || !visitedLocation || !visitedDate || !cityName) {
-      return res.status(400).json({ error: "All fields are required. Please provide a title, description, location, and date." });
+      return res
+        .status(400)
+        .json({
+          error:
+            "All fields are required. Please provide a title, description, location, and date.",
+        });
     }
 
     // Limit title to a maximum of 10 words
     const wordCount = title.trim().split(/\s+/).length;
     if (wordCount > 10) {
-      return res.status(400).json({ error: "Title cannot exceed 10 words. Please shorten it." });
+      return res
+        .status(400)
+        .json({ error: "Title cannot exceed 10 words. Please shorten it." });
     }
 
-
-    const existingMemory = await Memories.findOne({ 
-      title, 
-      visitedDate, 
-      userId: req.user.id 
+    const existingMemory = await Memories.findOne({
+      title,
+      visitedDate,
+      userId: req.user.id,
     });
 
     if (existingMemory) {
-      return res.status(400).json({ error: "A memory with this title and date already exists." });
+      return res
+        .status(400)
+        .json({ error: "A memory with this title and date already exists." });
     }
 
     const newMemory = new Memories({
@@ -61,11 +77,14 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
     });
 
     await newMemory.save();
-    res.status(201).json({ message: "Memory story successfully created", newMemory });
-
+    res
+      .status(201)
+      .json({ message: "Memory story successfully created", newMemory });
   } catch (error) {
     console.error("Error creating memory:", error.message);
-    res.status(500).json({ error: "Internal server error. Please try again later." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Please try again later." });
   }
 });
 memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
@@ -76,7 +95,6 @@ memoriesRouter.get("/get", isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch memories stories" });
   }
 });
-
 
 memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
   let memoryId = req.params.id.trim();
@@ -140,7 +158,8 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
     memories.memorie = memorie || memories.memorie;
     memories.cityName = cityName || memories.cityName;
     memories.visitedLocation = visitedLocation || memories.visitedLocation;
-    memories.isFavorite = isFavorite !== undefined ? isFavorite : memories.isFavorite;
+    memories.isFavorite =
+      isFavorite !== undefined ? isFavorite : memories.isFavorite;
     memories.imageUrl = imageUrl || memories.imageUrl;
     memories.visitedDate = formattedVisitedDate || memories.visitedDate;
 
