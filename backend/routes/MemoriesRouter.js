@@ -58,7 +58,7 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
       memories,
     });
   } catch (error) {
-    console.error(error.message);
+    
     res.status(500).json({ error: error.message });
   }
 });
@@ -88,7 +88,6 @@ memoriesRouter.get("/:id", isAuthenticated, async (req, res) => {
 
     res.status(200).json(memories);
   } catch (error) {
-    console.error("Database error:", error);
     res.status(500).json({
       error: "Failed to fetch memories story",
       details: error.message,
@@ -147,7 +146,6 @@ memoriesRouter.put("/:id", isAuthenticated, async (req, res) => {
       updatedMemories: memories,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Failed to update memories story" });
   }
 });
@@ -177,7 +175,6 @@ memoriesRouter.post("/search", isAuthenticated, async (req, res) => {
 
     res.status(200).json({ memories });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Failed to search memories stories" });
   }
 });

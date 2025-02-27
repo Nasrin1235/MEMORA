@@ -26,7 +26,7 @@ const MemoryProvider = ({ children }) => {
 
   const addMemory = useMutation({
     mutationFn: async (newMemory) => {
-      console.log("Sending to API:", newMemory); 
+  
       const response = await fetch("/api/memory/add-memories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
