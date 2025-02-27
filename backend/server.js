@@ -20,9 +20,7 @@ app.use(express.json());
 // Static file serving
 const _fileName = fileURLToPath(import.meta.url);
 const _path = path.dirname(_fileName);
-const frontendDistPath = path.join(_path, "../frontend/dist");
 
-app.use(express.static(frontendDistPath));
 
 // Connect to database
 await dbConnection();

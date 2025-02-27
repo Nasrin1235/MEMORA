@@ -8,7 +8,8 @@
     "test": "node --experimental-vm-modules --env-file .env node_modules/.bin/jest --runInBand --detectOpenHandles",
     "coverage": "node --experimental-vm-modules --env-file .env node_modules/.bin/jest --runInBand --detectOpenHandles --collect-coverage",
     "start": "nodemon --env-file .env server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+     "start-backend": "node server.js"
   },
   "author": "",
   "license": "ISC",
