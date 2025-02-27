@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.homePage-header {
+    width: auto;
+    height: 100vh;
+    background-image: url("HomePage.webp");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content:  flex-start;
+    align-items: flex-start;
+    text-align: center;
+    position: relative;
+    background-color: black;
+}
+
+.homePage-titel {
+    width:50%;
+    height: 50vh;
+    background-color: #0e242100;
+    padding: 4rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.h1-slogan {
+    font-size: 6rem;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 0.1em;
+}
+
+.slogan {
+    font-size: 1rem;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 1.875rem;
+}
+
+.homePage-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    a {
+        text-decoration: none;
+    }
+}
+
+.btn-homePage {
+    padding: 0.75rem ;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.3125rem;
+    transition: 0.3s;
+    width: 8.5rem;
+    justify-content: center;
+}
+
+.homePage-login {
+    /* background-color: #550810; */
+    background-color: #0e2421;
+    color: #ffffff;
+    border: 2px solid #0e2421;
+   
+}
+
+.homePage-register {
+    border: 2px solid #0e2421;
+    color: white;
+}
+
+.btn-homePage:hover {
+    scale: 1.1;
+}
+
+
+.homePage-video-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+    background:  url("MEMORA (3).webp");
+    color: white;
+    h2 {
+        color: white;
+    }
+    
+}
+
+.homePage-video-half{
+    width: 45%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.video-text-container {
+    width: 50%;
+    padding: 2rem;
+}
+
+.video-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.video-text {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+
+
+@media (max-width: 55rem) {
+    .homePage-titel {
+        width: 100%;
+    }
+    .homePage-header{
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        gap: 0.625rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .slogan {
+        font-size: 1.2rem;
+    }
+
+    .homePage-video-section {
+        flex-direction: column; 
+        align-items: center;
+        text-align: center;
+        height: auto;
+        padding: 2rem 0;
+    }
+
+    .homePage-video-half {
+        width: 90%; 
+        height: auto;
+    }
+
+    .video-text-container {
+        width: 90%;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 30rem) {
+
+  
+
+    .h1-slogan {
+        font-size: 3rem;
+    }
+    .slogan {
+        font-size: 1rem;
+    }
+
+    .btn-homePage{
+        padding: 0.625rem 1.25rem;
+        width: 5rem;
+    }
+
+    .homePage-register{
+        background-color: #550810;
+        border: 2px solid #550810;
+    }
+
+    .video-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .video-text {
+        font-size: 0.7rem;
+        margin-bottom: 1rem;
+    }
+}
+
+
+
+  

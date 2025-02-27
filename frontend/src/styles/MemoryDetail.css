@@ -1,0 +1,259 @@
+.memoryDetail {
+  background: white;
+  padding:1px 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 90vw;
+  max-width: 900px;
+  margin: 50px auto;
+  height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  position: relative;
+}
+.memoryDetail::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.memoryDetail-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  padding: 20px;
+}
+
+.memoryDetail-image-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-height: 600px;
+}
+
+.memoryDetail-image-detail {
+  max-width: 100%;
+  max-height: 500px;
+  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.memoryDetail-image-container:hover {
+  transform: scale(1.02);
+}
+
+.memoryDetail-text {
+  font-size: 16px;
+  color: #555;
+  text-align: justify;
+  line-height: 1.6;
+  margin-top: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 100%;
+}
+
+.memoryDetail-meta {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.memoryDetail-bottom-nav {
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #ddd;
+  border-radius: 10px 10px 0 0;
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+ 
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.nav-btn.delete {
+  color: red;
+}
+
+.nav-btn.delete-image {
+  background: #ff4d4d;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.nav-btn.delete-image:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}
+
+.memoryDetail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.memoryDetail-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 2px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100svh;
+  max-width: 900px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  h3 {
+    text-align: center;
+  }
+}
+
+.memoryDetail-modal input,
+.memoryDetail-modal textarea {
+  max-width: 100%;
+ 
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+.memoryDetail-modal textarea{
+  min-height: 150px;
+}
+
+.save-changes  {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  background: #a89f78;
+  color: white;
+  justify-content: center;
+  
+}
+
+.save-changes:hover {
+  background: #777155;
+}
+.cancel-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  background: #900c3f;
+  color: white;
+  justify-content: center;
+}
+.cancel-btn:hover {
+  background:#72092e;
+}
+
+.memoryDetail-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.memoryDetail-close-btn:hover {
+  color: red;
+}
+
+.date-picker-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+
+@media screen and (max-width: 1700px) {
+ 
+  
+  .memoryDetail {
+   width: 100vw;
+  height: 90vh;
+   overflow-y: auto;
+   border-radius: 2px;
+  }
+  .memory-detail-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .memoryDetail {
+  margin: 0;
+    height: 100svh;
+  }
+
+  .memoryDetail-bottom-nav {
+    span {
+      display: none;
+    }
+  }
+}
+
+

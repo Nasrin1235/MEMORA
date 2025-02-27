@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import validator from "validator";
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -22,13 +23,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8,
-    select: false, // Standardmäßig wird das Passwort bei Abfragen (find, findOne) nicht zurückgegeben,
-    // um die Sicherheit zu erhöhen und sensible Daten zu schützen..
+    select: false,
   },
   role: {
     type: String,
     enum: ["admin", "user"],
     default: "user",
+  },
+  imageUrl: {
+    type: String,
+    default: "default-avatar.png",
+  },
+  backgroundImage: { 
+    type: String, 
+    default: "" 
   },
   createdAt: {
     type: Date,

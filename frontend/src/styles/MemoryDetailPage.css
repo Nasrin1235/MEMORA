@@ -1,0 +1,7 @@
+.memory-detail-page{
+    display: flex;
+    flex-direction:row;
+    height: 100svh;
+    width: 100svw;
+    overflow: hidden;
+  }

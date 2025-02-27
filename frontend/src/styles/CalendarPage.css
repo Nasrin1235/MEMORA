@@ -1,0 +1,170 @@
+.calendar-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+.calendar-container {
+  flex-grow: 1;
+  padding: 20px;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.fc { 
+  flex-grow: 1;
+  height: 100%;
+}
+
+.fc-view-container {
+  height: 100%;
+}
+
+.fc-daygrid-body {
+  height: 100%;
+}
+
+.fc-daygrid-day {
+  min-height: 80px;
+}
+
+.calendar-thumbnail {
+  width: 35px;
+  height: auto;
+  max-height: 35px;
+  object-fit: cover;
+
+
+ 
+  margin-right: 5px;
+  vertical-align: middle;
+  aspect-ratio: 1 / 1;
+}
+
+.calendar-event {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  
+}
+
+.calendar-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px;
+ 
+}
+.calendar-modal::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+
+.calendar-modal {
+  scrollbar-width: none;
+}
+
+
+.calendar-modal {
+  -ms-overflow-style: none;
+}
+
+.calendar-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1003;
+  overflow-y: auto;
+  max-height: 50vh;
+
+  .parag {
+    font-size: 16px;
+    margin: 5px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: justify; 
+    max-width: 100%;
+  }
+}
+
+.calendar-modal parag {
+  font-size: 16px;
+  margin: 5px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: justify; 
+  max-width: 100%;
+}
+
+
+.calendar-modal h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.calendar-modal-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.calendar-modal p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.calendar-cancel-btn {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  padding: 5px 10px; 
+
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.calendar-cancel-btn:hover {
+  color: red;
+  transform: scale(1.2);
+}
+
+
+@media screen and (max-width: 768px) {
+ .fc-toolbar.fc-header-toolbar {
+   margin-top: 2rem;
+   display: flex;
+  font-size: 10px;
+ 
+  }
+}
+
