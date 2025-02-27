@@ -20,8 +20,7 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
   const [error, setError] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [lastQuery, setLastQuery] = useState("");
- 
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const resetForm = () => {
     setTitle("");
@@ -125,8 +124,15 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
     e.preventDefault();
     setError("");
 
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+
+    // Disable button
+    setIsSubmitting(true);
+
     if (!title || !memory || !visitedLocation || !visitedDate) {
       setError("All fields are required.");
+      setIsSubmitting(false); // Re-enable button if validation fails
       return;
     }
 
@@ -149,12 +155,13 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
       });
 
       queryClient.invalidateQueries(["memories"]);
-
       resetForm();
       handleClose();
     } catch (error) {
       console.error("Error adding memory:", error);
       setError("Failed to add memory.");
+    } finally {
+      setIsSubmitting(false); // Re-enable button after request completes
     }
   };
 
@@ -209,87 +216,87 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
 
   return (
     <dialog ref={dialogRef} className="addMemoryForm-dialog">
-     
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <h2 className="addForm-h2">Adding memory</h2>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <h2 className="addForm-h2">Adding memory</h2>
+        <input
+          type="text"
+          placeholder="Title (required)"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+        <textarea
+          placeholder="Memory description (required)"
+          value={memory}
+          onChange={(e) => setMemory(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          className="location-input-city"
+          placeholder="Enter City (e.g. Paris, France)"
+          value={visitedLocation}
+          onChange={(e) => setVisitedLocation(e.target.value)}
+          required
+        />
+
+        {suggestions.length > 0 && (
+          <ul className="addMemoryForm-suggestions-list">
+            {suggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  setVisitedLocation(suggestion.name);
+                  setCoordinates([suggestion.lat, suggestion.lon]);
+                  setSuggestions([]);
+                }}
+                className="addMemoryForm-suggestion-item"
+              >
+                {suggestion.name}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <button
+          type="button"
+          className="location-button"
+          onClick={getCurrentLocation}
+        >
+          Use Current Location
+        </button>
+
+        <DatePicker
+          selected={visitedDate ? new Date(visitedDate) : null}
+          onChange={(date) => setVisitedDate(date)}
+          dateFormat="dd.MM.yyyy"
+          className="custom-date-input"
+        />
+        <Calendar className="calendar-icon" size={20} />
+        <label className="custom-file-upload">
           <input
-            type="text"
-            placeholder="Title (required)"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            hidden
           />
-          <textarea
-            placeholder="Memory description (required)"
-            value={memory}
-            onChange={(e) => setMemory(e.target.value)}
-            required
+          <span className="upload-icon">📂</span> Upload Image
+        </label>
+        {image && (
+          <img
+            src={image}
+            alt="Preview"
+            className="addMemoryForm-uploaded-image"
           />
-          <input
-            type="text"
-            className="location-input-city"
-            placeholder="Enter City (e.g. Paris, France)"
-            value={visitedLocation}
-            onChange={(e) => setVisitedLocation(e.target.value)}
-            required
-          />
-
-          {suggestions.length > 0 && (
-            <ul className="addMemoryForm-suggestions-list">
-              {suggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  onClick={() => {
-                    setVisitedLocation(suggestion.name);
-                    setCoordinates([suggestion.lat, suggestion.lon]);
-                    setSuggestions([]);
-                  }}
-                  className="addMemoryForm-suggestion-item"
-                >
-                  {suggestion.name}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <button
-            type="button"
-            className="location-button"
-            onClick={getCurrentLocation}
-          >
-            Use Current Location
-          </button>
-
-          <DatePicker
-            selected={visitedDate ? new Date(visitedDate) : null}
-            onChange={(date) => setVisitedDate(date)}
-            dateFormat="dd.MM.yyyy"
-            className="custom-date-input"
-          />
-          <Calendar className="calendar-icon" size={20} />
-          <label className="custom-file-upload">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              hidden
-            />
-            <span className="upload-icon">📂</span> Upload Image
-          </label>
-          {image && (
-            <img
-              src={image}
-              alt="Preview"
-              className="addMemoryForm-uploaded-image"
-            />
-          )}
-          <button type="submit" className="add-memory">Add Memory</button>
-          <button type="button" onClick={handleClose} className="cancel-add">
-            Cancel
-          </button>
-        </form>
-
+        )}
+        <button type="submit" className="add-memory" disabled={isSubmitting}>
+          {isSubmitting ? "Adding..." : "Add Story"}
+        </button>
+        <button type="button" onClick={handleClose} className="cancel-add">
+          Cancel
+        </button>
+      </form>
     </dialog>
   );
 };

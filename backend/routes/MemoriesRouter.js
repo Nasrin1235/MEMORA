@@ -38,7 +38,18 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
       return res.status(400).json({ error: "Title cannot exceed 10 words. Please shorten it." });
     }
 
-    const memories = new Memories({
+
+    const existingMemory = await Memories.findOne({ 
+      title, 
+      visitedDate, 
+      userId: req.user.id 
+    });
+
+    if (existingMemory) {
+      return res.status(400).json({ error: "A memory with this title and date already exists." });
+    }
+
+    const newMemory = new Memories({
       title,
       memorie,
       cityName,
@@ -49,8 +60,8 @@ memoriesRouter.post("/add-memories", isAuthenticated, async (req, res) => {
       visitedDate,
     });
 
-    await memories.save();
-    res.status(201).json({ message: "Memory story successfully created", memories });
+    await newMemory.save();
+    res.status(201).json({ message: "Memory story successfully created", newMemory });
 
   } catch (error) {
     console.error("Error creating memory:", error.message);
