@@ -9,18 +9,12 @@ import cookieParser from "cookie-parser";
 
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
+
 
 // Setup middlewares
 app.use(cookieParser());
 app.use(express.json());
-
-// Setup CORS
-
-// Static file serving
-const _fileName = fileURLToPath(import.meta.url);
-const _path = path.dirname(_fileName);
-
 
 // Connect to database
 await dbConnection();
