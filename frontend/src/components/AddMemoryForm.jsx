@@ -109,7 +109,7 @@ const AddMemoryForm = ({ dialogRef, onClose }) => {
     setUserSelected(true);
     setVisitedLocation(suggestion.name);
     setCoordinates([suggestion.lat, suggestion.lon]);
-    setSuggestions([]); 
+    setSuggestions([]);
   };
 
   const handleImageChange = (e) => {
