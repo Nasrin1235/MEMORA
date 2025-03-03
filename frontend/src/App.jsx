@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [isLoggedIn, loading, navigate]);
 
-  if (loading) return null; // Ta vaghti check token dar hale ejra shodan hast, chi neshun nade
+  if (loading) return null; 
 
   return isLoggedIn ? children : null;
 };

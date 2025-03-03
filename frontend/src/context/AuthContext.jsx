@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // Be null avaz shod ta redirect eshtebah nist
+  const [isLoggedIn, setIsLoggedIn] = useState(null); 
   const [username, setUsername] = useState("");
   const [imageUrl, setImageUrl] = useState("/default-avatar.png");
   const [backgroundImage, setBackgroundImage] = useState("");
-  const [loading, setLoading] = useState(true); // State baraye shenasayi inke token check shode ya na
+  const [loading, setLoading] = useState(true); 
 
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
         console.error("Error validating token:", error);
         setIsLoggedIn(false);
       } finally {
-        setLoading(false); // Har halati ke bashe, loading tamam shode
+        setLoading(false); 
       }
     };
 
@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
         setImageUrl("/default-avatar.png");
         localStorage.removeItem("backgroundImage");
         document.body.style.backgroundImage = "none";
-        navigate("/", { replace: true }); // Redirect be Home
+        navigate("/", { replace: true }); 
       } else {
         console.error("Logout error:", response.statusText);
       }
@@ -116,7 +116,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children} {/* Ta vaghti token check nashode, component ha load nashan */}
+      {!loading && children} 
     </AuthContext.Provider>
   );
 };
