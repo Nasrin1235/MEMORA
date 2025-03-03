@@ -16,14 +16,16 @@ import { AuthProvider } from "./context/AuthContext";
 
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/", { replace: true }); 
+    if (!loading && isLoggedIn === false) {
+      navigate("/", { replace: true });
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, loading, navigate]);
+
+  if (loading) return null; // Ta vaghti check token dar hale ejra shodan hast, chi neshun nade
 
   return isLoggedIn ? children : null;
 };

@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // Be null avaz shod ta redirect eshtebah nist
   const [username, setUsername] = useState("");
   const [imageUrl, setImageUrl] = useState("/default-avatar.png");
   const [backgroundImage, setBackgroundImage] = useState("");
+  const [loading, setLoading] = useState(true); // State baraye shenasayi inke token check shode ya na
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkToken = async () => {
@@ -16,14 +19,13 @@ const AuthProvider = ({ children }) => {
           method: "GET",
           credentials: "include",
         });
-    
+
         if (response.ok) {
           const data = await response.json();
           setIsLoggedIn(true);
           setUsername(data.username);
           setImageUrl(data.imageUrl || "/default-avatar.png");
-    
-         
+
           if (data.backgroundImage) {
             setBackgroundImage(data.backgroundImage);
             localStorage.setItem("backgroundImage", data.backgroundImage);
@@ -34,48 +36,17 @@ const AuthProvider = ({ children }) => {
           }
         } else {
           setIsLoggedIn(false);
-          setUsername("");
-          setImageUrl("/default-avatar.png");
-          localStorage.removeItem("backgroundImage");
-          document.body.style.backgroundImage = "none";
         }
       } catch (error) {
         console.error("Error validating token:", error);
         setIsLoggedIn(false);
-        setUsername("");
-        setImageUrl("/default-avatar.png");
-        localStorage.removeItem("backgroundImage");
-        document.body.style.backgroundImage = "none";
+      } finally {
+        setLoading(false); // Har halati ke bashe, loading tamam shode
       }
     };
+
     checkToken();
   }, []);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedBackground = localStorage.getItem("backgroundImage");
-    if (savedBackground) {
-      setBackgroundImage(savedBackground);
-      document.body.style.backgroundImage = `url(${savedBackground})`; 
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-    }
-  }, []);
-
-  const updateBackground = (newBg) => {
-    setBackgroundImage(newBg);
-    if (newBg) {
-    localStorage.setItem("backgroundImage", newBg);
-    document.body.style.backgroundImage = `url(${newBg})`;
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-  } else {
-    localStorage.removeItem("backgroundImage");
-    document.body.style.backgroundImage = "none"; 
-    document.body.style.backgroundColor = "#f7f9fa"; 
-  }
-};
 
   const logout = async () => {
     try {
@@ -89,12 +60,38 @@ const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         setUsername("");
         setImageUrl("/default-avatar.png");
-        navigate("/login");
+        localStorage.removeItem("backgroundImage");
+        document.body.style.backgroundImage = "none";
+        navigate("/", { replace: true }); // Redirect be Home
       } else {
         console.error("Logout error:", response.statusText);
       }
     } catch (error) {
       console.error("Network error during logout:", error);
+    }
+  };
+
+  useEffect(() => {
+    const savedBackground = localStorage.getItem("backgroundImage");
+    if (savedBackground) {
+      setBackgroundImage(savedBackground);
+      document.body.style.backgroundImage = `url(${savedBackground})`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+    }
+  }, []);
+
+  const updateBackground = (newBg) => {
+    setBackgroundImage(newBg);
+    if (newBg) {
+      localStorage.setItem("backgroundImage", newBg);
+      document.body.style.backgroundImage = `url(${newBg})`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+    } else {
+      localStorage.removeItem("backgroundImage");
+      document.body.style.backgroundImage = "none";
+      document.body.style.backgroundColor = "#f7f9fa";
     }
   };
 
@@ -114,10 +111,16 @@ const AuthProvider = ({ children }) => {
     updateProfile,
     backgroundImage,
     updateBackground,
+    loading,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children} {/* Ta vaghti token check nashode, component ha load nashan */}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthProvider, AuthContext };
+
 
