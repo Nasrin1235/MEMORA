@@ -15,14 +15,16 @@ import MobileHeader from "./components/MobileHeader";
 import { AuthProvider } from "./context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!loading && isLoggedIn === false) {
       navigate("/", { replace: true });
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, loading, navigate]);
+
+  if (loading) return null; 
 
   return isLoggedIn ? children : null;
 };
