@@ -14,7 +14,6 @@ import AboutUs from "./pages/AboutUs";
 import MobileHeader from "./components/MobileHeader";
 import { AuthProvider } from "./context/AuthContext";
 
-
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn, loading } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -48,12 +47,54 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/main" element={<ProtectedRoute><MainPage /></ProtectedRoute>} />
-        <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
-        <Route path="/atlas" element={<ProtectedRoute><AtlasPage /></ProtectedRoute>} />
-        <Route path="/favorites" element={<ProtectedRoute><FavoritesPage /></ProtectedRoute>} />
-        <Route path="/media" element={<ProtectedRoute><MediaPage /></ProtectedRoute>} />
-        <Route path="/memory/:id" element={<ProtectedRoute><MemoryDetailPage /></ProtectedRoute>} />
+        <Route
+          path="/main"
+          element={
+            <ProtectedRoute>
+              <MainPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            <ProtectedRoute>
+              <CalendarPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/atlas"
+          element={
+            <ProtectedRoute>
+              <AtlasPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <FavoritesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/media"
+          element={
+            <ProtectedRoute>
+              <MediaPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/memory/:id"
+          element={
+            <ProtectedRoute>
+              <MemoryDetailPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/about" element={<AboutUs />} />
       </Routes>
     </AuthProvider>
@@ -61,4 +102,3 @@ function App() {
 }
 
 export default App;
-
