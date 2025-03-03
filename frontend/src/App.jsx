@@ -1,5 +1,6 @@
-import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MainPage from "./pages/MainPage";
@@ -7,16 +8,29 @@ import HomePage from "./pages/Homepage";
 import CalendarPage from "./pages/CalendarPage";
 import AtlasPage from "./pages/AtlasPage";
 import FavoritesPage from "./pages/FavoritesPage";
-import { AuthProvider } from "./context/AuthContext";
 import MediaPage from "./pages/MediaPage";
-import MobileHeader from "./components/MobileHeader";
 import MemoryDetailPage from "./pages/MemoryDetailPage";
-import AboutUs  from "./pages/AboutUs";
+import AboutUs from "./pages/AboutUs";
+import MobileHeader from "./components/MobileHeader";
+import { AuthProvider } from "./context/AuthContext";
 
 
+const ProtectedRoute = ({ children }) => {
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/", { replace: true }); 
+    }
+  }, [isLoggedIn, navigate]);
+
+  return isLoggedIn ? children : null;
+};
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -27,18 +41,17 @@ function App() {
 
   return (
     <AuthProvider>
-     {isMobile && <MobileHeader />}
-
+      {isMobile && <MobileHeader />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/main" element={<MainPage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
-        <Route path="/atlas" element={<AtlasPage />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
-        <Route path="/media" element={<MediaPage />} />
-        <Route path="/memory/:id" element={<MemoryDetailPage />} />
+        <Route path="/main" element={<ProtectedRoute><MainPage /></ProtectedRoute>} />
+        <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
+        <Route path="/atlas" element={<ProtectedRoute><AtlasPage /></ProtectedRoute>} />
+        <Route path="/favorites" element={<ProtectedRoute><FavoritesPage /></ProtectedRoute>} />
+        <Route path="/media" element={<ProtectedRoute><MediaPage /></ProtectedRoute>} />
+        <Route path="/memory/:id" element={<ProtectedRoute><MemoryDetailPage /></ProtectedRoute>} />
         <Route path="/about" element={<AboutUs />} />
       </Routes>
     </AuthProvider>
@@ -46,3 +59,4 @@ function App() {
 }
 
 export default App;
+
