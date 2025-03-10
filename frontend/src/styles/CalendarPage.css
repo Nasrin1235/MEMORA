@@ -157,6 +157,9 @@
   color: red;
   transform: scale(1.2);
 }
+.fc .fc-button .fc-icon{
+  color: white;
+}
 
 
 @media screen and (max-width: 768px) {
